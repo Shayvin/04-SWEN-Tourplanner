@@ -1,3 +1,5 @@
+TODO: Maybe add a seperate table for map image depending on the requirements
+
 create table tour
 (
     tour_id        varchar not null

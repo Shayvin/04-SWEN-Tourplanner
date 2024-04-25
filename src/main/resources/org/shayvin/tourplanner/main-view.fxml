@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:controller="org.shayvin.tourplanner.view.AddTourButtonView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="253.0" layoutY="6.0" text="Tour Planner" />
       <MenuBar layoutY="24.0" prefHeight="25.0" prefWidth="600.0">
@@ -63,7 +63,7 @@
       <Pane layoutX="141.0" layoutY="227.0" prefHeight="180.0" prefWidth="462.0">
          <children>
             <Label layoutX="8.0" layoutY="3.0" text="Tour Logs" />
-            <Button layoutX="395.0" layoutY="-4.0" mnemonicParsing="false" text="+" />
+            <Button fx:id="addTourButton" layoutX="395.0" layoutY="-4.0" mnemonicParsing="false" text="+" />
             <Button layoutX="417.0" layoutY="-4.0" mnemonicParsing="false" text="-" />
             <Button layoutX="436.0" layoutY="-4.0" mnemonicParsing="false" text="..." />
             <TableView layoutY="20.0" prefHeight="153.0" prefWidth="462.0">

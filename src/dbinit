@@ -1,0 +1,39 @@
+TODO: Maybe add a seperate table for map image depending on the requirements
+
+create table tour
+(
+    tour_id        varchar not null
+        constraint tour_pk
+            primary key,
+    name           varchar not null,
+    description    varchar not null,
+    start          varchar not null,
+    destination    varchar not null,
+    transport_type varchar not null,
+    distance       numeric not null,
+    estimated_time numeric not null,
+    tour_map       varchar not null
+);
+
+alter table tour
+    owner to postgres;
+
+create table tour_log
+(
+    tourlog_id     varchar not null
+        constraint tour_log_pk
+            primary key,
+    tour_id        varchar not null
+        constraint tour_id_fk
+            references tour,
+    date           date    not null,
+    comment        varchar not null,
+    difficulty     integer,
+    total_distance numeric not null,
+    total_time     numeric,
+    rating         integer not null
+);
+
+alter table tour_log
+    owner to postgres;
+

@@ -63,16 +63,23 @@
             <Button layoutX="115.0" mnemonicParsing="false" text="..." />
          </children>
       </Pane>
-      <Pane layoutX="141.0" layoutY="227.0" prefHeight="180.0" prefWidth="462.0">
+      <Pane layoutX="141.0" layoutY="227.0" prefHeight="180.0" prefWidth="462.0" >
          <children>
-            <TableView prefHeight="173.0" prefWidth="462.0">
+            <Label layoutX="8.0" layoutY="3.0" text="Tour Logs" />
+            <Button layoutX="395.0" layoutY="-4.0" mnemonicParsing="false" text="+" />
+            <Button layoutX="417.0" layoutY="-4.0" mnemonicParsing="false" text="-" />
+            <Button layoutX="436.0" layoutY="-4.0" mnemonicParsing="false" text="..." />
+            <TableView layoutY="20.0" prefHeight="153.0" prefWidth="462.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Tour Logs" />
+                <TableColumn prefWidth="150.0" text="Date" />
               </columns>
+                <columns>
+                    <TableColumn prefWidth="150.0" text="Duration" />
+                </columns>
+                <columns>
+                    <TableColumn prefWidth="150.0" text="Distance" />
+                </columns>
             </TableView>
-            <Button layoutX="397.0" layoutY="2.0" mnemonicParsing="false" text="+" />
-            <Button layoutX="417.0" layoutY="2.0" mnemonicParsing="false" text="-" />
-            <Button layoutX="438.0" layoutY="2.0" mnemonicParsing="false" text="..." />
          </children>
       </Pane>
    </children>

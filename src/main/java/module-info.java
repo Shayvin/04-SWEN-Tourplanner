@@ -5,5 +5,6 @@ module org.shayvin.tourplanner {
 
     opens org.shayvin.tourplanner to javafx.fxml;
     opens org.shayvin.tourplanner.view to javafx.fxml;
+    opens org.shayvin.tourplanner.viewmodel to javafx.fxml;
     exports org.shayvin.tourplanner;
 }

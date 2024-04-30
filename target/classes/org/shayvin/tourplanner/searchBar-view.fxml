@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+                xmlns:fx="http://javafx.com/fxml"
+                fx:controller="org.shayvin.tourplanner.view.searchBarView"
+                layoutY="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
+
+        <TextField prefHeight="25.0" prefWidth="948.0" HBox.hgrow="ALWAYS" promptText="Search"/>
+        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="Search"/>
+
+</HBox>

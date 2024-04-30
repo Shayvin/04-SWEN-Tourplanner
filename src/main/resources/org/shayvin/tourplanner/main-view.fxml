@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
 
 
-<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.shayvin.tourplanner.MainView">
-   <children>
-      <Label text="Route Planner" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem id="fileExit" mnemonicParsing="false" onAction="#exitProgram" text="Exit" />
-                  <MenuItem mnemonicParsing="false" text="Export to PDF" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Options">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Font" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
-               </items>
-            </Menu>
-        </menus>
-      </MenuBar>
-      <HBox layoutY="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
-         <children>
-            <TextField prefHeight="25.0" prefWidth="948.0" promptText="Search" />
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="Search" />
-         </children>
-      </HBox>
-   </children>
-</AnchorPane>
+<VBox prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.shayvin.tourplanner.view.mainView">
+
+    <Label text="Route Planner" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+
+    <fx:include source="menuBar-view.fxml"/>
+
+    <fx:include source="searchBar-view.fxml" />
+
+    <fx:include source="routeButtons-view.fxml"/>
+
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" />
+            <ColumnConstraints hgrow="SOMETIMES" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+
+        <fx:include source="tourList-view.fxml" GridPane.columnSpan="1" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <fx:include source="tab-view.fxml" GridPane.columnSpan="1" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    </GridPane>
+
+    <fx:include source="tableButtons-view.fxml"/>
+
+    <fx:include source="tourLog-view.fxml"/>
+
+
+
+
+
+
+</VBox>

@@ -13,6 +13,15 @@
             <Tab text="General">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <VBox>
+                        <TextField fx:id="viewAddTourTextName" prefHeight="25.0" prefWidth="550.0" promptText="Name" />
+                        <TextField fx:id="viewAddTourTextDescription" prefHeight="25.0" prefWidth="550.0" promptText="Description" />
+                        <TextField fx:id="viewAddTourTextStart" prefHeight="25.0" prefWidth="550.0" promptText="Start" />
+                        <TextField fx:id="viewAddTourTextDestination" prefHeight="25.0" prefWidth="550.0" promptText="Destination" />
+                        <TextField fx:id="viewAddTourTextType" prefHeight="25.0" prefWidth="550.0" promptText="Transport Type" />
+                        <TextField fx:id="viewAddTourTextDistance" prefHeight="25.0" prefWidth="550.0" promptText="Distance" />
+                        <TextField fx:id="viewAddTourTextTime" prefHeight="25.0" prefWidth="550.0" promptText="Estimated Time" />
+                    </VBox>
                 </content>
             </Tab>
             <Tab text="Route">

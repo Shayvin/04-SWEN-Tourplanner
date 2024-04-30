@@ -1,83 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<Pane fx:controller="org.shayvin.tourplanner.view.AddTourButtonView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="407.0" prefWidth="608.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="253.0" layoutY="6.0" text="Tour Planner" />
-      <MenuBar layoutY="24.0" prefHeight="25.0" prefWidth="600.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-            <Menu mnemonicParsing="false" text="Options">
-                <items>
-                    <MenuItem mnemonicParsing="false" text="Font" />
-                </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-                <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <TextField layoutY="49.0" prefHeight="25.0" prefWidth="550.0" promptText="Search" />
-      <Button layoutX="548.0" layoutY="49.0" mnemonicParsing="false" text="Search" />
-      <TabPane layoutX="138.0" layoutY="74.0" prefHeight="153.0" prefWidth="462.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="General">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-          <Tab text="Route">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-            <Tab text="Misc">
-                <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-      <Pane layoutY="74.0" prefHeight="328.0" prefWidth="141.0">
-         <children>
-            <Label layoutX="8.0" layoutY="3.0" text="Tours" />
-            <ListView layoutY="24.0" prefHeight="304.0" prefWidth="141.0" />
-            <Button layoutX="71.0" mnemonicParsing="false" text="+" />
-            <Button layoutX="94.0" mnemonicParsing="false" text="-" />
-            <Button layoutX="115.0" mnemonicParsing="false" text="..." />
-         </children>
-      </Pane>
-      <Pane layoutX="141.0" layoutY="227.0" prefHeight="180.0" prefWidth="462.0">
-         <children>
-            <Label layoutX="8.0" layoutY="3.0" text="Tour Logs" />
-            <Button fx:id="addTourButton" layoutX="395.0" layoutY="-4.0" mnemonicParsing="false" text="+" />
-            <Button layoutX="417.0" layoutY="-4.0" mnemonicParsing="false" text="-" />
-            <Button layoutX="436.0" layoutY="-4.0" mnemonicParsing="false" text="..." />
-            <TableView layoutY="20.0" prefHeight="153.0" prefWidth="462.0">
-              <columns>
-                <TableColumn prefWidth="150.0" text="Date" />
-              </columns>
-                <columns>
-                    <TableColumn prefWidth="150.0" text="Duration" />
-                </columns>
-                <columns>
-                    <TableColumn prefWidth="150.0" text="Distance" />
-                </columns>
-            </TableView>
-         </children>
-      </Pane>
-   </children>
-</Pane>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<VBox prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.shayvin.tourplanner.view.mainView">
+
+    <Label text="Route Planner" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+
+    <fx:include source="menuBar-view.fxml"/>
+
+    <fx:include source="searchBar-view.fxml" />
+
+    <fx:include source="routeButtons-view.fxml"/>
+
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" />
+            <ColumnConstraints hgrow="SOMETIMES" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+
+        <fx:include source="tourList-view.fxml" GridPane.columnSpan="1" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <fx:include source="tab-view.fxml" GridPane.columnSpan="1" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    </GridPane>
+
+    <fx:include source="tableButtons-view.fxml"/>
+
+    <fx:include source="tourLog-view.fxml"/>
+</VBox>

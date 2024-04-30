@@ -1,11 +1,9 @@
 package org.shayvin.tourplanner.viewmodel;
 
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class AddTourButtonViewModel {
-
+public class tabViewModel {
     private final StringProperty addTourTextName = new SimpleStringProperty("");
     private final StringProperty addTourTextDescription = new SimpleStringProperty("");
     private final StringProperty addTourTextStart = new SimpleStringProperty("");

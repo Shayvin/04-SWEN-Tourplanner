@@ -38,10 +38,4 @@
     <fx:include source="tableButtons-view.fxml"/>
 
     <fx:include source="tourLog-view.fxml"/>
-
-
-
-
-
-
 </VBox>

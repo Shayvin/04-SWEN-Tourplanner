@@ -1,19 +1,27 @@
 package org.shayvin.tourplanner;
 
+import org.shayvin.tourplanner.event.Publisher;
+import org.shayvin.tourplanner.view.mainView;
+import org.shayvin.tourplanner.view.tabView;
+import org.shayvin.tourplanner.viewmodel.tabViewModel;
+import org.shayvin.tourplanner.view.menuBarView;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 public class ViewFactory {
 
     private static ViewFactory instance;
 
     private final Publisher publisher;
 
-    private final SearchViewModel searchViewModel;
-    private final SearchHistoryViewModel searchHistoryViewModel;
+    private final tabViewModel tabViewModel;
 
     private ViewFactory() {
         publisher = new Publisher();
 
-        searchViewModel = new SearchViewModel(publisher);
-        searchHistoryViewModel = new SearchHistoryViewModel(publisher);
+        tabViewModel = new tabViewModel(publisher);
+
     }
 
     public static ViewFactory getInstance() {
@@ -25,14 +33,18 @@ public class ViewFactory {
     }
 
     public Object create(Class<?> viewClass) {
-        if (SearchView.class == viewClass) {
-            return new SearchView(searchViewModel);
+        if(viewClass == tabView.class) {
+            return new tabView(tabViewModel);
         }
 
-        if (SearchHistoryView.class == viewClass) {
-            return new SearchHistoryView(searchHistoryViewModel);
+        if(viewClass == menuBarView.class) {
+            return new menuBarView(publisher);
         }
 
-        throw new IllegalArgumentException("Unknown view class: " + viewClass);
+        if(viewClass == mainView.class) {
+            return new mainView(publisher);
+        }
+
+        return null;
     }
 }

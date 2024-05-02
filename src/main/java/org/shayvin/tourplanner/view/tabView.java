@@ -3,6 +3,7 @@ package org.shayvin.tourplanner.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.viewmodel.tabViewModel;
 
 import java.net.URL;
@@ -10,7 +11,8 @@ import java.util.ResourceBundle;
 
 public class tabView implements Initializable {
 
-    private final tabViewModel viewModel;
+    private Publisher publisher;
+    private tabViewModel viewModel;
 
     @FXML
     public TextField viewAddTourTextName;
@@ -31,9 +33,8 @@ public class tabView implements Initializable {
         this.viewModel = viewModel;
     }
 
-    // JavaFX needs a default constructor
-    public tabView() {
-        this.viewModel = new tabViewModel();
+    public tabView(Publisher publisher) {
+        this.publisher = publisher;
     }
 
     @Override

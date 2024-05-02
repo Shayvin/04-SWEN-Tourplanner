@@ -2,8 +2,13 @@ package org.shayvin.tourplanner.viewmodel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import org.shayvin.tourplanner.event.Event;
+import org.shayvin.tourplanner.event.Publisher;
 
 public class tabViewModel {
+
+    private final Publisher publisher;
+
     private final StringProperty addTourTextName = new SimpleStringProperty("");
     private final StringProperty addTourTextDescription = new SimpleStringProperty("");
     private final StringProperty addTourTextStart = new SimpleStringProperty("");
@@ -13,8 +18,20 @@ public class tabViewModel {
     private final StringProperty addTourTextTime = new SimpleStringProperty("");
     private final StringProperty addTourTextInformation = new SimpleStringProperty("");
 
-    public void onAddTourButtonClicked() {
-        System.out.println("Add tour button clicked");
+    public tabViewModel(Publisher publisher) {
+        this.publisher = publisher;
+
+        this.addTourTextName.addListener(
+                observable -> addTour()
+        );
+
+        this.publisher.subscribe(Event.ADD_TOUR, message -> {
+            System.out.println("Received message: " + message);
+        });
+    }
+
+    public void addTour() {
+        publisher.publish(Event.ADD_TOUR, "Add tour button clicked");
     }
 
     public String getAddTourTextName() {

@@ -8,19 +8,20 @@
 
 <TabPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.shayvin.tourplanner.view.tabView" tabClosingPolicy="UNAVAILABLE">
+            fx:controller="org.shayvin.tourplanner.view.tabView"
+            tabClosingPolicy="UNAVAILABLE">
         <tabs>
             <Tab text="General">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     <VBox>
-                        <TextField fx:id="viewAddTourTextName" prefHeight="25.0" prefWidth="550.0" promptText="Name" />
-                        <TextField fx:id="viewAddTourTextDescription" prefHeight="25.0" prefWidth="550.0" promptText="Description" />
-                        <TextField fx:id="viewAddTourTextStart" prefHeight="25.0" prefWidth="550.0" promptText="Start" />
-                        <TextField fx:id="viewAddTourTextDestination" prefHeight="25.0" prefWidth="550.0" promptText="Destination" />
-                        <TextField fx:id="viewAddTourTextType" prefHeight="25.0" prefWidth="550.0" promptText="Transport Type" />
-                        <TextField fx:id="viewAddTourTextDistance" prefHeight="25.0" prefWidth="550.0" promptText="Distance" />
-                        <TextField fx:id="viewAddTourTextTime" prefHeight="25.0" prefWidth="550.0" promptText="Estimated Time" />
+                        <TextField fx:id="viewAddTourTextName" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextName" />
+                        <TextField fx:id="viewAddTourTextDescription" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDescription" />
+                        <TextField fx:id="viewAddTourTextStart" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextStart" />
+                        <TextField fx:id="viewAddTourTextDestination" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDestination" />
+                        <TextField fx:id="viewAddTourTextType" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextType" />
+                        <TextField fx:id="viewAddTourTextDistance" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDistance" />
+                        <TextField fx:id="viewAddTourTextTime" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDuration" />
                     </VBox>
                 </content>
             </Tab>

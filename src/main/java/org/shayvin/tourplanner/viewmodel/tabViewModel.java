@@ -21,17 +21,28 @@ public class tabViewModel {
     public tabViewModel(Publisher publisher) {
         this.publisher = publisher;
 
-        this.addTourTextName.addListener(
-                observable -> addTour()
-        );
+        addListenerToProperty(addTourTextName);
+        addListenerToProperty(addTourTextDescription);
+        addListenerToProperty(addTourTextStart);
+        addListenerToProperty(addTourTextDestination);
+        addListenerToProperty(addTourTextType);
+        addListenerToProperty(addTourTextDistance);
+        addListenerToProperty(addTourTextTime);
+        addListenerToProperty(addTourTextInformation);
 
         this.publisher.subscribe(Event.ADD_TOUR, message -> {
             System.out.println("Received message: " + message);
         });
     }
 
+    private void addListenerToProperty(StringProperty property) {
+        property.addListener((obs, oldValue, newValue) -> {
+            addTour();
+        });
+    }
+
     public void addTour() {
-        publisher.publish(Event.ADD_TOUR, "Add tour button clicked");
+        publisher.publish(Event.ADD_TOUR, "text filled");
     }
 
     public String getAddTourTextName() {

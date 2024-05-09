@@ -2,7 +2,9 @@ package org.shayvin.tourplanner;
 
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.view.mainView;
+import org.shayvin.tourplanner.view.routeButtonView;
 import org.shayvin.tourplanner.view.tabView;
+import org.shayvin.tourplanner.viewmodel.routeButtonViewModel;
 import org.shayvin.tourplanner.viewmodel.tabViewModel;
 import org.shayvin.tourplanner.view.menuBarView;
 
@@ -17,11 +19,13 @@ public class ViewFactory {
 
     private final tabViewModel tabViewModel;
 
+    private final routeButtonViewModel routeViewModel;
+
     private ViewFactory() {
         publisher = new Publisher();
 
         tabViewModel = new tabViewModel(publisher);
-
+        routeViewModel = new routeButtonViewModel(publisher, tabViewModel);
     }
 
     public static ViewFactory getInstance() {
@@ -34,7 +38,7 @@ public class ViewFactory {
 
     public Object create(Class<?> viewClass) {
         if(viewClass == tabView.class) {
-            return new tabView(tabViewModel);
+            return new tabView(tabViewModel, publisher);
         }
 
         if(viewClass == menuBarView.class) {
@@ -43,6 +47,10 @@ public class ViewFactory {
 
         if(viewClass == mainView.class) {
             return new mainView(publisher);
+        }
+
+        if(viewClass == routeButtonView.class) {
+            return new routeButtonView(routeViewModel, publisher);
         }
 
         return null;

@@ -29,11 +29,8 @@ public class tabView implements Initializable {
     @FXML
     private TextField viewAddTourTextTime;
 
-    public tabView(tabViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public tabView(Publisher publisher) {
+    public tabView(tabViewModel tabViewModel, Publisher publisher) {
+        this.viewModel = tabViewModel;
         this.publisher = publisher;
     }
 

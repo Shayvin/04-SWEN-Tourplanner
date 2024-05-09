@@ -8,9 +8,9 @@
 
 <HBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.shayvin.tourplanner.view.routeButtonsView">
+            fx:controller="org.shayvin.tourplanner.view.routeButtonView">
 
     <Label text="Routes"/>
-    <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="Add"/>
+    <Button fx:id="addRouteButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="Add"/>
 
 </HBox>

@@ -11,8 +11,7 @@ import java.util.ResourceBundle;
 
 public class tabView implements Initializable {
 
-    private Publisher publisher;
-    private tabViewModel viewModel;
+    private final tabViewModel viewModel;
 
     @FXML
     public TextField viewAddTourTextName;
@@ -33,10 +32,6 @@ public class tabView implements Initializable {
         this.viewModel = viewModel;
     }
 
-    public tabView(Publisher publisher) {
-        this.publisher = publisher;
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.viewAddTourTextName.textProperty().bindBidirectional(viewModel.addTourTextNameProperty());
@@ -46,5 +41,7 @@ public class tabView implements Initializable {
         this.viewAddTourTextType.textProperty().bindBidirectional(viewModel.addTourTextTypeProperty());
         this.viewAddTourTextDistance.textProperty().bindBidirectional(viewModel.addTourTextDistanceProperty());
         this.viewAddTourTextTime.textProperty().bindBidirectional(viewModel.addTourTextTimeProperty());
+
+        //TODO return integer instead of string?!
     }
 }

@@ -2,6 +2,7 @@ package org.shayvin.tourplanner.viewmodel;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 
 public class routeButtonsViewModel {
@@ -21,15 +22,15 @@ public class routeButtonsViewModel {
 
 
     public void add(){
-
+        publisher.publish(Event.ADD_TOUR, "Add tour button clicked");
     }
 
     public void remove(){
-
+        publisher.publish(Event.REMOVE_TOUR, "Remove tour button clicked");
     }
 
     public void edit(){
-
+        publisher.publish(Event.EDIT_TOUR, "Edit tour button clicked");
     }
 
     public BooleanProperty addDisabledProperty() {

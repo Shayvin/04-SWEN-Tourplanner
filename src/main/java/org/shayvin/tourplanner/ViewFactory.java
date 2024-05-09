@@ -1,6 +1,9 @@
 package org.shayvin.tourplanner;
 
 import org.shayvin.tourplanner.event.Publisher;
+import org.shayvin.tourplanner.repository.TourMemoryRepository;
+import org.shayvin.tourplanner.repository.TourRepository;
+import org.shayvin.tourplanner.service.TourService;
 import org.shayvin.tourplanner.view.mainView;
 import org.shayvin.tourplanner.view.tabView;
 import org.shayvin.tourplanner.viewmodel.tabViewModel;
@@ -15,10 +18,19 @@ public class ViewFactory {
 
     private final Publisher publisher;
 
+    private final TourRepository tourRepository;
+
+    private final TourService tourService;
+
     private final tabViewModel tabViewModel;
 
     private ViewFactory() {
         publisher = new Publisher();
+
+        tourRepository = new TourMemoryRepository();
+        tourService = new TourService(tourRepository);
+
+        //TODO add tourService to tabViewModel
 
         tabViewModel = new tabViewModel(publisher);
 

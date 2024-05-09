@@ -20,13 +20,24 @@ public class routeButtonsViewModel {
         this.publisher = publisher;
 
         publisher.subscribe(Event.ENABLE_ADD_BUTTON, message -> {
-            System.out.println("Subscribe message received for button:" + message);
+            System.out.println("Subscribe message received for add button:" + message);
             addDisabled.set(false);
         });
         publisher.subscribe(Event.DISABLE_ADD_BUTTON, message -> {
-            System.out.println("Subscribe message received for button:" + message);
+            System.out.println("Subscribe message received for add button:" + message);
             addDisabled.set(true);
         });
+        publisher.subscribe(Event.TOUR_SELECTED, message -> {
+            System.out.println("Subscribe message received for edit button:" + message);
+            editDisabled.set(false);
+        });
+        publisher.subscribe(Event.TOUR_SELECTED, message -> {
+            System.out.println("Subscribe message received for remove button:" + message);
+            removeDisabled.set(false);
+        });
+
+        //TODO add subscribe to disable remove and edit button if tour is deselected
+
 
     }
 

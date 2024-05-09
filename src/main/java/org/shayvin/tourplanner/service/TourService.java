@@ -23,8 +23,10 @@ public class TourService {
         tourRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration, tourInformation));
     }
 
+    public List<String> updateFullList(){
+        return tourRepository.findAll().stream().map(Tour::getTourName).toList();
+    }
 
-    //TODO implement this
     public List<Tour> getAll() {
         return null;
     }

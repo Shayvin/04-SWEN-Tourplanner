@@ -4,12 +4,10 @@ import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
 import org.shayvin.tourplanner.service.TourService;
-import org.shayvin.tourplanner.view.mainView;
-import org.shayvin.tourplanner.view.routeButtonsView;
-import org.shayvin.tourplanner.view.tabView;
+import org.shayvin.tourplanner.view.*;
 import org.shayvin.tourplanner.viewmodel.routeButtonsViewModel;
 import org.shayvin.tourplanner.viewmodel.tabViewModel;
-import org.shayvin.tourplanner.view.menuBarView;
+import org.shayvin.tourplanner.viewmodel.tourListViewModel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -26,6 +24,7 @@ public class ViewFactory {
 
     private final tabViewModel tabViewModel;
     private final routeButtonsViewModel routeButtonsViewModel;
+    private final tourListViewModel tourListViewModel;
 
     private ViewFactory() {
         publisher = new Publisher();
@@ -35,6 +34,7 @@ public class ViewFactory {
 
         tabViewModel = new tabViewModel(publisher, tourService);
         routeButtonsViewModel = new routeButtonsViewModel(publisher);
+        tourListViewModel = new tourListViewModel(publisher, tourService);
 
     }
 
@@ -61,6 +61,10 @@ public class ViewFactory {
 
         if(viewClass == routeButtonsView.class) {
             return new routeButtonsView(routeButtonsViewModel);
+        }
+
+        if(viewClass == tourListView.class) {
+            return new tourListView(tourListViewModel);
         }
 
         //throw new IllegalArgumentException("Unknown view class: " + viewClass);

@@ -15,6 +15,11 @@ public enum Event {
     TOUR_TYPE_ADDED,
     TOUR_DISTANCE_ADDED,
     TOUR_TIME_ADDED,
-    TOUR_INFORMATION_ADDED
+    TOUR_INFORMATION_ADDED,
+
+    TOUR_SELECTED,
+
+    //TODO add this functionality if route is deselected in tourListViewModel
+    TOUR_UNSELECTED
 
 }

@@ -5,6 +5,7 @@ import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.service.TourService;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -117,8 +118,21 @@ public class tabViewModel {
                     addTourTextType.get(),
                     addTourTextDistance.get(),
                     addTourTextTime.get(),
-                    addTourTextInformation.get());
+                    addTourTextInformation.get()
+            );
+
+            try {
+                clearInputFields();
+            }catch (IllegalAccessException e){
+                System.out.println(e);
+            }
         });
+
+        publisher.subscribe(Event.TOUR_SELECTED, message -> System.out.println("Received tour selected: " + message));
+
+        publisher.subscribe(Event.EDIT_TOUR, message -> System.out.println("Received message: " + message));
+
+        //TODO fillInElements from entity Tour into TabView elements
 
     }
 
@@ -128,11 +142,29 @@ public class tabViewModel {
             eventList.add(event);
         }
         if(eventList.size()==8){
-            System.out.println("Event list contains more than 8 events");
+            System.out.println("Event list contains 8 events");
             validateInputs();
         }
     }
 
+    // iterate through all StringProperty elements and sets them to an empty string
+    private void clearInputFields() throws IllegalAccessException {
+        Class<?> myClass = getClass();
+        Field[] fields = myClass.getDeclaredFields();
+
+        for(Field field : fields){
+            if(StringProperty.class.isAssignableFrom(field.getType())){
+                try{
+                    StringProperty stringProperty = (StringProperty) field.get(this);
+                    stringProperty.set("");
+                }
+                catch (IllegalAccessException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
 
     public String getAddTourTextName() {
         return addTourTextName.get();
@@ -242,8 +274,6 @@ public class tabViewModel {
         if(counter == 0) {
             publisher.publish(Event.ENABLE_ADD_BUTTON, "Add button enabled.");
         }
-
-        //TODO enable button
     }
 
     public boolean validateInputString(String input){

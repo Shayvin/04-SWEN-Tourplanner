@@ -16,12 +16,13 @@ public class TourMemoryRepository implements TourRepository{
 
     @Override
     public List<Tour> findAll() {
+        System.out.println("In memory findAll!");
         return tours;
     }
 
     @Override
     public Tour save(Tour entity) {
-        System.out.println("In Tour Save!");
+        System.out.println("In memory save!");
         System.out.println("Saving " + entity);
         tours.add(entity);
 

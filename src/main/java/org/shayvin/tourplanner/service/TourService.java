@@ -13,14 +13,14 @@ public class TourService {
         this.tourRepository = tourRepository;
     }
 
-    public void add(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration) {
+    public void add(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation) {
         Optional<Tour> tour = tourRepository.findByTourName(tourName);
 
         if(tour.isPresent()) {
             return;
         }
 
-        tourRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration));
+        tourRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration, tourInformation));
     }
 
 

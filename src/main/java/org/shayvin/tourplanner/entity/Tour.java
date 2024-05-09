@@ -16,7 +16,9 @@ public class Tour {
 
     private String tourDuration;
 
-    public Tour(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration) {
+    private String tourInformation;
+
+    public Tour(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation) {
         this.tourName = tourName;
         this.tourDescription = tourDescription;
         this.tourStart = tourStart;
@@ -24,6 +26,7 @@ public class Tour {
         this.tourType = tourType;
         this.tourDistance = tourDistance;
         this.tourDuration = tourDuration;
+        this.tourInformation = tourInformation;
     }
 
     public String getTourName() {
@@ -80,5 +83,13 @@ public class Tour {
 
     public void setTourDuration(String tourDuration) {
         this.tourDuration = tourDuration;
+    }
+
+    public String getTourInformation() {
+        return tourInformation;
+    }
+
+    public void setTourInformation(String tourInformation) {
+        this.tourInformation = tourInformation;
     }
 }

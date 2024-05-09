@@ -5,7 +5,9 @@ import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
 import org.shayvin.tourplanner.service.TourService;
 import org.shayvin.tourplanner.view.mainView;
+import org.shayvin.tourplanner.view.routeButtonsView;
 import org.shayvin.tourplanner.view.tabView;
+import org.shayvin.tourplanner.viewmodel.routeButtonsViewModel;
 import org.shayvin.tourplanner.viewmodel.tabViewModel;
 import org.shayvin.tourplanner.view.menuBarView;
 
@@ -23,6 +25,7 @@ public class ViewFactory {
     private final TourService tourService;
 
     private final tabViewModel tabViewModel;
+    private final routeButtonsViewModel routeButtonsViewModel;
 
     private ViewFactory() {
         publisher = new Publisher();
@@ -30,9 +33,8 @@ public class ViewFactory {
         tourRepository = new TourMemoryRepository();
         tourService = new TourService(tourRepository);
 
-        //TODO add tourService to tabViewModel
-
-        tabViewModel = new tabViewModel(publisher);
+        tabViewModel = new tabViewModel(publisher, tourService);
+        routeButtonsViewModel = new routeButtonsViewModel(publisher);
 
     }
 
@@ -57,6 +59,11 @@ public class ViewFactory {
             return new mainView(publisher);
         }
 
+        if(viewClass == routeButtonsView.class) {
+            return new routeButtonsView(routeButtonsViewModel);
+        }
+
+        //throw new IllegalArgumentException("Unknown view class: " + viewClass);
         return null;
     }
 }

@@ -21,6 +21,8 @@ public class TourMemoryRepository implements TourRepository{
 
     @Override
     public Tour save(Tour entity) {
+        System.out.println("In Tour Save!");
+        System.out.println("Saving " + entity);
         tours.add(entity);
 
         return entity;

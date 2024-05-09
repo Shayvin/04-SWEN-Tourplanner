@@ -18,8 +18,17 @@ public class routeButtonsViewModel {
 
     public routeButtonsViewModel(Publisher publisher){
         this.publisher = publisher;
-    }
 
+        publisher.subscribe(Event.ENABLE_ADD_BUTTON, message -> {
+            System.out.println("Subscribe message received for button:" + message);
+            addDisabled.set(false);
+        });
+        publisher.subscribe(Event.DISABLE_ADD_BUTTON, message -> {
+            System.out.println("Subscribe message received for button:" + message);
+            addDisabled.set(true);
+        });
+
+    }
 
     public void add(){
         publisher.publish(Event.ADD_TOUR, "Add tour button clicked");

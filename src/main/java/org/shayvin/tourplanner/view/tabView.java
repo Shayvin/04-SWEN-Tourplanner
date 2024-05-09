@@ -3,7 +3,6 @@ package org.shayvin.tourplanner.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.viewmodel.tabViewModel;
 
 import java.net.URL;
@@ -27,6 +26,8 @@ public class tabView implements Initializable {
     private TextField viewAddTourTextDistance;
     @FXML
     private TextField viewAddTourTextTime;
+    @FXML
+    private TextField viewAddTourTextInformation;
 
     public tabView(tabViewModel viewModel) {
         this.viewModel = viewModel;
@@ -41,7 +42,7 @@ public class tabView implements Initializable {
         this.viewAddTourTextType.textProperty().bindBidirectional(viewModel.addTourTextTypeProperty());
         this.viewAddTourTextDistance.textProperty().bindBidirectional(viewModel.addTourTextDistanceProperty());
         this.viewAddTourTextTime.textProperty().bindBidirectional(viewModel.addTourTextTimeProperty());
+        this.viewAddTourTextInformation.textProperty().bindBidirectional(viewModel.addTourTextInformationProperty());
 
-        //TODO return integer instead of string?!
     }
 }

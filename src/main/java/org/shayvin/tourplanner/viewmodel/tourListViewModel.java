@@ -18,6 +18,7 @@ public class tourListViewModel {
             = FXCollections.observableArrayList();
     private final IntegerProperty selectedTourIndex
             = new SimpleIntegerProperty();
+    private String currentSelectedTourName = "";
 
 
     public tourListViewModel(Publisher publisher, TourService tourService) {
@@ -30,6 +31,8 @@ public class tourListViewModel {
                 observable -> selectTourList()
         );
 
+
+
     }
 
     private void updateTourList(String message){
@@ -41,9 +44,9 @@ public class tourListViewModel {
             return;
         }
 
+        TourService.setCurrentSelectedTour(getTourList().get(selectedTourIndex.get()));
         publisher.publish(Event.TOUR_SELECTED, getTourList().get(selectedTourIndex.get()));
 
-        //TODO HIER WEITER MACHEN -> es wird hier der string mitgegeben, kann man den im weitern verlauf weitergeben und benutzen? dann muss nachdem der Button gedrückt wurde nicht wieder alles neu gesucht werden.. maybe über den service?
     }
 
     public ObservableList<String> getTourList() {

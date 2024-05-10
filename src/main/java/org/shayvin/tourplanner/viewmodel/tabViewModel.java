@@ -86,25 +86,15 @@ public class tabViewModel {
                 }
         );
 
-
         this.publisher.subscribe(Event.ADD_TOUR, message -> System.out.println("Received message: " + message));
-
         this.publisher.subscribe(Event.TOUR_NAME_ADDED, message -> System.out.println("Received message: " + message));
-
         this.publisher.subscribe(Event.TOUR_DESCRIPTION_ADDED, message -> System.out.println("Received message: " + message));
-
         this.publisher.subscribe(Event.TOUR_START_ADDED, message -> System.out.println("Received message: " + message));
-
         this.publisher.subscribe(Event.TOUR_DESTINATION_ADDED, message -> System.out.println("Received message: " + message));
-
         this.publisher.subscribe(Event.TOUR_TYPE_ADDED, message -> System.out.println("Received message: " + message));
-
         this.publisher.subscribe(Event.TOUR_DISTANCE_ADDED, message -> System.out.println("Received message: " + message));
-
         this.publisher.subscribe(Event.TOUR_TIME_ADDED, message -> System.out.println("Received message: " + message));
-
         this.publisher.subscribe(Event.TOUR_INFORMATION_ADDED, message -> System.out.println("Received message: " + message));
-
         this.publisher.subscribe(Event.ENABLE_ADD_BUTTON, message -> System.out.println("Received message: " + message));
 
         //TODO add Data to TourRepo when ADD_TOUR is listened to
@@ -130,9 +120,11 @@ public class tabViewModel {
 
         publisher.subscribe(Event.TOUR_SELECTED, message -> System.out.println("Received tour selected: " + message));
 
-        publisher.subscribe(Event.EDIT_TOUR, message -> System.out.println("Received message: " + message));
-
         //TODO fillInElements from entity Tour into TabView elements
+        publisher.subscribe(Event.EDIT_TOUR, message -> {
+            System.out.println("Received message: " + message);
+            fillInElements(tourService.getTourWithName());
+        });
 
     }
 
@@ -164,6 +156,24 @@ public class tabViewModel {
             }
         }
 
+    }
+
+    //ugly af but it adds the elements from the tour back to the tabView
+    private void fillInElements(List<String> tourDetails){
+        if(tourDetails == null){
+            System.out.println("fillInElements called with null tour details?!?!");
+            return;
+        }
+
+        addTourTextName.set(tourDetails.getFirst());
+        addTourTextDescription.set(tourDetails.get(1));
+        addTourTextStart.set(tourDetails.get(2));
+        addTourTextDestination.set(tourDetails.get(3));
+        addTourTextType.set(tourDetails.get(4));
+        addTourTextDistance.set(tourDetails.get(5));
+        addTourTextTime.set(tourDetails.get(6));
+        addTourTextInformation.set(tourDetails.getLast());
+        System.out.println("End of filling input fields");
     }
 
     public String getAddTourTextName() {

@@ -22,6 +22,9 @@ public class routeButtonsView implements Initializable {
     @FXML
     private Button editButton;
 
+    @FXML
+    private Button saveButton;
+
 
     public routeButtonsView(routeButtonsViewModel viewModel) {
         this.viewModel = viewModel;
@@ -34,6 +37,7 @@ public class routeButtonsView implements Initializable {
         this.addButton.disableProperty().bind(viewModel.addDisabledProperty());
         this.removeButton.disableProperty().bind(viewModel.removeDisabledProperty());
         this.editButton.disableProperty().bind(viewModel.editDisabledProperty());
+        this.saveButton.disableProperty().bind(viewModel.saveDisabledProperty());
     }
 
     public void onAdd(){
@@ -46,5 +50,9 @@ public class routeButtonsView implements Initializable {
 
     public void onEdit(){
         this.viewModel.edit();
+    }
+
+    public void onSave(){
+        this.viewModel.save();
     }
 }

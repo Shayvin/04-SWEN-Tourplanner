@@ -13,4 +13,6 @@ public interface TourRepository {
 
     Optional<Tour> findByTourName(String tourToFind);
 
+    void removeTour(String tourToRemove);
+
 }

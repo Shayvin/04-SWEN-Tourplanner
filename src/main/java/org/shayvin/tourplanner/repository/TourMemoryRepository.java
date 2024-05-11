@@ -39,4 +39,11 @@ public class TourMemoryRepository implements TourRepository{
         }
         return Optional.empty();
     }
+
+    @Override
+    public void removeTour(String tourToRemove) {
+        System.out.println("In memory removeTour!");
+        tours.removeIf(tour -> tour.getTourName().equals(tourToRemove));
+
+    }
 }

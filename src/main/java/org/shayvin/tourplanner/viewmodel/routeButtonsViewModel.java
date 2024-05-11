@@ -15,6 +15,8 @@ public class routeButtonsViewModel {
 
     private final BooleanProperty editDisabled = new SimpleBooleanProperty(true);
 
+    private final BooleanProperty saveDisabled = new SimpleBooleanProperty(true);
+
 
     public routeButtonsViewModel(Publisher publisher){
         this.publisher = publisher;
@@ -27,16 +29,37 @@ public class routeButtonsViewModel {
             System.out.println("Subscribe message received for add button:" + message);
             addDisabled.set(true);
         });
+        publisher.subscribe(Event.DISABLE_REMOVE_BUTTON, message -> {
+            System.out.println("Subscribe message received for remove button:" + message);
+            removeDisabled.set(true);
+        });
+        publisher.subscribe(Event.DISABLE_EDIT_BUTTON, message -> {
+            System.out.println("Subscribe message received for edit button:" + message);
+            editDisabled.set(true);
+        });
         publisher.subscribe(Event.TOUR_SELECTED, message -> {
             System.out.println("Subscribe message received for edit button:" + message);
             editDisabled.set(false);
-        });
-        publisher.subscribe(Event.TOUR_SELECTED, message -> {
-            System.out.println("Subscribe message received for remove button:" + message);
             removeDisabled.set(false);
         });
-
-        //TODO add subscribe to disable remove and edit button if tour is deselected
+        publisher.subscribe(Event.EDIT_TOUR, message -> {
+            System.out.println("Subscribe message received for save button:" + message);
+            saveDisabled.set(false);
+            addDisabled.set(true);
+        });
+        publisher.subscribe(Event.LIST_UPDATED, message -> {
+            System.out.println("Subscribe message received for update:" + message);
+            addDisabled.set(true);
+            editDisabled.set(true);
+            removeDisabled.set(true);
+            saveDisabled.set(true);
+        });
+        publisher.subscribe(Event.TOUR_UNSELECTED, message -> {
+            System.out.println("Subscribe message received for save button:" + message);
+            saveDisabled.set(true);
+            editDisabled.set(true);
+            removeDisabled.set(true);
+        });
 
 
     }
@@ -52,6 +75,11 @@ public class routeButtonsViewModel {
     public void edit(){
         publisher.publish(Event.EDIT_TOUR, "Edit tour button clicked");
     }
+
+    public void save(){
+        publisher.publish(Event.SAVE_EDITED_TOUR, "Save tour button clicked");
+    }
+
 
     public BooleanProperty addDisabledProperty() {
         return addDisabled;
@@ -89,4 +117,15 @@ public class routeButtonsViewModel {
         return editDisabled.get();
     }
 
+    public BooleanProperty saveDisabledProperty() {
+        return saveDisabled;
+    }
+
+    public boolean getSaveDisabled() {
+        return saveDisabled.get();
+    }
+
+    public boolean isSaveDisabled() {
+        return saveDisabled.get();
+    }
 }

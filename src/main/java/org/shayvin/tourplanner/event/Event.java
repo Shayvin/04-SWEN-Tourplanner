@@ -4,9 +4,16 @@ public enum Event {
     ADD_TOUR,
     REMOVE_TOUR,
     EDIT_TOUR,
+    SAVE_EDITED_TOUR,
+
+    LIST_UPDATED,
 
     ENABLE_ADD_BUTTON,
     DISABLE_ADD_BUTTON,
+
+    DISABLE_REMOVE_BUTTON,
+
+    DISABLE_EDIT_BUTTON,
 
     TOUR_NAME_ADDED,
     TOUR_DESCRIPTION_ADDED,
@@ -18,8 +25,7 @@ public enum Event {
     TOUR_INFORMATION_ADDED,
 
     TOUR_SELECTED,
-
-    //TODO add this functionality if route is deselected in tourListViewModel
-    TOUR_UNSELECTED
+    TOUR_UNSELECTED,
+    TOUR_UPDATED
 
 }

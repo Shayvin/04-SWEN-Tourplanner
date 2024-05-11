@@ -10,7 +10,8 @@ import java.util.Optional;
 public class TourService {
     private final TourRepository tourRepository;
 
-    public static String currentSelectedTour;
+    public static String currentSelectedTourName;
+    public static Tour currentSelectedTour;
 
     public TourService(TourRepository tourRepository) {
         this.tourRepository = tourRepository;
@@ -26,25 +27,57 @@ public class TourService {
         tourRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration, tourInformation));
     }
 
+    public void updateTour(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation){
+        removeTourFromRepository(currentSelectedTourName);
+
+        if(!currentSelectedTour.getTourName().equals(tourName)) {
+            currentSelectedTour.setTourName(tourName);
+        }
+        if(!currentSelectedTour.getTourDescription().equals(tourDescription)) {
+            currentSelectedTour.setTourDescription(tourDescription);
+        }
+        if(!currentSelectedTour.getTourStart().equals(tourStart)) {
+            currentSelectedTour.setTourStart(tourStart);
+        }
+        if(!currentSelectedTour.getTourDestination().equals(tourDestination)) {
+            currentSelectedTour.setTourDestination(tourDestination);
+        }
+        if(!currentSelectedTour.getTourType().equals(tourType)) {
+            currentSelectedTour.setTourType(tourType);
+        }
+        if(!currentSelectedTour.getTourDistance().equals(tourDistance)) {
+            currentSelectedTour.setTourDistance(tourDistance);
+        }
+        if(!currentSelectedTour.getTourDuration().equals(tourDuration)) {
+            currentSelectedTour.setTourDuration(tourDuration);
+        }
+        if(!currentSelectedTour.getTourInformation().equals(tourInformation)) {
+            currentSelectedTour.setTourInformation(tourInformation);
+        }
+        //TODO rework this: check id, adapt the entries and save the object with the same id (so that the tourlogs won't go missing
+        tourRepository.save(currentSelectedTour);
+    }
+
+
     public List<String> updateFullList(){
         return tourRepository.findAll().stream().map(Tour::getTourName).toList();
     }
 
     public List<String> getTourWithName() {
-        Optional<Tour> tour = tourRepository.findByTourName(currentSelectedTour);
+        Optional<Tour> tour = tourRepository.findByTourName(currentSelectedTourName);
         List<String> tourDetails = new ArrayList<>();
 
         if(tour.isPresent()) {
-            Tour presentTour = tour.get();
+            currentSelectedTour = tour.get();
 
-            tourDetails.add(presentTour.getTourName());
-            tourDetails.add(presentTour.getTourDescription());
-            tourDetails.add(presentTour.getTourStart());
-            tourDetails.add(presentTour.getTourDestination());
-            tourDetails.add(presentTour.getTourType());
-            tourDetails.add(presentTour.getTourDistance());
-            tourDetails.add(presentTour.getTourDuration());
-            tourDetails.add(presentTour.getTourInformation());
+            tourDetails.add(currentSelectedTour.getTourName());
+            tourDetails.add(currentSelectedTour.getTourDescription());
+            tourDetails.add(currentSelectedTour.getTourStart());
+            tourDetails.add(currentSelectedTour.getTourDestination());
+            tourDetails.add(currentSelectedTour.getTourType());
+            tourDetails.add(currentSelectedTour.getTourDistance());
+            tourDetails.add(currentSelectedTour.getTourDuration());
+            tourDetails.add(currentSelectedTour.getTourInformation());
 
             return tourDetails;
         }
@@ -53,12 +86,16 @@ public class TourService {
     }
 
     public String getCurrentSelectedTour() {
-        return currentSelectedTour;
+        return currentSelectedTourName;
     }
 
-    public static void setCurrentSelectedTour(String tourName) {
+    public static void setCurrentSelectedTourName(String tourName) {
         System.out.println("in setter");
-        currentSelectedTour = tourName;
-        System.out.println("TourName: " + currentSelectedTour);
+        currentSelectedTourName = tourName;
+        System.out.println("TourName: " + currentSelectedTourName);
+    }
+
+    public void removeTourFromRepository(String tourToRemove) {
+        tourRepository.removeTour(tourToRemove);
     }
 }

@@ -1,6 +1,7 @@
 package org.shayvin.tourplanner.viewmodel;
 
 import javafx.beans.property.*;
+import javafx.scene.image.Image;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.service.TourService;
@@ -8,13 +9,18 @@ import org.shayvin.tourplanner.service.TourService;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class tabViewModel {
 
     private final Publisher publisher;
     private final TourService tourService;
 
+    public Property<Image> image = new SimpleObjectProperty<>();
+
     private List<Event> eventList;
+
+    private boolean editMode = false;
 
     private final StringProperty addTourTextName = new SimpleStringProperty("");
     private final StringProperty addTourTextDescription = new SimpleStringProperty("");
@@ -25,10 +31,26 @@ public class tabViewModel {
     private final StringProperty addTourTextTime = new SimpleStringProperty("");
     private final StringProperty addTourTextInformation = new SimpleStringProperty("");
 
+    private final BooleanProperty readOnlyTextName = new SimpleBooleanProperty(false);
+    private final BooleanProperty readOnlyTextDescription = new SimpleBooleanProperty(false);
+    private final BooleanProperty readOnlyTextStart = new SimpleBooleanProperty(false);
+    private final BooleanProperty readOnlyTextDestination = new SimpleBooleanProperty(false);
+    private final BooleanProperty readOnlyTextType = new SimpleBooleanProperty(false);
+    private final BooleanProperty readOnlyTextDistance = new SimpleBooleanProperty(false);
+    private final BooleanProperty readOnlyTextTime = new SimpleBooleanProperty(false);
+    private final BooleanProperty readOnlyTextInformation = new SimpleBooleanProperty(false);
+
+
+
     public tabViewModel(Publisher publisher, TourService tourService) {
         this.publisher = publisher;
         this.tourService = tourService;
         this.eventList = new ArrayList<>();
+
+        String imagePath = "/org/shayvin/tourplanner/img/map.png";
+        Image currentImage = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
+        this.image.setValue(currentImage);
+
 
         this.addTourTextName.addListener(
                 observable -> {
@@ -97,7 +119,7 @@ public class tabViewModel {
         this.publisher.subscribe(Event.TOUR_INFORMATION_ADDED, message -> System.out.println("Received message: " + message));
         this.publisher.subscribe(Event.ENABLE_ADD_BUTTON, message -> System.out.println("Received message: " + message));
 
-        //TODO add Data to TourRepo when ADD_TOUR is listened to
+        //add data to repo when ADD_TOUR is received
         publisher.subscribe(Event.ADD_TOUR, message -> {
             System.out.println("Received message: " + message);
             tourService.add(
@@ -118,12 +140,62 @@ public class tabViewModel {
             }
         });
 
-        publisher.subscribe(Event.TOUR_SELECTED, message -> System.out.println("Received tour selected: " + message));
+        //update data in repo when SAVE_EDITED_TOUR is received
+        publisher.subscribe(Event.SAVE_EDITED_TOUR, message -> {
+            System.out.println("Received message: " + message);
+            tourService.updateTour(
+                    addTourTextName.get(),
+                    addTourTextDescription.get(),
+                    addTourTextStart.get(),
+                    addTourTextDestination.get(),
+                    addTourTextType.get(),
+                    addTourTextDistance.get(),
+                    addTourTextTime.get(),
+                    addTourTextInformation.get()
+            );
+            try {
+                clearInputFields();
+            }catch (IllegalAccessException e){
+                System.out.println(e);
+            }
+            publisher.publish(Event.TOUR_UPDATED, "Tour updated");
+            editMode = false;
+        });
 
-        //TODO fillInElements from entity Tour into TabView elements
+        publisher.subscribe(Event.TOUR_SELECTED, message -> {
+            System.out.println("Received tour selected: " + message);
+            fillInElements(tourService.getTourWithName());
+            setReadOnly(true);
+        });
+
+// TODO check edit mode if remove is pressed while in edit mode
+        publisher.subscribe(Event.TOUR_UNSELECTED, message -> {
+            System.out.println("Received tour unselected: " + message);
+            try {
+                clearInputFields();
+            }catch (IllegalAccessException e){
+                System.out.println(e);
+            }
+            setReadOnly(false);
+        });
+
         publisher.subscribe(Event.EDIT_TOUR, message -> {
             System.out.println("Received message: " + message);
             fillInElements(tourService.getTourWithName());
+            setReadOnly(false);
+            editMode = true;
+            publisher.publish(Event.DISABLE_EDIT_BUTTON, "Edit button disabled");
+            publisher.publish(Event.DISABLE_REMOVE_BUTTON, "Remove button enabled");
+        });
+
+        publisher.subscribe(Event.LIST_UPDATED, message -> {
+            System.out.println("Received message: " + message);
+            try {
+                clearInputFields();
+            }catch (IllegalAccessException e){
+                System.out.println(e);
+            }
+            setReadOnly(false);
         });
 
     }
@@ -240,6 +312,70 @@ public class tabViewModel {
         return addTourTextInformation;
     }
 
+    public boolean isReadOnlyTextName() {
+        return readOnlyTextName.get();
+    }
+
+    public BooleanProperty readOnlyTextNameProperty() {
+        return readOnlyTextName;
+    }
+
+    public boolean isReadOnlyTextDescription() {
+        return readOnlyTextDescription.get();
+    }
+
+    public BooleanProperty readOnlyTextDescriptionProperty() {
+        return readOnlyTextDescription;
+    }
+
+    public boolean isReadOnlyTextStart() {
+        return readOnlyTextStart.get();
+    }
+
+    public BooleanProperty readOnlyTextStartProperty() {
+        return readOnlyTextStart;
+    }
+
+    public boolean isReadOnlyTextDestination() {
+        return readOnlyTextDestination.get();
+    }
+
+    public BooleanProperty readOnlyTextDestinationProperty() {
+        return readOnlyTextDestination;
+    }
+
+    public boolean isReadOnlyTextType() {
+        return readOnlyTextType.get();
+    }
+
+    public BooleanProperty readOnlyTextTypeProperty() {
+        return readOnlyTextType;
+    }
+
+    public boolean isReadOnlyTextDistance() {
+        return readOnlyTextDistance.get();
+    }
+
+    public BooleanProperty readOnlyTextDistanceProperty() {
+        return readOnlyTextDistance;
+    }
+
+    public boolean isReadOnlyTextTime() {
+        return readOnlyTextTime.get();
+    }
+
+    public BooleanProperty readOnlyTextTimeProperty() {
+        return readOnlyTextTime;
+    }
+
+    public boolean isReadOnlyTextInformation() {
+        return readOnlyTextInformation.get();
+    }
+
+    public BooleanProperty readOnlyTextInformationProperty() {
+        return readOnlyTextInformation;
+    }
+
     public void validateInputs(){
         publisher.publish(Event.DISABLE_ADD_BUTTON, "Add Button disabled.");
 
@@ -282,7 +418,11 @@ public class tabViewModel {
         System.out.println(counter);
 
         if(counter == 0) {
-            publisher.publish(Event.ENABLE_ADD_BUTTON, "Add button enabled.");
+            if(editMode){
+                publisher.publish(Event.DISABLE_ADD_BUTTON, "Add Button disabled.");
+            }else{
+                publisher.publish(Event.ENABLE_ADD_BUTTON, "Add button enabled.");
+            }
         }
     }
 
@@ -294,5 +434,15 @@ public class tabViewModel {
         return input.matches("[0-9]+");
     }
 
+    private void setReadOnly(boolean value){
+        readOnlyTextName.set(value);
+        readOnlyTextDescription.set(value);
+        readOnlyTextStart.set(value);
+        readOnlyTextDestination.set(value);
+        readOnlyTextType.set(value);
+        readOnlyTextDistance.set(value);
+        readOnlyTextTime.set(value);
+        readOnlyTextInformation.set(value);
+    }
 
 }

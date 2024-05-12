@@ -32,10 +32,11 @@ public class tabView implements Initializable {
     private TextField viewAddTourTextTime;
     @FXML
     private TextField viewAddTourTextInformation;
-
-
     @FXML
-    private ImageView imageView;
+    private ImageView picturesView;
+    @FXML
+    private ImageView mapView;
+
 
     public tabView(tabViewModel viewModel) {
         this.viewModel = viewModel;
@@ -61,7 +62,9 @@ public class tabView implements Initializable {
         this.viewAddTourTextTime.disableProperty().bind(viewModel.readOnlyTextTimeProperty());
         this.viewAddTourTextInformation.disableProperty().bind(viewModel.readOnlyTextInformationProperty());
 
-        this.imageView.imageProperty().bindBidirectional(viewModel.image);
+        this.picturesView.imageProperty().bindBidirectional(viewModel.pictures);
+        this.mapView.imageProperty().bindBidirectional(viewModel.map);
+
 
     }
 }

@@ -16,7 +16,8 @@ public class tabViewModel {
     private final Publisher publisher;
     private final TourService tourService;
 
-    public Property<Image> image = new SimpleObjectProperty<>();
+    public Property<Image> pictures = new SimpleObjectProperty<>();
+    public Property<Image> map = new SimpleObjectProperty<>();
 
     private List<Event> eventList;
 
@@ -47,10 +48,9 @@ public class tabViewModel {
         this.tourService = tourService;
         this.eventList = new ArrayList<>();
 
-        String imagePath = "/org/shayvin/tourplanner/img/map.png";
-        Image currentImage = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
-        this.image.setValue(currentImage);
-
+        String mapPath = "/org/shayvin/tourplanner/img/street-map.png";
+        Image mapImage = new Image(Objects.requireNonNull(getClass().getResource(mapPath)).toExternalForm());
+        this.map.setValue(mapImage);
 
         this.addTourTextName.addListener(
                 observable -> {
@@ -227,6 +227,7 @@ public class tabViewModel {
                 }
             }
         }
+        this.pictures.setValue(null);
 
     }
 
@@ -244,7 +245,12 @@ public class tabViewModel {
         addTourTextType.set(tourDetails.get(4));
         addTourTextDistance.set(tourDetails.get(5));
         addTourTextTime.set(tourDetails.get(6));
-        addTourTextInformation.set(tourDetails.getLast());
+        addTourTextInformation.set(tourDetails.get(7));
+
+        String imagePath = tourDetails.get(8);
+        Image currentImage = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
+        this.pictures.setValue(currentImage);
+
         System.out.println("End of filling input fields");
     }
 

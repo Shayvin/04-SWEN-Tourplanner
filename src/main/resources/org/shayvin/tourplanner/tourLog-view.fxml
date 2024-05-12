@@ -1,13 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
 
-<ListView xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.shayvin.tourplanner.view.tourLogView">
-
-</ListView>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.shayvin.tourplanner.view.tourLogView">
+    <center>
+        <TableView fx:id="tableView" editable="true">
+            <columns>
+                <TableColumn text="Date" fx:id="dateColumn">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="date"/>
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn"/>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn text="Duration" fx:id="durationColumn">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="time"/>
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn"/>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn text="Distance" fx:id="distanceColumn">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="distance"/>
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn"/>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn text="Comment" fx:id="commentColumn">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="comment"/>
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn"/>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn text="Difficulty" fx:id="difficultyColumn">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="difficulty"/>
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn"/>
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn text="Rating" fx:id="ratingColumn">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="rating"/>
+                    </cellValueFactory>
+                    <cellFactory>
+                        <TextFieldTableCell fx:factory="forTableColumn"/>
+                    </cellFactory>
+                </TableColumn>
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

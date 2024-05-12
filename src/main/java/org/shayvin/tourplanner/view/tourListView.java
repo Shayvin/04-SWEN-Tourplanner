@@ -28,7 +28,7 @@ public class tourListView implements Initializable {
         this.tourList.setItems(tourListViewModel.getTourList());
         this.tourListViewModel.selectedTourIndexProperty().bind(tourList.getSelectionModel().selectedIndexProperty());
 
-
+        // unselect tour if mouse click is registered in list without an element underneath
         tourList.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
             if (!(event.getTarget() instanceof ListCell<?>)) {
                 tourList.getSelectionModel().clearSelection();

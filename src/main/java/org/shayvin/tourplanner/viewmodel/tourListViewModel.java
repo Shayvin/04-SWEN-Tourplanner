@@ -50,11 +50,13 @@ public class tourListViewModel {
         publisher.publish(Event.TOUR_UNSELECTED, "Unselect tour button clicked");
     }
 
+    // refresh tourList
     private void updateTourList(String message){
         tourList.setAll(tourService.updateFullList());
         publisher.publish(Event.LIST_UPDATED, "Updated TourList");
     }
 
+    // check which tour is selected and set it in the tourService variable
     public void selectTourList(){
         if(selectedTourIndex.get() == -1){
             return;
@@ -69,6 +71,7 @@ public class tourListViewModel {
         return tourList;
     }
 
+    // get index of selected tour
     public IntegerProperty selectedTourIndexProperty() {
         System.out.println("Index: " + selectedTourIndex);
         return selectedTourIndex;

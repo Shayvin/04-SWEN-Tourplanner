@@ -18,6 +18,7 @@ public class TourService {
         this.tourRepository = tourRepository;
     }
 
+    // adds tour into repository if one with the same tourName doesn't exist
     public void add(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation) {
         Optional<Tour> tour = tourRepository.findByTourName(tourName);
 
@@ -25,13 +26,16 @@ public class TourService {
             return;
         }
 
+        // set image for current tour
         //TODO rework this: let user upload pictures and add those to the repository
         String imagePath = getRandomPicture();
 
         tourRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration, tourInformation, imagePath));
     }
 
+    // checks if values are different to current tour and refreshes them, saves it afterwards in db
     public void updateTour(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation){
+        // removes current entry -> will be reworked as soon as there are IDs
         removeTourFromRepository(currentSelectedTourName);
 
         if(!currentSelectedTour.getTourName().equals(tourName)) {
@@ -62,11 +66,12 @@ public class TourService {
         tourRepository.save(currentSelectedTour);
     }
 
-
+    // update tourList
     public List<String> updateFullList(){
         return tourRepository.findAll().stream().map(Tour::getTourName).toList();
     }
 
+    // get tour from repo with the tourName given
     public List<String> getTourWithName() {
         Optional<Tour> tour = tourRepository.findByTourName(currentSelectedTourName);
         List<String> tourDetails = new ArrayList<>();
@@ -104,6 +109,7 @@ public class TourService {
         tourRepository.removeTour(tourToRemove);
     }
 
+    // current randomizer to set random picture for each route
     private String getRandomPicture(){
         List<String> maps = new ArrayList<>();
         maps.add("/org/shayvin/tourplanner/img/map-picture.png");

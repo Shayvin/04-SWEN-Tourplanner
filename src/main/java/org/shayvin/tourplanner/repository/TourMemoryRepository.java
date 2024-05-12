@@ -14,12 +14,14 @@ public class TourMemoryRepository implements TourRepository{
         tours = new ArrayList<>();
     }
 
+    // returns all tours in repository
     @Override
     public List<Tour> findAll() {
         System.out.println("In memory findAll!");
         return tours;
     }
 
+    // adds new tour to repository
     @Override
     public Tour save(Tour entity) {
         System.out.println("In memory save!");
@@ -29,6 +31,7 @@ public class TourMemoryRepository implements TourRepository{
         return entity;
     }
 
+    // returns one tour if it exists in the repository
     @Override
     public Optional<Tour> findByTourName(String tourToFind) {
         for (Tour tour : tours) {
@@ -40,6 +43,7 @@ public class TourMemoryRepository implements TourRepository{
         return Optional.empty();
     }
 
+    // delete tour from repository
     @Override
     public void removeTour(String tourToRemove) {
         System.out.println("In memory removeTour!");

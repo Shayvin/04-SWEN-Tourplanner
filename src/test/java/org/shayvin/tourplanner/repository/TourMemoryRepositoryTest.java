@@ -29,6 +29,8 @@ class TourMemoryRepositoryTest {
         tourMemoryRepository.tours = testTours;
     }
 
+    // tests the TourMemoryRepository functions
+
     @Test
     void findAllSuccess() {
         List<Tour> findAll = tourMemoryRepository.findAll();

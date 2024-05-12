@@ -48,59 +48,54 @@ public class tabViewModel {
         this.tourService = tourService;
         this.eventList = new ArrayList<>();
 
+        // set placeholder for map
         String mapPath = "/org/shayvin/tourplanner/img/street-map.png";
         Image mapImage = new Image(Objects.requireNonNull(getClass().getResource(mapPath)).toExternalForm());
         this.map.setValue(mapImage);
 
+        // listeners for textfield inputs
         this.addTourTextName.addListener(
                 observable -> {
                     publisher.publish(Event.TOUR_NAME_ADDED, "TourTextName added");
                     addEventListEntry(Event.TOUR_NAME_ADDED);
                 }
         );
-
         this.addTourTextDescription.addListener(
                 observable -> {
                     publisher.publish(Event.TOUR_DESCRIPTION_ADDED, "TourTextDescription added");
                     addEventListEntry(Event.TOUR_DESCRIPTION_ADDED);
                 }
         );
-
         this.addTourTextStart.addListener(
                 observable -> {
                     publisher.publish(Event.TOUR_START_ADDED, "TourTextStart added");
                     addEventListEntry(Event.TOUR_START_ADDED);
                 }
         );
-
         this.addTourTextDestination.addListener(
                 observable -> {
                     publisher.publish(Event.TOUR_DESTINATION_ADDED, "TourTextDestination added");
                     addEventListEntry(Event.TOUR_DESTINATION_ADDED);
                 }
         );
-
         this.addTourTextType.addListener(
                 observable -> {
                     publisher.publish(Event.TOUR_TYPE_ADDED, "TourTextType added");
                     addEventListEntry(Event.TOUR_TYPE_ADDED);
                 }
         );
-
         this.addTourTextDistance.addListener(
                 observable -> {
                     publisher.publish(Event.TOUR_DISTANCE_ADDED, "TourTextDistance added");
                     addEventListEntry(Event.TOUR_DISTANCE_ADDED);
                 }
         );
-
         this.addTourTextTime.addListener(
                 observable -> {
                     publisher.publish(Event.TOUR_TIME_ADDED, "TourTextTime added");
                     addEventListEntry(Event.TOUR_TIME_ADDED);
                 }
         );
-
         this.addTourTextInformation.addListener(
                 observable -> {
                     publisher.publish(Event.TOUR_INFORMATION_ADDED, "TourTextInformation added");
@@ -119,7 +114,7 @@ public class tabViewModel {
         this.publisher.subscribe(Event.TOUR_INFORMATION_ADDED, message -> System.out.println("Received message: " + message));
         this.publisher.subscribe(Event.ENABLE_ADD_BUTTON, message -> System.out.println("Received message: " + message));
 
-        //add data to repo when ADD_TOUR is received
+        // add data to repo when ADD_TOUR is received
         publisher.subscribe(Event.ADD_TOUR, message -> {
             System.out.println("Received message: " + message);
             tourService.add(
@@ -140,7 +135,7 @@ public class tabViewModel {
             }
         });
 
-        //update data in repo when SAVE_EDITED_TOUR is received
+        // update data in repo when SAVE_EDITED_TOUR is received
         publisher.subscribe(Event.SAVE_EDITED_TOUR, message -> {
             System.out.println("Received message: " + message);
             tourService.updateTour(
@@ -162,13 +157,14 @@ public class tabViewModel {
             editMode = false;
         });
 
+        // get data from repo when TOUR_SELECTED is received
         publisher.subscribe(Event.TOUR_SELECTED, message -> {
             System.out.println("Received tour selected: " + message);
             fillInElements(tourService.getTourWithName());
             setReadOnly(true);
         });
 
-// TODO check edit mode if remove is pressed while in edit mode
+        // clear data from textfields when TOUR_UNSELECTED is received
         publisher.subscribe(Event.TOUR_UNSELECTED, message -> {
             System.out.println("Received tour unselected: " + message);
             try {
@@ -179,6 +175,7 @@ public class tabViewModel {
             setReadOnly(false);
         });
 
+        // get route info and add to textfields, make it editable
         publisher.subscribe(Event.EDIT_TOUR, message -> {
             System.out.println("Received message: " + message);
             fillInElements(tourService.getTourWithName());
@@ -188,6 +185,7 @@ public class tabViewModel {
             publisher.publish(Event.DISABLE_REMOVE_BUTTON, "Remove button enabled");
         });
 
+        // on LIST_UPDATED clear textfields and set to not editable
         publisher.subscribe(Event.LIST_UPDATED, message -> {
             System.out.println("Received message: " + message);
             try {
@@ -200,6 +198,7 @@ public class tabViewModel {
 
     }
 
+    // add event to event list
     public void addEventListEntry(Event event){
         System.out.println("Adding event list entry: " + event);
         if(!eventList.contains(event)){
@@ -211,7 +210,7 @@ public class tabViewModel {
         }
     }
 
-    // iterate through all StringProperty elements and sets them to an empty string
+    // iterate through all StringProperty elements and sets them to an empty string, clear pictures tab
     private void clearInputFields() throws IllegalAccessException {
         Class<?> myClass = getClass();
         Field[] fields = myClass.getDeclaredFields();
@@ -231,7 +230,7 @@ public class tabViewModel {
 
     }
 
-    //ugly af but it adds the elements from the tour back to the tabView
+    // ugly af but it adds the elements from the tour back to the tabView
     private void fillInElements(List<String> tourDetails){
         if(tourDetails == null){
             System.out.println("fillInElements called with null tour details?!?!");
@@ -382,6 +381,7 @@ public class tabViewModel {
         return readOnlyTextInformation;
     }
 
+    // checks if the input fields are valid
     public void validateInputs(){
         publisher.publish(Event.DISABLE_ADD_BUTTON, "Add Button disabled.");
 
@@ -440,6 +440,7 @@ public class tabViewModel {
         return input.matches("[0-9]+");
     }
 
+    // sets the input fields to read only or enables them
     private void setReadOnly(boolean value){
         readOnlyTextName.set(value);
         readOnlyTextDescription.set(value);

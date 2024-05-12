@@ -9,7 +9,8 @@
 
 <ListView xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.shayvin.tourplanner.view.tourListView">
+            fx:controller="org.shayvin.tourplanner.view.tourListView"
+            fx:id="tourList">
 
 
 

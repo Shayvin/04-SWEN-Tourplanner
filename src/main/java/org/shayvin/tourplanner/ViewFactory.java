@@ -1,12 +1,13 @@
 package org.shayvin.tourplanner;
 
 import org.shayvin.tourplanner.event.Publisher;
-import org.shayvin.tourplanner.view.mainView;
-import org.shayvin.tourplanner.view.routeButtonView;
-import org.shayvin.tourplanner.view.tabView;
-import org.shayvin.tourplanner.viewmodel.routeButtonViewModel;
+import org.shayvin.tourplanner.repository.TourMemoryRepository;
+import org.shayvin.tourplanner.repository.TourRepository;
+import org.shayvin.tourplanner.service.TourService;
+import org.shayvin.tourplanner.view.*;
+import org.shayvin.tourplanner.viewmodel.routeButtonsViewModel;
 import org.shayvin.tourplanner.viewmodel.tabViewModel;
-import org.shayvin.tourplanner.view.menuBarView;
+import org.shayvin.tourplanner.viewmodel.tourListViewModel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -17,15 +18,24 @@ public class ViewFactory {
 
     private final Publisher publisher;
 
-    private final tabViewModel tabViewModel;
+    private final TourRepository tourRepository;
 
-    private final routeButtonViewModel routeViewModel;
+    private final TourService tourService;
+
+    private final tabViewModel tabViewModel;
+    private final routeButtonsViewModel routeButtonsViewModel;
+    private final tourListViewModel tourListViewModel;
 
     private ViewFactory() {
         publisher = new Publisher();
 
-        tabViewModel = new tabViewModel(publisher);
-        routeViewModel = new routeButtonViewModel(publisher, tabViewModel);
+        tourRepository = new TourMemoryRepository();
+        tourService = new TourService(tourRepository);
+
+        tabViewModel = new tabViewModel(publisher, tourService);
+        routeButtonsViewModel = new routeButtonsViewModel(publisher);
+        tourListViewModel = new tourListViewModel(publisher, tourService);
+
     }
 
     public static ViewFactory getInstance() {
@@ -38,7 +48,7 @@ public class ViewFactory {
 
     public Object create(Class<?> viewClass) {
         if(viewClass == tabView.class) {
-            return new tabView(tabViewModel, publisher);
+            return new tabView(tabViewModel);
         }
 
         if(viewClass == menuBarView.class) {
@@ -49,10 +59,15 @@ public class ViewFactory {
             return new mainView(publisher);
         }
 
-        if(viewClass == routeButtonView.class) {
-            return new routeButtonView(routeViewModel, publisher);
+        if(viewClass == routeButtonsView.class) {
+            return new routeButtonsView(routeButtonsViewModel);
         }
 
+        if(viewClass == tourListView.class) {
+            return new tourListView(tourListViewModel);
+        }
+
+        //throw new IllegalArgumentException("Unknown view class: " + viewClass);
         return null;
     }
 }

@@ -1,20 +1,45 @@
 package org.shayvin.tourplanner.view;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import org.shayvin.tourplanner.event.Publisher;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseEvent;
+import org.shayvin.tourplanner.viewmodel.tourListViewModel;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class tourListView implements Initializable {
 
-    private final Publisher publisher;
+    private final tourListViewModel tourListViewModel;
 
-    public tourListView(Publisher publisher) {
-        this.publisher = publisher;
+    @FXML
+    private ListView<String> tourList;
+
+
+    public tourListView(tourListViewModel tourListViewModel) {
+        this.tourListViewModel = tourListViewModel;
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.tourList.setItems(tourListViewModel.getTourList());
+        this.tourListViewModel.selectedTourIndexProperty().bind(tourList.getSelectionModel().selectedIndexProperty());
+
+
+        tourList.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+            if (!(event.getTarget() instanceof ListCell<?>)) {
+                tourList.getSelectionModel().clearSelection();
+            } else {
+                ListCell<?> cell = (ListCell<?>) event.getTarget();
+                if (cell.isEmpty()) {
+                    tourList.getSelectionModel().clearSelection();
+                    tourListViewModel.unselectTour();
+                }
+            }
+        });
+
     }
 }

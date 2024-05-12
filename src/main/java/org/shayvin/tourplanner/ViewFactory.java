@@ -1,8 +1,10 @@
 package org.shayvin.tourplanner;
 
 import org.shayvin.tourplanner.event.Publisher;
+import org.shayvin.tourplanner.repository.TourLogRepository;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
+import org.shayvin.tourplanner.service.TourLogService;
 import org.shayvin.tourplanner.service.TourService;
 import org.shayvin.tourplanner.view.*;
 import org.shayvin.tourplanner.viewmodel.routeButtonsViewModel;
@@ -21,8 +23,10 @@ public class ViewFactory {
     private final Publisher publisher;
 
     private final TourRepository tourRepository;
+    private final TourLogRepository tourLogRepository;
 
     private final TourService tourService;
+    private final TourLogService tourLogService;
 
     private final tabViewModel tabViewModel;
     private final routeButtonsViewModel routeButtonsViewModel;
@@ -31,15 +35,17 @@ public class ViewFactory {
     private final tableButtonViewModel tableButtonViewModel;
 
     private ViewFactory() {
+        tourLogRepository = new TourLogRepository();
         publisher = new Publisher();
 
         tourRepository = new TourMemoryRepository();
         tourService = new TourService(tourRepository);
+        tourLogService = new TourLogService(tourLogRepository, tourService);
 
         tabViewModel = new tabViewModel(publisher, tourService);
         routeButtonsViewModel = new routeButtonsViewModel(publisher);
         tourListViewModel = new tourListViewModel(publisher, tourService);
-        tourLogViewModel = new tourLogViewModel(publisher);
+        tourLogViewModel = new tourLogViewModel(publisher, tourLogService);
         tableButtonViewModel = new tableButtonViewModel(publisher);
 
     }

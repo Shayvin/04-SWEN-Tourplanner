@@ -60,10 +60,9 @@ public class tourListViewModel {
             return;
         }
 
-        TourService.setCurrentSelectedTourName(getTourList().get(selectedTourIndex.get()));
+        tourService.setCurrentSelectedTourName(getTourList().get(selectedTourIndex.get()));
         publisher.publish(Event.TOUR_SELECTED, getTourList().get(selectedTourIndex.get()));
         publisher.publish(Event.DISABLE_ADD_BUTTON, "Disable add button");
-
     }
 
     public ObservableList<String> getTourList() {

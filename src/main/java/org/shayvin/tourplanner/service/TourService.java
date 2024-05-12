@@ -10,7 +10,7 @@ import java.util.Optional;
 public class TourService {
     private final TourRepository tourRepository;
 
-    public static String currentSelectedTourName;
+    public String currentSelectedTourName;
     public static Tour currentSelectedTour;
 
     public TourService(TourRepository tourRepository) {
@@ -89,7 +89,7 @@ public class TourService {
         return currentSelectedTourName;
     }
 
-    public static void setCurrentSelectedTourName(String tourName) {
+    public void setCurrentSelectedTourName(String tourName) {
         System.out.println("in setter");
         currentSelectedTourName = tourName;
         System.out.println("TourName: " + currentSelectedTourName);

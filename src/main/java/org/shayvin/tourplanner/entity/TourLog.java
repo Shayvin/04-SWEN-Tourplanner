@@ -1,8 +1,7 @@
 package org.shayvin.tourplanner.entity;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
-
+import javafx.collections.ListChangeListener;
 
 public class TourLog {
     private final SimpleStringProperty date;
@@ -80,4 +79,5 @@ public class TourLog {
     public SimpleStringProperty ratingProperty() {
         return rating;
     }
+
 }

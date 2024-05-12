@@ -6,6 +6,7 @@ import org.shayvin.tourplanner.repository.TourRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 public class TourService {
     private final TourRepository tourRepository;
@@ -24,7 +25,10 @@ public class TourService {
             return;
         }
 
-        tourRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration, tourInformation));
+        //TODO rework this: let user upload pictures and add those to the repository
+        String imagePath = getRandomPicture();
+
+        tourRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration, tourInformation, imagePath));
     }
 
     public void updateTour(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation){
@@ -78,6 +82,7 @@ public class TourService {
             tourDetails.add(currentSelectedTour.getTourDistance());
             tourDetails.add(currentSelectedTour.getTourDuration());
             tourDetails.add(currentSelectedTour.getTourInformation());
+            tourDetails.add(currentSelectedTour.getTourImage());
 
             return tourDetails;
         }
@@ -97,5 +102,16 @@ public class TourService {
 
     public void removeTourFromRepository(String tourToRemove) {
         tourRepository.removeTour(tourToRemove);
+    }
+
+    private String getRandomPicture(){
+        List<String> maps = new ArrayList<>();
+        maps.add("/org/shayvin/tourplanner/img/map-picture.png");
+        maps.add("/org/shayvin/tourplanner/img/location.png");
+        maps.add("/org/shayvin/tourplanner/img/gps-tracker.png");
+        maps.add("/org/shayvin/tourplanner/img/global-mobility.png");
+
+        Random rand = new Random();
+        return maps.get(rand.nextInt(maps.size()));
     }
 }

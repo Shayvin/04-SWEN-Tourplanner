@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public class TourMemoryRepository implements TourRepository{
 
-    private final List<Tour> tours;
+    List<Tour> tours;
 
     public TourMemoryRepository() {
         tours = new ArrayList<>();

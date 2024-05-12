@@ -31,12 +31,13 @@
             <Tab text="Route">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    <ImageView fx:id="imageView"/>
+                    <ImageView fx:id="mapView" />
                 </content>
             </Tab>
-            <Tab text="Misc">
+            <Tab text="Pictures">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <ImageView fx:id="picturesView"/>
                 </content>
             </Tab>
         </tabs>

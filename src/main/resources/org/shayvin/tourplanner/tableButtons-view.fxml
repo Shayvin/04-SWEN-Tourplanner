@@ -11,6 +11,7 @@
             fx:controller="org.shayvin.tourplanner.view.tableButtonView">
 
     <Label text="Tour Logs" />
-    <Button mnemonicParsing="false" text="+" fx:id="tourLogAddButton" onAction="#onAdd"/>
-    <Button mnemonicParsing="false" text="-" fx:id="tourLogDeleteButton" onAction="#onDelete"/>
+    <Button mnemonicParsing="false" text="%addTourButtonTextAdd" fx:id="tourLogAddButton" onAction="#onAdd"/>
+    <Button mnemonicParsing="false" text="%addTourButtonTextDelete" fx:id="tourLogDeleteButton" onAction="#onDelete"/>
+    <Button mnemonicParsing="false" text="%addTourButtonTextEdit" fx:id="tourLogEditButton" onAction="#onEdit"/>
 </HBox>

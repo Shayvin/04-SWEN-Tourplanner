@@ -20,16 +20,35 @@ public class tourLogViewModel {
 
     private final TourLogService tourLogService;
 
+    private ObservableList<TourLog> tourLogs
+            = FXCollections.observableArrayList();
+
     public tourLogViewModel(Publisher publisher, TourLogService tourLogService) {
         this.publisher = publisher;
         this.tourLogService = tourLogService;
 
-        publisher.subscribe(Event.ADD_TOUR_LOG, (data) -> {
-            tourLogService.addTourLogData(tourLogService.currentSelectedTourName, new TourLog("01/02/1234", "1", "2", "Sample", "Sample", "3"));
-        });
+        this.publisher.subscribe(Event.TOURLOG_LIST_UPDATED, this::updateTourLogs);
+
+        this.publisher.subscribe(Event.TOUR_SELECTED, this::updateTourLogs);
 
         publisher.subscribe(Event.DELETE_TOUR_LOG, (data) -> {
             tourLogService.removeTourLogFromRepository(tourLogService.currentSelectedTourName, selectedTourLog);
+        });
+
+        publisher.subscribe(Event.SUBMIT_EDIT_TOUR_LOG, (data) -> {
+            tourLogService.editTourLogData(tourLogService.currentSelectedTourName, tourLogService.newTourLog, selectedTourLog);
+        });
+
+        publisher.subscribe(Event.SELECT_TOUR_LOG, (data) -> {
+            publisher.publish(Event.DELETE_TOUR_LOG_BUTTON_VISIBILITY, String.valueOf(false));
+        });
+
+        publisher.subscribe(Event.TOUR_SELECTED, (data) -> {
+            publisher.publish(Event.ADD_TOUR_LOG_BUTTON_VISIBILITY, String.valueOf(false));
+        });
+
+        publisher.subscribe(Event.TOUR_UNSELECTED, (data) -> {
+            publisher.publish(Event.ADD_TOUR_LOG_BUTTON_VISIBILITY, String.valueOf(false));
         });
 
         publisher.subscribe(Event.SELECT_TOUR_LOG, (data) -> {
@@ -38,7 +57,7 @@ public class tourLogViewModel {
     }
 
     public ObservableList<TourLog> getTourLogs() {
-        return tourLogService.getTourLogsByName();
+        return tourLogs;
     }
 
     public void setSelectedTourLog(TourLog selectedTourLog) {
@@ -46,6 +65,11 @@ public class tourLogViewModel {
     }
 
     public void selectedTourEvent(TourLog selectedTourLog) {
+        tourLogService.setSelectedTourLog(selectedTourLog);
         publisher.publish(Event.SELECT_TOUR_LOG, "Selected Tour Log: " + selectedTourLog);
+    }
+
+    private void updateTourLogs(String message) {
+        tourLogs.setAll(tourLogService.getTourLogsByName());
     }
 }

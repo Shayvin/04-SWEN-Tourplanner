@@ -1,5 +1,6 @@
 package org.shayvin.tourplanner.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,10 +23,15 @@ public class tableButtonView implements Initializable {
     @FXML
     private Button tourLogDeleteButton;
 
+    @FXML
+    private Button tourLogEditButton;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.tourLogAddButton.disableProperty().bind(viewModel.TourLogAddButtonProperty());
         this.tourLogDeleteButton.disableProperty().bind(viewModel.TourLogDeleteButtonProperty());
+        this.tourLogEditButton.disableProperty().bind(viewModel.TourLogDeleteButtonProperty());
+
     }
 
     public tableButtonView(Publisher publisher, tableButtonViewModel tableButtonViewModel) {
@@ -39,5 +45,9 @@ public class tableButtonView implements Initializable {
 
     public void onDelete() {
         this.viewModel.deleteTourLogEvent();
+    }
+
+    public void onEdit() {
+        this.viewModel.editTourLogEvent();
     }
 }

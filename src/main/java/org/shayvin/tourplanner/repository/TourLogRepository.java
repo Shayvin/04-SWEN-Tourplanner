@@ -27,4 +27,11 @@ public class TourLogRepository {
         tourLogs.remove(tour);
         tours.put(currentSelectedTourName, tourLogs);
     }
+
+    public void editTourLog(String currentSelectedTourName, TourLog updatedTourLog, TourLog oldTourLog) {
+        ObservableList<TourLog> tourLogs = tours.getOrDefault(currentSelectedTourName, FXCollections.emptyObservableList());
+        tourLogs.remove(oldTourLog);
+        tourLogs.add(updatedTourLog);
+        tours.put(currentSelectedTourName, tourLogs);
+    }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.shayvin.tourplanner.view.TourLogPopupView" spacing="10" alignment="center" style="-fx-padding: 20;">
+    <VBox spacing="10" alignment="center" style="-fx-padding: 10; -fx-border-color: gray; -fx-border-width: 1; -fx-border-radius: 5;">
+        <HBox spacing="10" alignment="center">
+            <Label text="Date:"/>
+            <TextField fx:id="dateTextField"/>
+        </HBox>
+        <HBox spacing="10" alignment="center">
+            <Label text="Duration:"/>
+            <TextField fx:id="durationTextField"/>
+        </HBox>
+        <HBox spacing="10" alignment="center">
+            <Label text="Distance:"/>
+            <TextField fx:id="distanceTextField"/>
+        </HBox>
+        <HBox spacing="10" alignment="center">
+            <Label text="Comment:"/>
+            <TextField fx:id="commentTextArea"/>
+        </HBox>
+        <HBox spacing="10" alignment="center">
+            <Label text="Difficulty:"/>
+            <TextField fx:id="difficultyTextField"/>
+        </HBox>
+        <HBox spacing="10" alignment="center">
+            <Label text="Rating:"/>
+            <RadioButton fx:id="star1RadioButton" text="★"/>
+            <RadioButton fx:id="star2RadioButton" text="★★"/>
+            <RadioButton fx:id="star3RadioButton" text="★★★"/>
+            <RadioButton fx:id="star4RadioButton" text="★★★★"/>
+            <RadioButton fx:id="star5RadioButton" text="★★★★★"/>
+        </HBox>
+        <Button fx:id="closeButton" text="Close" onAction="#onClose"/>
+        <Button fx:id="submitButton" text="Submit" onAction="#onSubmit"/>
+    </VBox>
+</VBox>

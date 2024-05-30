@@ -5,20 +5,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import org.shayvin.tourplanner.viewmodel.tourListViewModel;
+import org.shayvin.tourplanner.viewmodel.TourListViewModel;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class tourListView implements Initializable {
+public class TourListView implements Initializable {
 
-    private final tourListViewModel tourListViewModel;
+    private final TourListViewModel tourListViewModel;
 
     @FXML
     private ListView<String> tourList;
 
 
-    public tourListView(tourListViewModel tourListViewModel) {
+    public TourListView(TourListViewModel tourListViewModel) {
         this.tourListViewModel = tourListViewModel;
     }
 

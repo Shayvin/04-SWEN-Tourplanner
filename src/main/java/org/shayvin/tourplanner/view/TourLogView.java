@@ -1,33 +1,19 @@
 package org.shayvin.tourplanner.view;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseEvent;
-import javafx.util.StringConverter;
 import org.shayvin.tourplanner.entity.TourLog;
-import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
-import org.shayvin.tourplanner.viewmodel.tableButtonViewModel;
-import org.shayvin.tourplanner.viewmodel.tourLogViewModel;
+import org.shayvin.tourplanner.viewmodel.TableButtonViewModel;
+import org.shayvin.tourplanner.viewmodel.TourLogViewModel;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.util.Optional;
+public class TourLogView {
 
-public class tourLogView {
-
-    private final tourLogViewModel viewModel;
-    private final tableButtonViewModel tableButtonViewModel;
+    private final TourLogViewModel viewModel;
+    private final TableButtonViewModel tableButtonViewModel;
     private final Publisher publisher;
 
     @FXML
@@ -51,7 +37,7 @@ public class tourLogView {
     @FXML
     private TableColumn<TourLog, String> ratingColumn;
 
-    public tourLogView(tourLogViewModel tourLogViewModel, tableButtonViewModel tourButtonViewModel, Publisher publisher) {
+    public TourLogView(TourLogViewModel tourLogViewModel, TableButtonViewModel tourButtonViewModel, Publisher publisher) {
         this.viewModel = tourLogViewModel;
         this.tableButtonViewModel = tourButtonViewModel;
         this.publisher = publisher;

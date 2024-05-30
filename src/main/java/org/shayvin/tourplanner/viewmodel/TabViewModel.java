@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class tabViewModel {
+public class TabViewModel {
 
     private final Publisher publisher;
     private final TourService tourService;
@@ -43,7 +43,7 @@ public class tabViewModel {
 
 
 
-    public tabViewModel(Publisher publisher, TourService tourService) {
+    public TabViewModel(Publisher publisher, TourService tourService) {
         this.publisher = publisher;
         this.tourService = tourService;
         this.eventList = new ArrayList<>();

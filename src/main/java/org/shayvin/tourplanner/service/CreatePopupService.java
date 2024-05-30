@@ -5,9 +5,6 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.shayvin.tourplanner.FXMLDependencyInjector;
-import org.shayvin.tourplanner.entity.TourLog;
-import org.shayvin.tourplanner.viewmodel.TourLogPopupViewModel;
-import org.shayvin.tourplanner.viewmodel.tourLogViewModel;
 
 import java.util.Locale;
 

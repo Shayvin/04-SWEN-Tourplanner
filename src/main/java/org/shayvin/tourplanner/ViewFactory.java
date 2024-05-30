@@ -10,9 +10,6 @@ import org.shayvin.tourplanner.service.TourService;
 import org.shayvin.tourplanner.view.*;
 import org.shayvin.tourplanner.viewmodel.*;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 public class ViewFactory {
 
     private static ViewFactory instance;
@@ -26,11 +23,11 @@ public class ViewFactory {
     private final TourLogService tourLogService;
     private final CreatePopupService createPopupService;
 
-    private final tabViewModel tabViewModel;
-    private final routeButtonsViewModel routeButtonsViewModel;
-    private final tourListViewModel tourListViewModel;
-    private final tourLogViewModel tourLogViewModel;
-    private final tableButtonViewModel tableButtonViewModel;
+    private final TabViewModel tabViewModel;
+    private final RouteButtonsViewModel routeButtonsViewModel;
+    private final TourListViewModel tourListViewModel;
+    private final TourLogViewModel tourLogViewModel;
+    private final TableButtonViewModel tableButtonViewModel;
     private final TourLogPopupViewModel TourLogPopupViewModel;
 
     private ViewFactory() {
@@ -42,11 +39,11 @@ public class ViewFactory {
         tourLogService = new TourLogService(tourLogRepository, tourService);
         createPopupService = new CreatePopupService();
 
-        tabViewModel = new tabViewModel(publisher, tourService);
-        routeButtonsViewModel = new routeButtonsViewModel(publisher);
-        tourListViewModel = new tourListViewModel(publisher, tourService);
-        tourLogViewModel = new tourLogViewModel(publisher, tourLogService);
-        tableButtonViewModel = new tableButtonViewModel(publisher);
+        tabViewModel = new TabViewModel(publisher, tourService);
+        routeButtonsViewModel = new RouteButtonsViewModel(publisher);
+        tourListViewModel = new TourListViewModel(publisher, tourService);
+        tourLogViewModel = new TourLogViewModel(publisher, tourLogService);
+        tableButtonViewModel = new TableButtonViewModel(publisher);
         TourLogPopupViewModel = new TourLogPopupViewModel(publisher, tourLogService, createPopupService, tourService);
 
     }
@@ -60,32 +57,32 @@ public class ViewFactory {
     }
 
     public Object create(Class<?> viewClass) {
-        if(viewClass == tabView.class) {
-            return new tabView(tabViewModel);
+        if(viewClass == TabView.class) {
+            return new TabView(tabViewModel);
         }
 
-        if(viewClass == menuBarView.class) {
-            return new menuBarView(publisher);
+        if(viewClass == MenuBarView.class) {
+            return new MenuBarView(publisher);
         }
 
-        if(viewClass == mainView.class) {
-            return new mainView(publisher);
+        if(viewClass == MainView.class) {
+            return new MainView(publisher);
         }
 
-        if(viewClass == routeButtonsView.class) {
-            return new routeButtonsView(routeButtonsViewModel);
+        if(viewClass == RouteButtonsView.class) {
+            return new RouteButtonsView(routeButtonsViewModel);
         }
 
-        if(viewClass == tourListView.class) {
-            return new tourListView(tourListViewModel);
+        if(viewClass == TourListView.class) {
+            return new TourListView(tourListViewModel);
         }
 
-        if(viewClass == tourLogView.class) {
-            return new tourLogView(tourLogViewModel, tableButtonViewModel, publisher);
+        if(viewClass == TourLogView.class) {
+            return new TourLogView(tourLogViewModel, tableButtonViewModel, publisher);
         }
 
-        if(viewClass == tableButtonView.class) {
-            return new tableButtonView(publisher, tableButtonViewModel);
+        if(viewClass == TableButtonView.class) {
+            return new TableButtonView(publisher, tableButtonViewModel);
         }
 
         if(viewClass == TourLogPopupView.class) {

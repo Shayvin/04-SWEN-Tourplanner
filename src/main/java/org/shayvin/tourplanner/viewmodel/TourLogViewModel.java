@@ -1,9 +1,5 @@
 package org.shayvin.tourplanner.viewmodel;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.shayvin.tourplanner.entity.TourLog;
@@ -12,7 +8,7 @@ import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.service.TourLogService;
 
-public class tourLogViewModel {
+public class TourLogViewModel {
 
     private final Publisher publisher;
 
@@ -23,7 +19,7 @@ public class tourLogViewModel {
     private ObservableList<TourLog> tourLogs
             = FXCollections.observableArrayList();
 
-    public tourLogViewModel(Publisher publisher, TourLogService tourLogService) {
+    public TourLogViewModel(Publisher publisher, TourLogService tourLogService) {
         this.publisher = publisher;
         this.tourLogService = tourLogService;
 

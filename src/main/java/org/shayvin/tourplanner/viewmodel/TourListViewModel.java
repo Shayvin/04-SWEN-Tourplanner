@@ -5,13 +5,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javafx.scene.control.ListCell;
-import javafx.scene.input.MouseEvent;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.service.TourService;
 
-public class tourListViewModel {
+public class TourListViewModel {
     private final Publisher publisher;
 
     private final TourService tourService;
@@ -24,7 +22,7 @@ public class tourListViewModel {
     private String selectedTourName = "";
 
 
-    public tourListViewModel(Publisher publisher, TourService tourService) {
+    public TourListViewModel(Publisher publisher, TourService tourService) {
         this.publisher = publisher;
         this.tourService = tourService;
 

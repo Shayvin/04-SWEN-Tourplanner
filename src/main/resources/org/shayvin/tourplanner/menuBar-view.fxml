@@ -8,7 +8,7 @@
 
 <MenuBar xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.shayvin.tourplanner.view.menuBarView"
+            fx:controller="org.shayvin.tourplanner.view.MenuBarView"
             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0" >
 
         <Menu mnemonicParsing="false" text="File">

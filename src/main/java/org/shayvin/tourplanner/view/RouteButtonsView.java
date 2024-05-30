@@ -3,15 +3,14 @@ package org.shayvin.tourplanner.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import org.shayvin.tourplanner.event.Publisher;
-import org.shayvin.tourplanner.viewmodel.routeButtonsViewModel;
+import org.shayvin.tourplanner.viewmodel.RouteButtonsViewModel;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class routeButtonsView implements Initializable {
+public class RouteButtonsView implements Initializable {
 
-    private final routeButtonsViewModel viewModel;
+    private final RouteButtonsViewModel viewModel;
 
     @FXML
     private Button addButton;
@@ -26,7 +25,7 @@ public class routeButtonsView implements Initializable {
     private Button saveButton;
 
 
-    public routeButtonsView(routeButtonsViewModel viewModel) {
+    public RouteButtonsView(RouteButtonsViewModel viewModel) {
         this.viewModel = viewModel;
 
     }

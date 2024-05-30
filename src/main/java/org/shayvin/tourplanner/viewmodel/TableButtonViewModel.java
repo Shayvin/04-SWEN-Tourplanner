@@ -2,11 +2,10 @@ package org.shayvin.tourplanner.viewmodel;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 
-public class tableButtonViewModel {
+public class TableButtonViewModel {
 
     private final Publisher publisher;
 
@@ -14,7 +13,7 @@ public class tableButtonViewModel {
     private final BooleanProperty tourLogDeleteButton = new SimpleBooleanProperty(true);
     private final BooleanProperty tourLogEditButton = new SimpleBooleanProperty(true);
 
-    public tableButtonViewModel(Publisher publisher) {
+    public TableButtonViewModel(Publisher publisher) {
         this.publisher = publisher;
 
         publisher.subscribe(Event.DELETE_TOUR_LOG_BUTTON_VISIBILITY, (message) -> {

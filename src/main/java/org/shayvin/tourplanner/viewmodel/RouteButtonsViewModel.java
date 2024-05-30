@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 
-public class routeButtonsViewModel {
+public class RouteButtonsViewModel {
 
     private final Publisher publisher;
 
@@ -18,7 +18,7 @@ public class routeButtonsViewModel {
     private final BooleanProperty saveDisabled = new SimpleBooleanProperty(true);
 
 
-    public routeButtonsViewModel(Publisher publisher){
+    public RouteButtonsViewModel(Publisher publisher){
         this.publisher = publisher;
 
         publisher.subscribe(Event.ENABLE_ADD_BUTTON, message -> {

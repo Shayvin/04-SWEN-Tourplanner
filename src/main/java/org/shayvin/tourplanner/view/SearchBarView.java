@@ -6,9 +6,9 @@ import org.shayvin.tourplanner.event.Publisher;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class searchBarView implements Initializable {
+public class SearchBarView implements Initializable {
 
-    public searchBarView(Publisher publisher) {
+    public SearchBarView(Publisher publisher) {
     }
 
     @Override

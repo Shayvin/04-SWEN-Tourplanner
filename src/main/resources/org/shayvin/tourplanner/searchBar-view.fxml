@@ -8,7 +8,7 @@
 
 <HBox xmlns="http://javafx.com/javafx"
                 xmlns:fx="http://javafx.com/fxml"
-                fx:controller="org.shayvin.tourplanner.view.searchBarView"
+                fx:controller="org.shayvin.tourplanner.view.SearchBarView"
                 layoutY="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
 
         <TextField prefHeight="25.0" prefWidth="948.0" HBox.hgrow="ALWAYS" promptText="Search"/>

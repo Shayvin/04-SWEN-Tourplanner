@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.shayvin.tourplanner.view.tourLogView">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.shayvin.tourplanner.view.TourLogView">
     <center>
         <TableView fx:id="tableView" editable="false">
             <columns>

@@ -8,7 +8,7 @@
 
 <HBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.shayvin.tourplanner.view.tableButtonView">
+            fx:controller="org.shayvin.tourplanner.view.TableButtonView">
 
     <Label text="Tour Logs" />
     <Button mnemonicParsing="false" text="%addTourButtonTextAdd" fx:id="tourLogAddButton" onAction="#onAdd"/>

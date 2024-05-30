@@ -3,18 +3,16 @@ package org.shayvin.tourplanner.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.shayvin.tourplanner.viewmodel.tabViewModel;
+import org.shayvin.tourplanner.viewmodel.TabViewModel;
 
 
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class tabView implements Initializable {
+public class TabView implements Initializable {
 
-    private final tabViewModel viewModel;
+    private final TabViewModel viewModel;
 
     @FXML
     public TextField viewAddTourTextName;
@@ -38,7 +36,7 @@ public class tabView implements Initializable {
     private ImageView mapView;
 
 
-    public tabView(tabViewModel viewModel) {
+    public TabView(TabViewModel viewModel) {
         this.viewModel = viewModel;
     }
 

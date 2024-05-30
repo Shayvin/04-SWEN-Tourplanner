@@ -10,7 +10,7 @@
 <?import javafx.scene.image.Image?>
 <TabPane xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
-         fx:controller="org.shayvin.tourplanner.view.tabView"
+         fx:controller="org.shayvin.tourplanner.view.TabView"
          tabClosingPolicy="UNAVAILABLE">
         <tabs>
             <Tab text="General">

@@ -1,21 +1,18 @@
 package org.shayvin.tourplanner.view;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import org.shayvin.tourplanner.entity.TourLog;
-import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
-import org.shayvin.tourplanner.viewmodel.tableButtonViewModel;
+import org.shayvin.tourplanner.viewmodel.TableButtonViewModel;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class tableButtonView implements Initializable {
+public class TableButtonView implements Initializable {
 
     private final Publisher publisher;
-    private final tableButtonViewModel viewModel;
+    private final TableButtonViewModel viewModel;
 
     @FXML
     private Button tourLogAddButton;
@@ -34,7 +31,7 @@ public class tableButtonView implements Initializable {
 
     }
 
-    public tableButtonView(Publisher publisher, tableButtonViewModel tableButtonViewModel) {
+    public TableButtonView(Publisher publisher, TableButtonViewModel tableButtonViewModel) {
         this.publisher = publisher;
         this.viewModel = tableButtonViewModel;
     }

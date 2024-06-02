@@ -2,7 +2,7 @@ TODO: Maybe add a seperate table for map image depending on the requirements
 
 create table tour
 (
-    tour_id        varchar not null
+    tour_id        uuid not null
         constraint tour_pk
             primary key,
     name           varchar not null,
@@ -23,10 +23,10 @@ create table tour_log
     tourlog_id     varchar not null
         constraint tour_log_pk
             primary key,
-    tour_id        varchar not null
+    tour_id        uuid not null
         constraint tour_id_fk
             references tour,
-    date           date    not null,
+    date           varchar    not null,
     comment        varchar not null,
     difficulty     integer,
     total_distance numeric not null,

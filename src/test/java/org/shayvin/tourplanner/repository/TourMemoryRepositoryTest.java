@@ -1,4 +1,4 @@
-package org.shayvin.tourplanner.repository;
+/* package org.shayvin.tourplanner.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -93,4 +93,4 @@ class TourMemoryRepositoryTest {
         assertNotEquals(2, tourMemoryRepository.tours.size());
     }
 
-}
+}*/

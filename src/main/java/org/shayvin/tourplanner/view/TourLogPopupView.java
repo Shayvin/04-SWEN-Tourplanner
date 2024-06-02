@@ -75,7 +75,7 @@ public class TourLogPopupView {
             rating = "5";
         }
 
-        TourLog tourLog = new TourLog(distanceTextField.getText(), durationTextField.getText(), dateTextField.getText(), commentTextArea.getText(), difficultyTextField.getText(), rating);
+        TourLog tourLog = new TourLog(dateTextField.getText(), Double.parseDouble(durationTextField.getText()), Double.parseDouble(distanceTextField.getText()), commentTextArea.getText(), Double.parseDouble(difficultyTextField.getText()), Integer.parseInt(rating));
         tourLogPopupViewModel.submitTourLog(tourLog);
     }
 
@@ -93,7 +93,7 @@ public class TourLogPopupView {
             rating = "5";
         }
 
-        TourLog tourLog = new TourLog(distanceTextField.getText(), durationTextField.getText(), dateTextField.getText(), commentTextArea.getText(), difficultyTextField.getText(), rating);
+        TourLog tourLog = new TourLog(dateTextField.getText(), Double.parseDouble(durationTextField.getText()), Double.parseDouble(distanceTextField.getText()), commentTextArea.getText(), Double.parseDouble(difficultyTextField.getText()), Integer.parseInt(rating));
 
         tourLogPopupViewModel.editTourLog(tourLog);
     }

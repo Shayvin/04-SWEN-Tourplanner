@@ -1,27 +1,49 @@
 package org.shayvin.tourplanner.entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 
-public class TourLog {
-    private final SimpleStringProperty date;
-    private final SimpleStringProperty duration;
-    private final SimpleStringProperty distance;
-    private final SimpleStringProperty comment;
-    private final SimpleStringProperty difficulty;
-    private final SimpleStringProperty rating;
+import java.util.UUID;
 
-    public TourLog(String date, String duration, String distance, String comment, String difficulty, String rating) {
+public class TourLog {
+    @Id
+    @GeneratedValue
+    private UUID id;
+
+    @ManyToOne
+    private Tour tour;
+
+    private final SimpleStringProperty date;
+    private final SimpleDoubleProperty duration;
+    private final SimpleDoubleProperty distance;
+    private final SimpleStringProperty comment;
+    private final SimpleDoubleProperty difficulty;
+    private final SimpleIntegerProperty rating;
+
+    public TourLog(String date, Double duration, Double distance, String comment, Double difficulty, Integer rating) {
         this.date = new SimpleStringProperty(date);
-        this.duration = new SimpleStringProperty(duration);
-        this.distance = new SimpleStringProperty(distance);
+        this.duration = new SimpleDoubleProperty(duration);
+        this.distance = new SimpleDoubleProperty(distance);
         this.comment = new SimpleStringProperty(comment);
-        this.difficulty = new SimpleStringProperty(difficulty);
-        this.rating = new SimpleStringProperty(rating);
+        this.difficulty = new SimpleDoubleProperty(difficulty);
+        this.rating = new SimpleIntegerProperty(rating);
     }
 
-    public StringProperty dateProperty() {
-        return date;
+    public UUID getId() {
+        return id;
+    }
+
+    public Tour getTour() {
+        return tour;
+    }
+
+    public void setTour(Tour tour) {
+        this.tour = tour;
     }
 
     public String getDate() {
@@ -32,27 +54,19 @@ public class TourLog {
         this.date.set(date);
     }
 
-    public StringProperty durationProperty() {
-        return duration;
-    }
-
-    public String getDuration() {
+    public Double getDuration() {
         return duration.get();
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Double duration) {
         this.duration.set(duration);
     }
 
-    public StringProperty distanceProperty() {
-        return distance;
-    }
-
-    public String getDistance() {
+    public Double getDistance() {
         return distance.get();
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(Double distance) {
         this.distance.set(distance);
     }
 
@@ -60,24 +74,47 @@ public class TourLog {
         return comment.get();
     }
 
-    public SimpleStringProperty commentProperty() {
-        return comment;
+    public void setComment(String comment) {
+        this.comment.set(comment);
     }
 
-    public String getDifficulty() {
+    public Double getDifficulty() {
         return difficulty.get();
     }
 
-    public SimpleStringProperty difficultyProperty() {
-        return difficulty;
+    public void setDifficulty(Double difficulty) {
+        this.difficulty.set(difficulty);
     }
 
-    public String getRating() {
+    public Integer getRating() {
         return rating.get();
     }
 
-    public SimpleStringProperty ratingProperty() {
-        return rating;
+    public void setRating(Integer rating) {
+        this.rating.set(rating);
     }
 
+    public StringProperty dateProperty() {
+        return date;
+    }
+
+    public SimpleDoubleProperty durationProperty() {
+        return duration;
+    }
+
+    public SimpleDoubleProperty distanceProperty() {
+        return distance;
+    }
+
+    public StringProperty commentProperty() {
+        return comment;
+    }
+
+    public SimpleDoubleProperty difficultyProperty() {
+        return difficulty;
+    }
+
+    public SimpleIntegerProperty ratingProperty() {
+        return rating;
+    }
 }

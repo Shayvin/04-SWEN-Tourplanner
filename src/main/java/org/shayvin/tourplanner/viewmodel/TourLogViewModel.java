@@ -29,6 +29,7 @@ public class TourLogViewModel {
 
         publisher.subscribe(Event.DELETE_TOUR_LOG, (data) -> {
             tourLogService.removeTourLogFromRepository(tourLogService.currentSelectedTourName, selectedTourLog);
+            updateTourLogs("Deleted");
         });
 
         publisher.subscribe(Event.SUBMIT_EDIT_TOUR_LOG, (data) -> {

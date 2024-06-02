@@ -1,53 +1,103 @@
 package org.shayvin.tourplanner.repository;
 
 import org.shayvin.tourplanner.entity.Tour;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TourMemoryRepository implements TourRepository{
+public class TourMemoryRepository implements TourRepository {
 
-    List<Tour> tours;
+    private final EntityManagerFactory entityManagerFactory;
+    private final EntityManager entityManager;
 
     public TourMemoryRepository() {
-        tours = new ArrayList<>();
+        entityManagerFactory = Persistence.createEntityManagerFactory("tour");
+        entityManager = entityManagerFactory.createEntityManager();
     }
 
-    // returns all tours in repository
+    private void beginTransaction() {
+        if (!entityManager.getTransaction().isActive()) {
+            entityManager.getTransaction().begin();
+        }
+    }
+
+    private void commitTransaction() {
+        EntityTransaction transaction = entityManager.getTransaction();
+        if (transaction.isActive()) {
+            transaction.commit();
+        }
+    }
+
+    // Returns all tours in repository
     @Override
     public List<Tour> findAll() {
-        System.out.println("In memory findAll!");
+        List<Tour> tours;
+        beginTransaction();
+        try {
+            tours = entityManager.createQuery("FROM Tour", Tour.class).getResultList();
+        } finally {
+            commitTransaction();
+        }
         return tours;
     }
 
-    // adds new tour to repository
+    // Adds new tour to repository
     @Override
     public Tour save(Tour entity) {
-        System.out.println("In memory save!");
-        System.out.println("Saving " + entity);
-        tours.add(entity);
-
+        beginTransaction();
+        try {
+            // It ensures that the entity is reattached to the current persistence context before persisting it again. Needed for editing tours.
+            entity = entityManager.merge(entity);
+        } finally {
+            commitTransaction();
+        }
         return entity;
     }
 
-    // returns one tour if it exists in the repository
+    // Returns one tour if it exists in the repository
     @Override
     public Optional<Tour> findByTourName(String tourToFind) {
-        for (Tour tour : tours) {
-            if (!tour.getTourName().equals(tourToFind)){
-                continue;
-            }
-            return Optional.of(tour);
+        Optional<Tour> tour;
+        beginTransaction();
+        try {
+            tour = entityManager.createQuery("FROM Tour WHERE tourName = :tourName", Tour.class)
+                    .setParameter("tourName", tourToFind)
+                    .getResultStream()
+                    .findFirst();
+        } finally {
+            commitTransaction();
         }
-        return Optional.empty();
+        return tour;
     }
 
-    // delete tour from repository
+    // Deletes tour from repository
     @Override
     public void removeTour(String tourToRemove) {
-        System.out.println("In memory removeTour!");
-        tours.removeIf(tour -> tour.getTourName().equals(tourToRemove));
+        beginTransaction();
+        try {
+            Tour tour = entityManager.createQuery("FROM Tour WHERE tourName = :tourName", Tour.class)
+                    .setParameter("tourName", tourToRemove)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
+            if (tour != null) {
+                entityManager.remove(tour);
+            }
+        } finally {
+            commitTransaction();
+        }
+    }
 
+    public void close() {
+        if (entityManager != null) {
+            entityManager.close();
+        }
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+        }
     }
 }

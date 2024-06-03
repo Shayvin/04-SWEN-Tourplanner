@@ -8,11 +8,11 @@ import org.shayvin.tourplanner.service.TourLogService;
 import org.shayvin.tourplanner.service.TourService;
 import org.shayvin.tourplanner.service.ValidateInputService;
 import org.shayvin.tourplanner.view.*;
-import org.shayvin.tourplanner.viewmodel.routeButtonsViewModel;
-import org.shayvin.tourplanner.viewmodel.tabViewModel;
-import org.shayvin.tourplanner.viewmodel.tourListViewModel;
-import org.shayvin.tourplanner.viewmodel.tourLogViewModel;
-import org.shayvin.tourplanner.viewmodel.tableButtonViewModel;
+import org.shayvin.tourplanner.viewmodel.RouteButtonsViewModel;
+import org.shayvin.tourplanner.viewmodel.TabViewModel;
+import org.shayvin.tourplanner.viewmodel.TourListViewModel;
+import org.shayvin.tourplanner.viewmodel.TourLogViewModel;
+import org.shayvin.tourplanner.viewmodel.TableButtonViewModel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -31,11 +31,11 @@ public class ViewFactory {
 
     private final ValidateInputService validateInputService;
 
-    private final tabViewModel tabViewModel;
-    private final routeButtonsViewModel routeButtonsViewModel;
-    private final tourListViewModel tourListViewModel;
-    private final tourLogViewModel tourLogViewModel;
-    private final tableButtonViewModel tableButtonViewModel;
+    private final TabViewModel tabViewModel;
+    private final RouteButtonsViewModel routeButtonsViewModel;
+    private final TourListViewModel tourListViewModel;
+    private final TourLogViewModel tourLogViewModel;
+    private final TableButtonViewModel tableButtonViewModel;
 
     private ViewFactory() {
         tourLogRepository = new TourLogRepository();
@@ -47,11 +47,11 @@ public class ViewFactory {
 
         validateInputService = new ValidateInputService();
 
-        tabViewModel = new tabViewModel(publisher, tourService, validateInputService);
-        routeButtonsViewModel = new routeButtonsViewModel(publisher);
-        tourListViewModel = new tourListViewModel(publisher, tourService);
-        tourLogViewModel = new tourLogViewModel(publisher, tourLogService);
-        tableButtonViewModel = new tableButtonViewModel(publisher);
+        tabViewModel = new TabViewModel(publisher, tourService, validateInputService);
+        routeButtonsViewModel = new RouteButtonsViewModel(publisher);
+        tourListViewModel = new TourListViewModel(publisher, tourService);
+        tourLogViewModel = new TourLogViewModel(publisher, tourLogService);
+        tableButtonViewModel = new TableButtonViewModel(publisher);
 
     }
 
@@ -64,32 +64,32 @@ public class ViewFactory {
     }
 
     public Object create(Class<?> viewClass) {
-        if(viewClass == tabView.class) {
-            return new tabView(tabViewModel);
+        if(viewClass == TabView.class) {
+            return new TabView(tabViewModel);
         }
 
-        if(viewClass == menuBarView.class) {
-            return new menuBarView(publisher);
+        if(viewClass == MenuBarView.class) {
+            return new MenuBarView(publisher);
         }
 
-        if(viewClass == mainView.class) {
-            return new mainView(publisher);
+        if(viewClass == MainView.class) {
+            return new MainView(publisher);
         }
 
-        if(viewClass == routeButtonsView.class) {
-            return new routeButtonsView(routeButtonsViewModel);
+        if(viewClass == RouteButtonsView.class) {
+            return new RouteButtonsView(routeButtonsViewModel);
         }
 
-        if(viewClass == tourListView.class) {
-            return new tourListView(tourListViewModel);
+        if(viewClass == TourListView.class) {
+            return new TourListView(tourListViewModel);
         }
 
-        if(viewClass == tourLogView.class) {
-            return new tourLogView(tourLogViewModel, tableButtonViewModel, publisher);
+        if(viewClass == TourLogView.class) {
+            return new TourLogView(tourLogViewModel, tableButtonViewModel, publisher);
         }
 
-        if(viewClass == tableButtonView.class) {
-            return new tableButtonView(publisher, tableButtonViewModel);
+        if(viewClass == TableButtonView.class) {
+            return new TableButtonView(publisher, tableButtonViewModel);
         }
 
         //throw new IllegalArgumentException("Unknown view class: " + viewClass);

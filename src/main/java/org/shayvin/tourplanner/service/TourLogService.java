@@ -1,6 +1,7 @@
 package org.shayvin.tourplanner.service;
 
 import javafx.collections.ObservableList;
+import org.shayvin.tourplanner.entity.Tour;
 import org.shayvin.tourplanner.entity.TourLog;
 import org.shayvin.tourplanner.repository.TourLogRepository;
 
@@ -16,22 +17,22 @@ public class TourLogService {
         this.tourLogRepository = tourLogRepository;
         this.tourService = tourService;
     }
-    
-    public void addTourLogData(String name, TourLog tour) {
-        tourLogRepository.save(name, tour);
+
+    public void addTourLogData(String name, TourLog tourlog) {
+        tourLogRepository.save(tourlog);
     }
 
     public void removeTourLogFromRepository(String currentSelectedTourName, TourLog tour) {
-        tourLogRepository.removeTourLog(currentSelectedTourName, tour);
+        tourLogRepository.remove(tour);
     }
 
     public ObservableList<TourLog> getTourLogsByName() {
         currentSelectedTourName = tourService.currentSelectedTourName;
-        return tourLogRepository.findByTourName(currentSelectedTourName);
+        return (ObservableList<TourLog>) tourLogRepository.findByTourName(currentSelectedTourName);
     }
 
     public void editTourLogData(String currentSelectedTourName, TourLog newTourLog, TourLog oldTourLog) {
-        tourLogRepository.editTourLog(currentSelectedTourName, newTourLog, oldTourLog);
+        tourLogRepository.edit(newTourLog);
     }
 
     public TourLog getSelectedTourLog() {

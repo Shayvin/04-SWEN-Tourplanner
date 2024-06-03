@@ -7,6 +7,8 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="hibernate" value="a9b659b2-1a36-4c4a-8d18-487610a318b0" />
+          <factory-entry name="tour" value="a9b659b2-1a36-4c4a-8d18-487610a318b0" />
+          <factory-entry name="tourlog" />
           <factory-entry name="tourplanner" value="a9b659b2-1a36-4c4a-8d18-487610a318b0" />
         </datasource-mapping>
         <naming-strategy-map />

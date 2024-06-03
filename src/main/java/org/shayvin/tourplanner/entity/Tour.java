@@ -9,26 +9,16 @@ import java.util.UUID;
 public class Tour {
 
     @Id
-    @GeneratedValue
-    @Column(name = "tour_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @Column(name = "name", nullable = false)
     private String tourName;
-    @Column(name = "description", nullable = false)
     private String tourDescription;
-    @Column(name = "start", nullable = false)
     private String tourStart;
-    @Column(name = "destination", nullable = false)
     private String tourDestination;
-    @Column(name = "transport_type", nullable = false)
     private String tourType;
-    @Column(name = "distance", nullable = false)
     private String tourDistance;
-    @Column(name = "estimated_time", nullable = false)
     private String tourDuration;
-    @Column(name = "information", nullable = false)
     private String tourInformation;
-    @Column(name = "map", nullable = false)
     private String tourImage;
 
     public Tour(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation, String tourImage) {

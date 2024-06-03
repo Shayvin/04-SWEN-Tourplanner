@@ -1,37 +1,52 @@
 package org.shayvin.tourplanner.repository;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.shayvin.tourplanner.entity.TourLog;
 
-import java.util.HashMap;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+import java.util.List;
 
 public class TourLogRepository {
 
-    private final HashMap<String, ObservableList<TourLog>> tours = new HashMap<>();
+    private final EntityManagerFactory entityManagerFactory;
+    private final EntityManager entityManager;
 
-    public TourLogRepository() { }
-
-    public void save(String name, TourLog tour) {
-        ObservableList<TourLog> tourLogs = tours.getOrDefault(name, FXCollections.observableArrayList());
-        tourLogs.add(tour);
-        tours.put(name, tourLogs);
+    public TourLogRepository() {
+        entityManagerFactory = Persistence.createEntityManagerFactory("tourlog");
+        entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public ObservableList<TourLog> findByTourName(String tourToFind) {
-        return tours.getOrDefault(tourToFind, FXCollections.emptyObservableList());
+    public void save(TourLog tourLog) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.persist(tourLog);
+        transaction.commit();
     }
 
-    public void removeTourLog(String currentSelectedTourName, TourLog tour) {
-        ObservableList<TourLog> tourLogs = tours.getOrDefault(currentSelectedTourName, FXCollections.emptyObservableList());
-        tourLogs.remove(tour);
-        tours.put(currentSelectedTourName, tourLogs);
+    public List<TourLog> findByTourName(String tourName) {
+        return entityManager.createQuery("SELECT t FROM TourLog t WHERE t.tourName = :tourName", TourLog.class)
+                .setParameter("tourName", tourName)
+                .getResultList();
     }
 
-    public void editTourLog(String currentSelectedTourName, TourLog updatedTourLog, TourLog oldTourLog) {
-        ObservableList<TourLog> tourLogs = tours.getOrDefault(currentSelectedTourName, FXCollections.emptyObservableList());
-        tourLogs.remove(oldTourLog);
-        tourLogs.add(updatedTourLog);
-        tours.put(currentSelectedTourName, tourLogs);
+    public void remove(TourLog tourLog) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.remove(tourLog);
+        transaction.commit();
+    }
+
+    public void edit(TourLog tourLog) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.merge(tourLog);
+        transaction.commit();
+    }
+
+    public void close() {
+        entityManager.close();
+        entityManagerFactory.close();
     }
 }

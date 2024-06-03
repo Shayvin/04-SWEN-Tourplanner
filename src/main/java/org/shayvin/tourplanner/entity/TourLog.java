@@ -1,37 +1,93 @@
 package org.shayvin.tourplanner.entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.ListChangeListener;
+
+import jakarta.persistence.*;
+import javafx.beans.property.*;
 
 import java.util.UUID;
 
+@Entity
+@Table(name = "tour_log")
 public class TourLog {
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "tourlog_id", columnDefinition = "uuid")
     private UUID id;
 
     @ManyToOne
+    @JoinColumn(name = "name", unique = true, nullable = false)
     private Tour tour;
 
-    private final SimpleStringProperty date;
-    private final SimpleDoubleProperty duration;
-    private final SimpleDoubleProperty distance;
-    private final SimpleStringProperty comment;
-    private final SimpleDoubleProperty difficulty;
-    private final SimpleIntegerProperty rating;
+    @Column(name = "date", nullable = false)
+    private String date;
+
+    @Column(name = "total_time")
+    private double duration;
+
+    @Column(name = "total_distance")
+    private double distance;
+
+    @Column(name = "comment", nullable = false)
+    private String comment;
+
+    @Column(name = "difficulty")
+    private double difficulty;
+
+    @Column(name = "rating", nullable = false)
+    private int rating;
+
+    @Transient
+    private final SimpleStringProperty dateProperty = new SimpleStringProperty();
+
+    @Transient
+    private final SimpleDoubleProperty durationProperty = new SimpleDoubleProperty();
+
+    @Transient
+    private final SimpleDoubleProperty distanceProperty = new SimpleDoubleProperty();
+
+    @Transient
+    private final SimpleStringProperty commentProperty = new SimpleStringProperty();
+
+    @Transient
+    private final SimpleDoubleProperty difficultyProperty = new SimpleDoubleProperty();
+
+    @Transient
+    private final SimpleIntegerProperty ratingProperty = new SimpleIntegerProperty();
+
+    public TourLog() {
+        // Default constructor for JPA
+    }
 
     public TourLog(String date, Double duration, Double distance, String comment, Double difficulty, Integer rating) {
-        this.date = new SimpleStringProperty(date);
-        this.duration = new SimpleDoubleProperty(duration);
-        this.distance = new SimpleDoubleProperty(distance);
-        this.comment = new SimpleStringProperty(comment);
-        this.difficulty = new SimpleDoubleProperty(difficulty);
-        this.rating = new SimpleIntegerProperty(rating);
+        setDate(date);
+        setDuration(duration);
+        setDistance(distance);
+        setComment(comment);
+        setDifficulty(difficulty);
+        setRating(rating);
+    }
+
+    @PostLoad
+    @PostPersist
+    @PostUpdate
+    private void synchronizeProperties() {
+        dateProperty.set(date);
+        durationProperty.set(duration);
+        distanceProperty.set(distance);
+        commentProperty.set(comment);
+        difficultyProperty.set(difficulty);
+        ratingProperty.set(rating);
+    }
+
+    @PrePersist
+    @PreUpdate
+    private void synchronizeFields() {
+        date = dateProperty.get();
+        duration = durationProperty.get();
+        distance = distanceProperty.get();
+        comment = commentProperty.get();
+        difficulty = difficultyProperty.get();
+        rating = ratingProperty.get();
     }
 
     public UUID getId() {
@@ -47,74 +103,80 @@ public class TourLog {
     }
 
     public String getDate() {
-        return date.get();
+        return dateProperty.get();
     }
 
     public void setDate(String date) {
-        this.date.set(date);
+        this.dateProperty.set(date);
+        this.date = date;
     }
 
     public Double getDuration() {
-        return duration.get();
+        return durationProperty.get();
     }
 
     public void setDuration(Double duration) {
-        this.duration.set(duration);
+        this.durationProperty.set(duration);
+        this.duration = duration;
     }
 
     public Double getDistance() {
-        return distance.get();
+        return distanceProperty.get();
     }
 
     public void setDistance(Double distance) {
-        this.distance.set(distance);
+        this.distanceProperty.set(distance);
+        this.distance = distance;
     }
 
     public String getComment() {
-        return comment.get();
+        return commentProperty.get();
     }
 
     public void setComment(String comment) {
-        this.comment.set(comment);
+        this.commentProperty.set(comment);
+        this.comment = comment;
     }
 
     public Double getDifficulty() {
-        return difficulty.get();
+        return difficultyProperty.get();
     }
 
     public void setDifficulty(Double difficulty) {
-        this.difficulty.set(difficulty);
+        this.difficultyProperty.set(difficulty);
+        this.difficulty = difficulty;
     }
 
     public Integer getRating() {
-        return rating.get();
+        return ratingProperty.get();
     }
 
     public void setRating(Integer rating) {
-        this.rating.set(rating);
+        this.ratingProperty.set(rating);
+        this.rating = rating;
     }
 
     public StringProperty dateProperty() {
-        return date;
+        return dateProperty;
     }
 
     public SimpleDoubleProperty durationProperty() {
-        return duration;
+        return durationProperty;
     }
 
     public SimpleDoubleProperty distanceProperty() {
-        return distance;
+        return distanceProperty;
     }
 
     public StringProperty commentProperty() {
-        return comment;
+        return commentProperty;
     }
 
     public SimpleDoubleProperty difficultyProperty() {
-        return difficulty;
+        return difficultyProperty;
     }
 
     public SimpleIntegerProperty ratingProperty() {
-        return rating;
+        return ratingProperty;
     }
 }

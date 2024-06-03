@@ -5,16 +5,19 @@ import javafx.scene.image.Image;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.service.TourService;
+import org.shayvin.tourplanner.service.ValidateInputService;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class TabViewModel {
+public class tabViewModel {
 
     private final Publisher publisher;
     private final TourService tourService;
+
+    private final ValidateInputService validateInputService;
 
     public Property<Image> pictures = new SimpleObjectProperty<>();
     public Property<Image> map = new SimpleObjectProperty<>();
@@ -43,9 +46,10 @@ public class TabViewModel {
 
 
 
-    public TabViewModel(Publisher publisher, TourService tourService) {
+    public tabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService) {
         this.publisher = publisher;
         this.tourService = tourService;
+        this.validateInputService = validateInputService;
         this.eventList = new ArrayList<>();
 
         // set placeholder for map
@@ -388,35 +392,35 @@ public class TabViewModel {
         System.out.println("in validateInputs");
         int counter = 0;
 
-        if(!validateInputString(addTourTextName.get())){
+        if(!validateInputService.validateInput(addTourTextName.get())){
             System.out.println("Please enter a valid TourTextName");
             ++counter;
         }
-        if(!validateInputString(addTourTextDescription.get())){
+        if(!validateInputService.validateInput((addTourTextDescription.get()))){
             System.out.println("Please enter a valid TourTextDescription");
             ++counter;
         }
-        if(!validateInputString(addTourTextStart.get())){
+        if(!validateInputService.validateInput((addTourTextStart.get()))){
             System.out.println("Please enter a valid TourTextStart");
             ++counter;
         }
-        if(!validateInputString(addTourTextDestination.get())){
+        if(!validateInputService.validateInput((addTourTextDestination.get()))){
             System.out.println("Please enter a valid TourTextDestination");
             ++counter;
         }
-        if(!validateInputString(addTourTextType.get())){
+        if(!validateInputService.validateInput((addTourTextType.get()))){
             System.out.println("Please enter a valid TourTextType");
             ++counter;
         }
-        if(!validateInputString(addTourTextInformation.get())){
+        if(!validateInputService.validateInput((addTourTextInformation.get()))){
             System.out.println("Please enter a valid TourTextInformation");
             ++counter;
         }
-        if(!validateInputInteger(addTourTextDistance.get())){
+        if(!validateInputService.validateInput((addTourTextDistance.get()))){
             System.out.println("Please enter a valid TourIntegerDistance");
             ++counter;
         }
-        if(!validateInputInteger(addTourTextTime.get())){
+        if(!validateInputService.validateInput((addTourTextTime.get()))){
             System.out.println("Please enter a valid TourIntegerTime");
             ++counter;
         }

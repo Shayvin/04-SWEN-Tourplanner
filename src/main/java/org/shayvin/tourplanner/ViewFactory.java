@@ -4,11 +4,18 @@ import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.repository.TourLogRepository;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
-import org.shayvin.tourplanner.service.CreatePopupService;
 import org.shayvin.tourplanner.service.TourLogService;
 import org.shayvin.tourplanner.service.TourService;
+import org.shayvin.tourplanner.service.ValidateInputService;
 import org.shayvin.tourplanner.view.*;
-import org.shayvin.tourplanner.viewmodel.*;
+import org.shayvin.tourplanner.viewmodel.routeButtonsViewModel;
+import org.shayvin.tourplanner.viewmodel.tabViewModel;
+import org.shayvin.tourplanner.viewmodel.tourListViewModel;
+import org.shayvin.tourplanner.viewmodel.tourLogViewModel;
+import org.shayvin.tourplanner.viewmodel.tableButtonViewModel;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class ViewFactory {
 
@@ -21,14 +28,14 @@ public class ViewFactory {
 
     private final TourService tourService;
     private final TourLogService tourLogService;
-    private final CreatePopupService createPopupService;
 
-    private final TabViewModel tabViewModel;
-    private final RouteButtonsViewModel routeButtonsViewModel;
-    private final TourListViewModel tourListViewModel;
-    private final TourLogViewModel tourLogViewModel;
-    private final TableButtonViewModel tableButtonViewModel;
-    private final TourLogPopupViewModel TourLogPopupViewModel;
+    private final ValidateInputService validateInputService;
+
+    private final tabViewModel tabViewModel;
+    private final routeButtonsViewModel routeButtonsViewModel;
+    private final tourListViewModel tourListViewModel;
+    private final tourLogViewModel tourLogViewModel;
+    private final tableButtonViewModel tableButtonViewModel;
 
     private ViewFactory() {
         tourLogRepository = new TourLogRepository();
@@ -37,14 +44,14 @@ public class ViewFactory {
         tourRepository = new TourMemoryRepository();
         tourService = new TourService(tourRepository);
         tourLogService = new TourLogService(tourLogRepository, tourService);
-        createPopupService = new CreatePopupService();
 
-        tabViewModel = new TabViewModel(publisher, tourService);
-        routeButtonsViewModel = new RouteButtonsViewModel(publisher);
-        tourListViewModel = new TourListViewModel(publisher, tourService);
-        tourLogViewModel = new TourLogViewModel(publisher, tourLogService);
-        tableButtonViewModel = new TableButtonViewModel(publisher);
-        TourLogPopupViewModel = new TourLogPopupViewModel(publisher, tourLogService, createPopupService, tourService);
+        validateInputService = new ValidateInputService();
+
+        tabViewModel = new tabViewModel(publisher, tourService, validateInputService);
+        routeButtonsViewModel = new routeButtonsViewModel(publisher);
+        tourListViewModel = new tourListViewModel(publisher, tourService);
+        tourLogViewModel = new tourLogViewModel(publisher, tourLogService);
+        tableButtonViewModel = new tableButtonViewModel(publisher);
 
     }
 
@@ -57,36 +64,32 @@ public class ViewFactory {
     }
 
     public Object create(Class<?> viewClass) {
-        if(viewClass == TabView.class) {
-            return new TabView(tabViewModel);
+        if(viewClass == tabView.class) {
+            return new tabView(tabViewModel);
         }
 
-        if(viewClass == MenuBarView.class) {
-            return new MenuBarView(publisher);
+        if(viewClass == menuBarView.class) {
+            return new menuBarView(publisher);
         }
 
-        if(viewClass == MainView.class) {
-            return new MainView(publisher);
+        if(viewClass == mainView.class) {
+            return new mainView(publisher);
         }
 
-        if(viewClass == RouteButtonsView.class) {
-            return new RouteButtonsView(routeButtonsViewModel);
+        if(viewClass == routeButtonsView.class) {
+            return new routeButtonsView(routeButtonsViewModel);
         }
 
-        if(viewClass == TourListView.class) {
-            return new TourListView(tourListViewModel);
+        if(viewClass == tourListView.class) {
+            return new tourListView(tourListViewModel);
         }
 
-        if(viewClass == TourLogView.class) {
-            return new TourLogView(tourLogViewModel, tableButtonViewModel, publisher);
+        if(viewClass == tourLogView.class) {
+            return new tourLogView(tourLogViewModel, tableButtonViewModel, publisher);
         }
 
-        if(viewClass == TableButtonView.class) {
-            return new TableButtonView(publisher, tableButtonViewModel);
-        }
-
-        if(viewClass == TourLogPopupView.class) {
-            return new TourLogPopupView(publisher, TourLogPopupViewModel);
+        if(viewClass == tableButtonView.class) {
+            return new tableButtonView(publisher, tableButtonViewModel);
         }
 
         //throw new IllegalArgumentException("Unknown view class: " + viewClass);

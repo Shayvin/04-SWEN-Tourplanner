@@ -1,9 +1,10 @@
 package org.shayvin.tourplanner.service;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.shayvin.tourplanner.entity.Tour;
 import org.shayvin.tourplanner.entity.TourLog;
 import org.shayvin.tourplanner.repository.TourLogRepository;
+
 
 public class TourLogService {
 
@@ -27,8 +28,10 @@ public class TourLogService {
     }
 
     public ObservableList<TourLog> getTourLogsByName() {
-        currentSelectedTourName = tourService.currentSelectedTourName;
-        return (ObservableList<TourLog>) tourLogRepository.findByTourName(currentSelectedTourName);
+        currentSelectedTourName = tourService.currentTourName;
+        return FXCollections.observableArrayList(tourLogRepository.findByTourName(currentSelectedTourName));
+
+        //return (ObservableList<TourLog>) tourLogRepository.findByTourName(currentSelectedTourName);
     }
 
     public void editTourLogData(String currentSelectedTourName, TourLog newTourLog, TourLog oldTourLog) {

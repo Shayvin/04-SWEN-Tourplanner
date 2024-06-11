@@ -24,6 +24,7 @@ public class ViewFactory {
     private final Publisher publisher;
 
     private final TourRepository tourRepository;
+    private final TourMemoryRepository tourMemoryRepository;
     private final TourLogRepository tourLogRepository;
 
     private final TourService tourService;
@@ -42,7 +43,9 @@ public class ViewFactory {
         publisher = new Publisher();
 
         tourRepository = new TourMemoryRepository();
-        tourService = new TourService(tourRepository);
+        tourMemoryRepository = new TourMemoryRepository();
+
+        tourService = new TourService(tourMemoryRepository);
         tourLogService = new TourLogService(tourLogRepository, tourService);
 
         validateInputService = new ValidateInputService();

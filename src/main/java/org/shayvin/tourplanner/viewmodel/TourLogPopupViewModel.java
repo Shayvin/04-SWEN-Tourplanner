@@ -29,7 +29,7 @@ public class TourLogPopupViewModel {
     }
 
     public void submitTourLog(TourLog tourLog) {
-        currentSelectedTourName = tourService.currentSelectedTourName;
+        currentSelectedTourName = tourService.currentTourName;
         tourLogService.addTourLogData(currentSelectedTourName, tourLog);
         publisher.publish(Event.TOURLOG_LIST_UPDATED, "Updated TourLogList");
     }

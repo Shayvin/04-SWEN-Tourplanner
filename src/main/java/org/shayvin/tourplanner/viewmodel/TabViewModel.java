@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 import javafx.scene.image.Image;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
+import org.shayvin.tourplanner.service.OpenRouteService;
 import org.shayvin.tourplanner.service.TourService;
 import org.shayvin.tourplanner.service.ValidateInputService;
 
@@ -21,6 +22,7 @@ public class TabViewModel {
 
     public Property<Image> pictures = new SimpleObjectProperty<>();
     public Property<Image> map = new SimpleObjectProperty<>();
+    private final StringProperty mapContent = new SimpleStringProperty();
 
     private List<Event> eventList;
 
@@ -34,6 +36,9 @@ public class TabViewModel {
     private final StringProperty addTourTextDistance = new SimpleStringProperty("");
     private final StringProperty addTourTextTime = new SimpleStringProperty("");
     private final StringProperty addTourTextInformation = new SimpleStringProperty("");
+    public StringProperty mapContentProperty() { return mapContent; }
+
+    private final OpenRouteService routeService = new OpenRouteService();
 
     private final BooleanProperty readOnlyTextName = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextDescription = new SimpleBooleanProperty(false);
@@ -46,7 +51,7 @@ public class TabViewModel {
 
 
 
-    public TabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService) {
+    public TabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService, OpenRouteService openRouteService) {
         this.publisher = publisher;
         this.tourService = tourService;
         this.validateInputService = validateInputService;
@@ -455,5 +460,4 @@ public class TabViewModel {
         readOnlyTextTime.set(value);
         readOnlyTextInformation.set(value);
     }
-
 }

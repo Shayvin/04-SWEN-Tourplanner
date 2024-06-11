@@ -4,6 +4,7 @@ import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.repository.TourLogRepository;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
+import org.shayvin.tourplanner.service.OpenRouteService;
 import org.shayvin.tourplanner.service.TourLogService;
 import org.shayvin.tourplanner.service.TourService;
 import org.shayvin.tourplanner.service.ValidateInputService;
@@ -28,6 +29,7 @@ public class ViewFactory {
 
     private final TourService tourService;
     private final TourLogService tourLogService;
+    private final OpenRouteService openRouteService;
 
     private final ValidateInputService validateInputService;
 
@@ -44,10 +46,12 @@ public class ViewFactory {
         tourRepository = new TourMemoryRepository();
         tourService = new TourService(tourRepository);
         tourLogService = new TourLogService(tourLogRepository, tourService);
+        openRouteService = new OpenRouteService();
+
 
         validateInputService = new ValidateInputService();
 
-        tabViewModel = new TabViewModel(publisher, tourService, validateInputService);
+        tabViewModel = new TabViewModel(publisher, tourService, validateInputService, openRouteService);
         routeButtonsViewModel = new RouteButtonsViewModel(publisher);
         tourListViewModel = new TourListViewModel(publisher, tourService);
         tourLogViewModel = new TourLogViewModel(publisher, tourLogService);

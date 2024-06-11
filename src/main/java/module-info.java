@@ -5,6 +5,12 @@ module org.shayvin.tourplanner {
     requires java.desktop;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.apache.httpcomponents.httpcore;
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+    requires javafx.web;
+
 
     opens org.shayvin.tourplanner to javafx.fxml;
     opens org.shayvin.tourplanner.view to javafx.fxml;

@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.shayvin.tourplanner.event.Publisher;
+import org.shayvin.tourplanner.viewmodel.MenuBarViewModel;
 
 import java.io.IOException;
 import java.util.Locale;

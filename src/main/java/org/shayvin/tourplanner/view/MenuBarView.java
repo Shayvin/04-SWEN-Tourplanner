@@ -10,6 +10,9 @@ import java.util.ResourceBundle;
 
 public class MenuBarView implements Initializable {
 
+    @FXML
+
+
     private final Publisher publisher;
     private final MenuBarViewModel viewModel;
 
@@ -20,7 +23,7 @@ public class MenuBarView implements Initializable {
 
     @FXML
     private void exitProgram(){
-
+        viewModel.exitProgram();
     }
 
     @Override

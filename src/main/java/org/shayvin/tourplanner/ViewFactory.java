@@ -4,15 +4,12 @@ import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.repository.TourLogRepository;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
+import org.shayvin.tourplanner.service.CreatePopupService;
 import org.shayvin.tourplanner.service.TourLogService;
 import org.shayvin.tourplanner.service.TourService;
 import org.shayvin.tourplanner.service.ValidateInputService;
 import org.shayvin.tourplanner.view.*;
-import org.shayvin.tourplanner.viewmodel.RouteButtonsViewModel;
-import org.shayvin.tourplanner.viewmodel.TabViewModel;
-import org.shayvin.tourplanner.viewmodel.TourListViewModel;
-import org.shayvin.tourplanner.viewmodel.TourLogViewModel;
-import org.shayvin.tourplanner.viewmodel.TableButtonViewModel;
+import org.shayvin.tourplanner.viewmodel.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -29,6 +26,7 @@ public class ViewFactory {
 
     private final TourService tourService;
     private final TourLogService tourLogService;
+    private final CreatePopupService createPopupService;
 
     private final ValidateInputService validateInputService;
 
@@ -37,6 +35,8 @@ public class ViewFactory {
     private final TourListViewModel tourListViewModel;
     private final TourLogViewModel tourLogViewModel;
     private final TableButtonViewModel tableButtonViewModel;
+
+    private final TourLogPopupViewModel tourLogPopupViewModel;
 
     private ViewFactory() {
         tourLogRepository = new TourLogRepository();
@@ -47,6 +47,7 @@ public class ViewFactory {
 
         tourService = new TourService(tourMemoryRepository);
         tourLogService = new TourLogService(tourLogRepository, tourService);
+        createPopupService = new CreatePopupService();
 
         validateInputService = new ValidateInputService();
 
@@ -55,6 +56,8 @@ public class ViewFactory {
         tourListViewModel = new TourListViewModel(publisher, tourService);
         tourLogViewModel = new TourLogViewModel(publisher, tourLogService);
         tableButtonViewModel = new TableButtonViewModel(publisher);
+
+        tourLogPopupViewModel = new TourLogPopupViewModel(publisher, tourLogService, createPopupService, tourService);
 
     }
 
@@ -93,6 +96,10 @@ public class ViewFactory {
 
         if(viewClass == TableButtonView.class) {
             return new TableButtonView(publisher, tableButtonViewModel);
+        }
+
+        if(viewClass == TourLogPopupViewModel.class) {
+            return new TourLogPopupView(publisher, tourLogPopupViewModel);
         }
 
         //throw new IllegalArgumentException("Unknown view class: " + viewClass);

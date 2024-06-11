@@ -23,4 +23,8 @@ public class CreatePopupService {
             e.printStackTrace();
         }
     }
+
+    //TODO Think about this, currently hard to add a popup as the validation starts on the first input
+    //      maybe with a timer (wait 2 seconds)?
+
 }

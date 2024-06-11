@@ -31,7 +31,6 @@ public class TourLogService {
         currentSelectedTourName = tourService.currentTourName;
         return FXCollections.observableArrayList(tourLogRepository.findByTourName(currentSelectedTourName));
 
-        //return (ObservableList<TourLog>) tourLogRepository.findByTourName(currentSelectedTourName);
     }
 
     public void editTourLogData(String currentSelectedTourName, TourLog newTourLog, TourLog oldTourLog) {

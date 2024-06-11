@@ -21,6 +21,7 @@ public class TourLogPopupViewModel {
         this.createPopupService = createPopupService;
         this.tourService = tourService;
         publisher.subscribe(Event.ADD_TOUR_LOG, (event) -> {
+            System.out.println("in add_tour_log event subscriber");
             createPopupService.createPopup("tourLog-submit-popup-view.fxml", 800, 500);
         });
         publisher.subscribe(Event.EDIT_TOUR_LOG, (event) -> {

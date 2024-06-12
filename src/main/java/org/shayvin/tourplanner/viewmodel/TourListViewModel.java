@@ -26,7 +26,7 @@ public class TourListViewModel {
         this.publisher = publisher;
         this.tourService = tourService;
 
-        this.publisher.subscribe(Event.ADD_TOUR, this::updateTourList);
+        this.publisher.subscribe(Event.TOUR_ADDED, this::updateTourList);
 
         this.selectedTourIndex.addListener(
                 observable -> selectTourList()

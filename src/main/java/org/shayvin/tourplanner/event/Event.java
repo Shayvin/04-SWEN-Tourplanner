@@ -5,6 +5,7 @@ public enum Event {
     REMOVE_TOUR,
     EDIT_TOUR,
     SAVE_EDITED_TOUR,
+    TOUR_ADDED,
 
     LIST_UPDATED,
 

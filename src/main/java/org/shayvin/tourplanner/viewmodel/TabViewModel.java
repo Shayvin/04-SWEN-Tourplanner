@@ -137,6 +137,8 @@ public class TabViewModel {
             }catch (IllegalAccessException e){
                 System.out.println(e);
             }
+
+            publisher.publish(Event.TOUR_ADDED, "added new tour");
         });
 
         // update data in repo when SAVE_EDITED_TOUR is received

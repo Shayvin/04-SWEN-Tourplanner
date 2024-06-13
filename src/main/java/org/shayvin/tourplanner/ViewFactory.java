@@ -100,14 +100,13 @@ public class ViewFactory {
             return new TableButtonView(publisher, tableButtonViewModel);
         }
 
-        if(viewClass == TourLogPopupViewModel.class) {
+        if(viewClass == TourLogPopupView.class) {
             return new TourLogPopupView(publisher, tourLogPopupViewModel);
         }
 
         if(viewClass == SearchBarView.class){
             return new SearchBarView(publisher);
         }
-
 
         throw new IllegalArgumentException("Unknown view class: " + viewClass);
 

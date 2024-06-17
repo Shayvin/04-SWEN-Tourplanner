@@ -9,7 +9,7 @@ public class TourService {
     private final TourMemoryRepository tourMemoryRepository;
 
     public String currentTourName;
-    public static Tour currentTour;
+    public Tour currentTour;
     public UUID currentTourId;
 
     public TourService(TourMemoryRepository tourMemoryRepository) {
@@ -39,9 +39,10 @@ public class TourService {
 
     // checks if values are different to current tour and refreshes them, saves it afterwards in db
     public void updateTour(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation){
-        // removes current entry -> will be reworked as soon as there are IDs
+        // removes current entry ->  TODO will be reworked as soon as there are IDs
         removeTourFromRepository(currentTourName);
 
+        // changes data if edited
         if(!currentTour.getName().equals(tourName)) {
             currentTour.setName(tourName);
         }

@@ -128,6 +128,9 @@ public class Tour {
     }
 
     public List<TourLog> getTourLogList() {
+        if (tourLogList == null) {
+            tourLogList = new ArrayList<>();
+        }
         return tourLogList;
     }
 

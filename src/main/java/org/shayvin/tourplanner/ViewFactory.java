@@ -47,7 +47,8 @@ public class ViewFactory {
         tourMemoryRepository = new TourMemoryRepository();
 
         tourService = new TourService(tourMemoryRepository);
-        tourLogService = new TourLogService(tourLogRepository, tourService);
+        //tourLogService = new TourLogService(tourLogRepository, tourService);
+        tourLogService = new TourLogService(tourMemoryRepository, tourService);
         createPopupService = new CreatePopupService();
 
         validateInputService = new ValidateInputService();

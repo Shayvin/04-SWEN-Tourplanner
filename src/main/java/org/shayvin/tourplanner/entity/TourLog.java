@@ -85,6 +85,8 @@ public class TourLog {
         return id;
     }
 
+    public void setId(UUID id) {this.id = id;}
+
     public Tour getTour() {
         return tour;
     }

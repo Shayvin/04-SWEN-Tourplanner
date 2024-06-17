@@ -1,6 +1,7 @@
 package org.shayvin.tourplanner.service;
 
 import org.shayvin.tourplanner.entity.Tour;
+import org.shayvin.tourplanner.entity.TourLog;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 
 import java.util.*;
@@ -128,6 +129,11 @@ public class TourService {
         }else{
             System.out.println("WARRRRRUUUUUUUUM");
         }
+    }
+
+    public void addTourLog(TourLog tourLogToAdd){
+        currentTour.getTourLogList().add(tourLogToAdd);
+
     }
 
     // current randomizer to set random picture for each route

@@ -25,11 +25,9 @@ public class TourLogService {
         this.currentTourLog = new TourLog();
     }
 
-    // TODO kann man das schöner machen? wenn die liste anders ist?
-    public void addTourLogData(TourLog tourlog) {
-        List<TourLog> list = tourService.currentTour.getTourLogList();
-        list.add(tourlog);
-        tourService.currentTour.setTourLogList(list);
+
+    public void addTourLogData(TourLog tourLog) {
+        tourService.addTourLog(tourLog); // tourLog.setTour(this)
         tourMemoryRepository.update(tourService.currentTour);
     }
 

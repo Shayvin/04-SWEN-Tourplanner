@@ -19,8 +19,8 @@ public class TourLogService {
 
 
     public TourLogService(TourMemoryRepository tourMemoryRepository, TourService tourService) {
-        this.tourMemoryRepository = new TourMemoryRepository();
-        this.tourService = new TourService(tourMemoryRepository);
+        this.tourMemoryRepository = tourMemoryRepository;
+        this.tourService = tourService;
 
         this.currentTourLog = new TourLog();
     }

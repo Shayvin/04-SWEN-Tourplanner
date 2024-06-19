@@ -24,7 +24,7 @@ public class Tour {
 
     @OneToMany(
             targetEntity = TourLog.class,
-            mappedBy = "id",
+            mappedBy = "tour",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL
     )

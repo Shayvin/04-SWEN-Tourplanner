@@ -132,6 +132,7 @@ public class TourService {
     }
 
     public void addTourLog(TourLog tourLogToAdd){
+        tourLogToAdd.setTour(this.currentTour);
         currentTour.getTourLogList().add(tourLogToAdd);
 
     }

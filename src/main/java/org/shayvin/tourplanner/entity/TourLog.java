@@ -13,18 +13,14 @@ public class TourLog {
     private UUID id;
 
     @ManyToOne
+    @JoinColumn(name = "tour_id", nullable = false)
     private Tour tour;
 
     private String date;
-
     private double duration;
-
     private double distance;
-
     private String comment;
-
     private double difficulty;
-
     private int rating;
 
     @Transient
@@ -58,6 +54,7 @@ public class TourLog {
         setRating(rating);
     }
 
+    /*
     @PostLoad
     @PostPersist
     @PostUpdate
@@ -80,6 +77,8 @@ public class TourLog {
         difficulty = difficultyProperty.get();
         rating = ratingProperty.get();
     }
+
+     */
 
     public UUID getId() {
         return id;

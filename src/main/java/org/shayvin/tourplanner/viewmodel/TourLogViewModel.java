@@ -49,10 +49,6 @@ public class TourLogViewModel {
         publisher.subscribe(Event.TOUR_UNSELECTED, (data) -> {
             publisher.publish(Event.ADD_TOUR_LOG_BUTTON_VISIBILITY, String.valueOf(true));
         });
-
-        publisher.subscribe(Event.SELECT_TOUR_LOG, (data) -> {
-            publisher.publish(Event.DELETE_TOUR_LOG_BUTTON_VISIBILITY, String.valueOf(false));
-        });
     }
 
     public ObservableList<TourLog> getTourLogs() {

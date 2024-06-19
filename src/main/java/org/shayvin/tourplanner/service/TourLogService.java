@@ -28,6 +28,7 @@ public class TourLogService {
 
     public void addTourLogData(TourLog tourLog) {
         tourService.addTourLog(tourLog); // tourLog.setTour(this)
+
         tourMemoryRepository.update(tourService.currentTour);
     }
 

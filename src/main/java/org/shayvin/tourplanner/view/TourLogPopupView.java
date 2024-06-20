@@ -77,6 +77,9 @@ public class TourLogPopupView {
 
         TourLog tourLog = new TourLog(dateTextField.getText(), Double.parseDouble(durationTextField.getText()), Double.parseDouble(distanceTextField.getText()), commentTextArea.getText(), Double.parseDouble(difficultyTextField.getText()), Integer.parseInt(rating));
         tourLogPopupViewModel.submitTourLog(tourLog);
+
+        Stage stage = (Stage) submitButton.getScene().getWindow();
+        stage.close();
     }
 
     public void onEdit() {
@@ -96,5 +99,8 @@ public class TourLogPopupView {
         TourLog tourLog = new TourLog(dateTextField.getText(), Double.parseDouble(durationTextField.getText()), Double.parseDouble(distanceTextField.getText()), commentTextArea.getText(), Double.parseDouble(difficultyTextField.getText()), Integer.parseInt(rating));
 
         tourLogPopupViewModel.editTourLog(tourLog);
+
+        Stage stage = (Stage) editButton.getScene().getWindow();
+        stage.close();
     }
 }

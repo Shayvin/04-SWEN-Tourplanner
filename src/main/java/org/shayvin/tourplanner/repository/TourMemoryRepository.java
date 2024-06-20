@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.shayvin.tourplanner.entity.Tour;
+import org.shayvin.tourplanner.entity.TourLog;
 
 import java.util.List;
 import java.util.Optional;
@@ -73,7 +74,7 @@ public class TourMemoryRepository implements TourRepository {
         criteriaQuery.where(termPredicate);
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             Tour tour = entityManager.createQuery(criteriaQuery).getSingleResult();
-
+            tour.setTourLogList(getTourLogListFromDB(tour.getId()));
             return Optional.of(tour);
         } catch (NoResultException e) {
             return Optional.empty();
@@ -92,6 +93,22 @@ public class TourMemoryRepository implements TourRepository {
         }
     }
 
+    public List<TourLog> getTourLogListFromDB(UUID tourId) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        try {
+            CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+            CriteriaQuery<TourLog> criteriaQuery = criteriaBuilder.createQuery(TourLog.class);
+            Root<TourLog> root = criteriaQuery.from(TourLog.class);
+            criteriaQuery.where(criteriaBuilder.equal(root.get("tour").get("id"), tourId));
 
+            List<TourLog> tourLogList = entityManager.createQuery(criteriaQuery).getResultList();
+            if (tourLogList.isEmpty()) {
+                return null;
+            }
+            return tourLogList;
+        } finally {
+            entityManager.close();
+        }
+    }
 
 }

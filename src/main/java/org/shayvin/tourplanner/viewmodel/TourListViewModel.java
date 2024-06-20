@@ -15,7 +15,7 @@ public class TourListViewModel {
     private final TourService tourService;
 
 
-    private final ObservableList<String> tourListForView
+    private final ObservableList<String> tourList
             = FXCollections.observableArrayList();
     private final IntegerProperty selectedTourIndex
             = new SimpleIntegerProperty();
@@ -26,7 +26,7 @@ public class TourListViewModel {
         this.publisher = publisher;
         this.tourService = tourService;
 
-        this.publisher.subscribe(Event.ADD_TOUR, this::updateTourList);
+        this.publisher.subscribe(Event.TOUR_ADDED, this::updateTourList);
 
         this.selectedTourIndex.addListener(
                 observable -> selectTourList()
@@ -34,7 +34,7 @@ public class TourListViewModel {
 
         publisher.subscribe(Event.REMOVE_TOUR, message -> {
             System.out.println("Received message: " + message);
-            removeItemTourList(tourListForView.get(selectedTourIndex.get()));
+            removeItemTourList(tourList.get(selectedTourIndex.get()));
         });
 
         publisher.subscribe(Event.TOUR_UPDATED, message -> {
@@ -53,7 +53,7 @@ public class TourListViewModel {
 
     // refresh tourList
     private void updateTourList(String message){
-        tourListForView.setAll(tourService.updateFullList());
+        tourList.setAll(tourService.updateFullList());
         publisher.publish(Event.LIST_UPDATED, "Updated TourList");
     }
 
@@ -70,7 +70,7 @@ public class TourListViewModel {
     }
 
     public ObservableList<String> getTourList() {
-        return tourListForView;
+        return tourList;
     }
 
     // get index of selected tour

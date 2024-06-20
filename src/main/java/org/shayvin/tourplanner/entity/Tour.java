@@ -24,7 +24,7 @@ public class Tour {
 
     @OneToMany(
             targetEntity = TourLog.class,
-            mappedBy = "id",
+            mappedBy = "tour",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL
     )
@@ -128,6 +128,9 @@ public class Tour {
     }
 
     public List<TourLog> getTourLogList() {
+        if (tourLogList == null) {
+            tourLogList = new ArrayList<>();
+        }
         return tourLogList;
     }
 

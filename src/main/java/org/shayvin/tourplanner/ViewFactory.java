@@ -35,6 +35,7 @@ public class ViewFactory {
     private final TourListViewModel tourListViewModel;
     private final TourLogViewModel tourLogViewModel;
     private final TableButtonViewModel tableButtonViewModel;
+    private final SearchBarView searchBarView;
 
     private final TourLogPopupViewModel tourLogPopupViewModel;
 
@@ -46,7 +47,8 @@ public class ViewFactory {
         tourMemoryRepository = new TourMemoryRepository();
 
         tourService = new TourService(tourMemoryRepository);
-        tourLogService = new TourLogService(tourLogRepository, tourService);
+        //tourLogService = new TourLogService(tourLogRepository, tourService);
+        tourLogService = new TourLogService(tourMemoryRepository, tourService);
         createPopupService = new CreatePopupService();
 
         validateInputService = new ValidateInputService();
@@ -56,6 +58,7 @@ public class ViewFactory {
         tourListViewModel = new TourListViewModel(publisher, tourService);
         tourLogViewModel = new TourLogViewModel(publisher, tourLogService);
         tableButtonViewModel = new TableButtonViewModel(publisher);
+        searchBarView = new SearchBarView(publisher);
 
         tourLogPopupViewModel = new TourLogPopupViewModel(publisher, tourLogService, createPopupService, tourService);
 
@@ -98,11 +101,15 @@ public class ViewFactory {
             return new TableButtonView(publisher, tableButtonViewModel);
         }
 
-        if(viewClass == TourLogPopupViewModel.class) {
+        if(viewClass == TourLogPopupView.class) {
             return new TourLogPopupView(publisher, tourLogPopupViewModel);
         }
 
-        //throw new IllegalArgumentException("Unknown view class: " + viewClass);
-        return null;
+        if(viewClass == SearchBarView.class){
+            return new SearchBarView(publisher);
+        }
+
+        throw new IllegalArgumentException("Unknown view class: " + viewClass);
+
     }
 }

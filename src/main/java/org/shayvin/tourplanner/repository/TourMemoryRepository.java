@@ -99,8 +99,6 @@ public class TourMemoryRepository implements TourRepository {
             CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
             CriteriaQuery<TourLog> criteriaQuery = criteriaBuilder.createQuery(TourLog.class);
             Root<TourLog> root = criteriaQuery.from(TourLog.class);
-
-            // Assuming the field in TourLog is named "tour"
             criteriaQuery.where(criteriaBuilder.equal(root.get("tour").get("id"), tourId));
 
             List<TourLog> tourLogList = entityManager.createQuery(criteriaQuery).getResultList();
@@ -112,7 +110,5 @@ public class TourMemoryRepository implements TourRepository {
             entityManager.close();
         }
     }
-
-
 
 }

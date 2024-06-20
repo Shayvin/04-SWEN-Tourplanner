@@ -1,28 +1,30 @@
 package org.shayvin.tourplanner.service;
 
 import org.shayvin.tourplanner.entity.Tour;
-import org.shayvin.tourplanner.repository.TourRepository;
+import org.shayvin.tourplanner.repository.TourMemoryRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 public class TourService {
-    private final TourRepository tourRepository;
+    private final TourMemoryRepository tourMemoryRepository;
 
-    public String currentSelectedTourName;
-    public static Tour currentSelectedTour;
+    public String currentTourName;
+    public static Tour currentTour;
+    public UUID currentTourId;
 
-    public TourService(TourRepository tourRepository) {
-        this.tourRepository = tourRepository;
+    public TourService(TourMemoryRepository tourMemoryRepository) {
+        this.tourMemoryRepository = tourMemoryRepository;
+
     }
 
     // adds tour into repository if one with the same tourName doesn't exist
     public void add(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation) {
-        Optional<Tour> tour = tourRepository.findByTourName(tourName);
+        Optional<Tour> tour = tourMemoryRepository.findByName(tourName);
 
         if(tour.isPresent()) {
+            currentTour = tour.get();
+            currentTourId = currentTour.getId();
+            // TODO add error handling
             return;
         }
 
@@ -30,64 +32,66 @@ public class TourService {
         //TODO rework this: let user upload pictures and add those to the repository
         String imagePath = getRandomPicture();
 
-        tourRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration, tourInformation, imagePath));
+        Tour addedTour = tourMemoryRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration, tourInformation, imagePath));
+        currentTour = addedTour;
+        currentTourId = addedTour.getId();
     }
 
     // checks if values are different to current tour and refreshes them, saves it afterwards in db
     public void updateTour(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation){
         // removes current entry -> will be reworked as soon as there are IDs
-        removeTourFromRepository(currentSelectedTourName);
+        removeTourFromRepository(currentTourName);
 
-        if(!currentSelectedTour.getTourName().equals(tourName)) {
-            currentSelectedTour.setTourName(tourName);
+        if(!currentTour.getName().equals(tourName)) {
+            currentTour.setName(tourName);
         }
-        if(!currentSelectedTour.getTourDescription().equals(tourDescription)) {
-            currentSelectedTour.setTourDescription(tourDescription);
+        if(!currentTour.getDescription().equals(tourDescription)) {
+            currentTour.setDescription(tourDescription);
         }
-        if(!currentSelectedTour.getTourStart().equals(tourStart)) {
-            currentSelectedTour.setTourStart(tourStart);
+        if(!currentTour.getStart().equals(tourStart)) {
+            currentTour.setStart(tourStart);
         }
-        if(!currentSelectedTour.getTourDestination().equals(tourDestination)) {
-            currentSelectedTour.setTourDestination(tourDestination);
+        if(!currentTour.getDestination().equals(tourDestination)) {
+            currentTour.setDestination(tourDestination);
         }
-        if(!currentSelectedTour.getTourType().equals(tourType)) {
-            currentSelectedTour.setTourType(tourType);
+        if(!currentTour.getType().equals(tourType)) {
+            currentTour.setType(tourType);
         }
-        if(!currentSelectedTour.getTourDistance().equals(tourDistance)) {
-            currentSelectedTour.setTourDistance(tourDistance);
+        if(!currentTour.getDistance().equals(tourDistance)) {
+            currentTour.setDistance(tourDistance);
         }
-        if(!currentSelectedTour.getTourDuration().equals(tourDuration)) {
-            currentSelectedTour.setTourDuration(tourDuration);
+        if(!currentTour.getDuration().equals(tourDuration)) {
+            currentTour.setDuration(tourDuration);
         }
-        if(!currentSelectedTour.getTourInformation().equals(tourInformation)) {
-            currentSelectedTour.setTourInformation(tourInformation);
+        if(!currentTour.getInformation().equals(tourInformation)) {
+            currentTour.setInformation(tourInformation);
         }
         //TODO rework this: check id, adapt the entries and save the object with the same id (so that the tourlogs won't go missing
-        tourRepository.save(currentSelectedTour);
+        tourMemoryRepository.update(currentTour);
     }
 
     // update tourList
     public List<String> updateFullList(){
-        return tourRepository.findAll().stream().map(Tour::getTourName).toList();
+        return tourMemoryRepository.findAll().stream().map(Tour::getName).toList();
     }
 
     // get tour from repo with the tourName given
     public List<String> getTourWithName() {
-        Optional<Tour> tour = tourRepository.findByTourName(currentSelectedTourName);
+        Optional<Tour> tour = tourMemoryRepository.findByName(currentTourName);
         List<String> tourDetails = new ArrayList<>();
 
         if(tour.isPresent()) {
-            currentSelectedTour = tour.get();
+            currentTour = tour.get();
 
-            tourDetails.add(currentSelectedTour.getTourName());
-            tourDetails.add(currentSelectedTour.getTourDescription());
-            tourDetails.add(currentSelectedTour.getTourStart());
-            tourDetails.add(currentSelectedTour.getTourDestination());
-            tourDetails.add(currentSelectedTour.getTourType());
-            tourDetails.add(currentSelectedTour.getTourDistance());
-            tourDetails.add(currentSelectedTour.getTourDuration());
-            tourDetails.add(currentSelectedTour.getTourInformation());
-            tourDetails.add(currentSelectedTour.getTourImage());
+            tourDetails.add(currentTour.getName());
+            tourDetails.add(currentTour.getDescription());
+            tourDetails.add(currentTour.getStart());
+            tourDetails.add(currentTour.getDestination());
+            tourDetails.add(currentTour.getType());
+            tourDetails.add(currentTour.getDistance());
+            tourDetails.add(currentTour.getDuration());
+            tourDetails.add(currentTour.getInformation());
+            tourDetails.add(currentTour.getImage());
 
             return tourDetails;
         }
@@ -96,17 +100,33 @@ public class TourService {
     }
 
     public String getCurrentSelectedTour() {
-        return currentSelectedTourName;
+        return currentTourName;
     }
 
-    public void setCurrentSelectedTourName(String tourName) {
-        System.out.println("in setter");
-        currentSelectedTourName = tourName;
-        System.out.println("TourName: " + currentSelectedTourName);
+    public void setCurrentTourName(String tourName) {
+        Optional <Tour> tour = tourMemoryRepository.findByName(tourName);
+        tour.ifPresent(value -> currentTour = value);
+
+        this.currentTourName = tourName;
+        this.currentTourId = currentTour.getId();
+    }
+
+    public void clearCurrentTour(){
+        currentTourName = null;
+        currentTour = null;
+        currentTourId = null;
+    }
+
+    public UUID getCurrentTourId() {
+        return currentTourId;
     }
 
     public void removeTourFromRepository(String tourToRemove) {
-        tourRepository.removeTour(tourToRemove);
+        if(tourToRemove.equals(currentTourName)){
+            tourMemoryRepository.removeTour(currentTourId);
+        }else{
+            System.out.println("WARRRRRUUUUUUUUM");
+        }
     }
 
     // current randomizer to set random picture for each route
@@ -120,4 +140,5 @@ public class TourService {
         Random rand = new Random();
         return maps.get(rand.nextInt(maps.size()));
     }
+
 }

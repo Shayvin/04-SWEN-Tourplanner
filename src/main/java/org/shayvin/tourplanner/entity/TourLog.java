@@ -6,34 +6,25 @@ import javafx.beans.property.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tour_log")
 public class TourLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "tourlog_id", columnDefinition = "uuid")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "name", unique = true, nullable = false)
     private Tour tour;
 
-    @Column(name = "date", nullable = false)
     private String date;
 
-    @Column(name = "total_time")
     private double duration;
 
-    @Column(name = "total_distance")
     private double distance;
 
-    @Column(name = "comment", nullable = false)
     private String comment;
 
-    @Column(name = "difficulty")
     private double difficulty;
 
-    @Column(name = "rating", nullable = false)
     private int rating;
 
     @Transient

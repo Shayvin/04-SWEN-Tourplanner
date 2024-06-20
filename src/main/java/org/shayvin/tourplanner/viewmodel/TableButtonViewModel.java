@@ -41,6 +41,7 @@ public class TableButtonViewModel {
     }
 
     public void addTourLogEvent() {
+        System.out.println("Add Tour Log Button Clicked");
         publisher.publish(Event.ADD_TOUR_LOG, "Add Tour Log Button Clicked");
     }
 

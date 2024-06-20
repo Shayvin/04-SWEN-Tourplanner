@@ -6,6 +6,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class TourLogRepository {
@@ -26,9 +28,13 @@ public class TourLogRepository {
     }
 
     public List<TourLog> findByTourName(String tourName) {
+        /*
         return entityManager.createQuery("SELECT t FROM TourLog t WHERE t.tourName = :tourName", TourLog.class)
                 .setParameter("tourName", tourName)
                 .getResultList();
+
+         */
+        return new ArrayList<TourLog>();
     }
 
     public void remove(TourLog tourLog) {

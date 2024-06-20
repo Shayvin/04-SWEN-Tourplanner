@@ -37,6 +37,7 @@ public class TableButtonView implements Initializable {
     }
 
     public void onAdd() {
+        System.out.println("in onAdd");
         this.viewModel.addTourLogEvent();
     }
 

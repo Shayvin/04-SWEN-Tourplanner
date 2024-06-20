@@ -4,6 +4,7 @@ import org.shayvin.tourplanner.entity.Tour;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface TourRepository {
 
@@ -11,8 +12,10 @@ public interface TourRepository {
 
     Tour save (Tour entity);
 
-    Optional<Tour> findByTourName(String tourToFind);
+    Tour update (Tour entity);
 
-    void removeTour(String tourToRemove);
+    Optional<Tour> findByName(String tourToFind);
+
+    void removeTour(UUID tourToRemove);
 
 }

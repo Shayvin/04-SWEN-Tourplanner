@@ -15,7 +15,7 @@ public class TourListViewModel {
     private final TourService tourService;
 
 
-    private final ObservableList<String> tourList
+    private final ObservableList<String> tourListForView
             = FXCollections.observableArrayList();
     private final IntegerProperty selectedTourIndex
             = new SimpleIntegerProperty();
@@ -34,7 +34,7 @@ public class TourListViewModel {
 
         publisher.subscribe(Event.REMOVE_TOUR, message -> {
             System.out.println("Received message: " + message);
-            removeItemTourList(tourList.get(selectedTourIndex.get()));
+            removeItemTourList(tourListForView.get(selectedTourIndex.get()));
         });
 
         publisher.subscribe(Event.TOUR_UPDATED, message -> {
@@ -42,15 +42,18 @@ public class TourListViewModel {
             updateTourList("Update");
         });
 
+
+        updateTourList("Initial loading of tours");
     }
 
     public void unselectTour() {
         publisher.publish(Event.TOUR_UNSELECTED, "Unselect tour button clicked");
+        tourService.clearCurrentTour();
     }
 
     // refresh tourList
     private void updateTourList(String message){
-        tourList.setAll(tourService.updateFullList());
+        tourListForView.setAll(tourService.updateFullList());
         publisher.publish(Event.LIST_UPDATED, "Updated TourList");
     }
 
@@ -60,13 +63,14 @@ public class TourListViewModel {
             return;
         }
 
-        tourService.setCurrentSelectedTourName(getTourList().get(selectedTourIndex.get()));
+        tourService.setCurrentTourName(getTourList().get(selectedTourIndex.get()));
+
         publisher.publish(Event.TOUR_SELECTED, getTourList().get(selectedTourIndex.get()));
         publisher.publish(Event.DISABLE_ADD_BUTTON, "Disable add button");
     }
 
     public ObservableList<String> getTourList() {
-        return tourList;
+        return tourListForView;
     }
 
     // get index of selected tour
@@ -77,6 +81,7 @@ public class TourListViewModel {
 
     public void removeItemTourList(String tourToRemove){
         tourService.removeTourFromRepository(tourToRemove);
+        tourService.clearCurrentTour();
         updateTourList("Update");
     }
 }

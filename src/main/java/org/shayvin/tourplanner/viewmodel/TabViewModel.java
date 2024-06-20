@@ -51,7 +51,7 @@ public class TabViewModel {
 
 
 
-    public TabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService, OpenRouteService openRouteService) {
+    public TabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService) {
         this.publisher = publisher;
         this.tourService = tourService;
         this.validateInputService = validateInputService;

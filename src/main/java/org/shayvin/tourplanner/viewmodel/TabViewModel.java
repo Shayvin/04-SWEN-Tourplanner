@@ -49,8 +49,6 @@ public class TabViewModel {
     private final BooleanProperty readOnlyTextTime = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextInformation = new SimpleBooleanProperty(false);
 
-
-
     public TabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService) {
         this.publisher = publisher;
         this.tourService = tourService;
@@ -300,7 +298,7 @@ public class TabViewModel {
         return addTourTextType.get();
     }
 
-    public StringProperty addTourTextTypeProperty() {
+    public Property<String> addTourTextType() {
         return addTourTextType;
     }
 
@@ -441,14 +439,6 @@ public class TabViewModel {
                 publisher.publish(Event.ENABLE_ADD_BUTTON, "Add button enabled.");
             }
         }
-    }
-
-    public boolean validateInputString(String input){
-        return input.matches("[a-zA-Z]+");
-    }
-
-    public boolean validateInputInteger(String input){
-        return input.matches("[0-9]+");
     }
 
     // sets the input fields to read only or enables them

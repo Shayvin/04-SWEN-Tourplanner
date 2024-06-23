@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.web.WebView?>
+<?import javafx.collections.FXCollections?>
 <TabPane xmlns="http://javafx.com/javafx"
          xmlns:fx="http://javafx.com/fxml"
          fx:controller="org.shayvin.tourplanner.view.TabView"
@@ -21,7 +22,15 @@
                         <TextField fx:id="viewAddTourTextDescription" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDescription" />
                         <TextField fx:id="viewAddTourTextStart" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextStart" />
                         <TextField fx:id="viewAddTourTextDestination" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDestination" />
-                        <TextField fx:id="viewAddTourTextType" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextType" />
+                        <ComboBox fx:id="viewAddTourTextType" prefHeight="25.0" prefWidth="800.0">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Walking"/>
+                                    <String fx:value="Car"/>
+                                    <String fx:value="Cycling"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
                         <TextField fx:id="viewAddTourTextDistance" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDistance" />
                         <TextField fx:id="viewAddTourTextTime" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDuration" />
                         <TextField fx:id="viewAddTourTextInformation" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextInformation" />

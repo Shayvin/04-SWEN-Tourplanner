@@ -4,10 +4,7 @@ import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.repository.TourLogRepository;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
-import org.shayvin.tourplanner.service.CreatePopupService;
-import org.shayvin.tourplanner.service.TourLogService;
-import org.shayvin.tourplanner.service.TourService;
-import org.shayvin.tourplanner.service.ValidateInputService;
+import org.shayvin.tourplanner.service.*;
 import org.shayvin.tourplanner.view.*;
 import org.shayvin.tourplanner.viewmodel.*;
 
@@ -27,6 +24,7 @@ public class ViewFactory {
     private final TourService tourService;
     private final TourLogService tourLogService;
     private final CreatePopupService createPopupService;
+    private final OpenRouteService openRouteService;
 
     private final ValidateInputService validateInputService;
 
@@ -50,6 +48,7 @@ public class ViewFactory {
         //tourLogService = new TourLogService(tourLogRepository, tourService);
         tourLogService = new TourLogService(tourMemoryRepository, tourService);
         createPopupService = new CreatePopupService();
+        openRouteService = new OpenRouteService();
 
         validateInputService = new ValidateInputService();
 
@@ -74,7 +73,7 @@ public class ViewFactory {
 
     public Object create(Class<?> viewClass) {
         if(viewClass == TabView.class) {
-            return new TabView(tabViewModel);
+            return new TabView(tabViewModel, openRouteService);
         }
 
         if(viewClass == MenuBarView.class) {

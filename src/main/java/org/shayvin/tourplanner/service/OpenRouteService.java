@@ -12,22 +12,26 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.shayvin.tourplanner.TourPlannerApp;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Properties;
 
 public class OpenRouteService extends Service<String> {
-    private static final String apiKey = "5b3ce3597851110001cf62488cca42832d6f48468b34975a5a4793a3";
+    private static final String apiKey = loadKeyValuePair();
     private static final String baseUrl = "https://api.openrouteservice.org/v2/directions/";
     private static final String geocodeUrl = "https://api.openrouteservice.org/geocode/search";
-    private final String startAddress = "Stephansplatz";
-    private final String endAddress = "Berlin";
-    private String transportType = "driving-car";
+    private String startAddress = "";
+    private String endAddress = "";
+    private String transportType = "";
 
 
-    public OpenRouteService() { }
+    public OpenRouteService() {
 
-    public static String getRoute(double startLon, double startLat, double endLon, double endLat) throws IOException {
+    }
+
+    /*public static String getRoute(double startLon, double startLat, double endLon, double endLat) throws IOException {
         String url = String.format("%s?api_key=%s&start=%f,%f&end=%f,%f",
                 baseUrl, apiKey, startLon, startLat, endLon, endLat);
 
@@ -42,7 +46,7 @@ public class OpenRouteService extends Service<String> {
                 }
             }
         }
-    }
+    }*/
 
     public static double[] getCoordinates(String address) throws IOException {
         String url = String.format("%s?api_key=%s&text=%s", geocodeUrl, apiKey, address);
@@ -81,7 +85,7 @@ public class OpenRouteService extends Service<String> {
         }
     }
 
-    private static String parseRoute(String json) throws IOException {
+    /*private static String parseRoute(String json) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(json);
         JsonNode routesNode = rootNode.path("routes");
@@ -94,7 +98,7 @@ public class OpenRouteService extends Service<String> {
         } else {
             throw new IOException("No route found");
         }
-    }
+    }*/
 
     @Override
     protected Task<String> createTask() {
@@ -133,63 +137,96 @@ public class OpenRouteService extends Service<String> {
         route = route.replace("\\", "\\\\").replace("'", "\\'");
         webEngine.executeScript("window.route = '" + route + "';");
         webEngine.executeScript("setTimeout(function() { window.tryDisplayRoute(); }, 100);"); // Without Timeout it doesn't work. Because the function is not ready at this point
+        if(!startAddress.isEmpty() || !endAddress.isEmpty()){
+            webEngine.executeScript("clearRouteOnMap();");
+        }
     }
 
     private String generateLeafletMapHTML() {
         return """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Leaflet Map</title>
-            <meta charset="utf-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-            <style>
-                #map { height: 100vh; width: 100%; }
-                .leaflet-container { height: 100%; width: 100%; }
-            </style>
-        </head>
-        <body>
-            <div id="map"></div>
-            <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-            <script>
-                var map = L.map('map').setView([48.2083, 16.3731], 6);
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Leaflet Map</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <style>
+            #map { height: 100vh; width: 100%; }
+            .leaflet-container { height: 100%; width: 100%; }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <script>
+            var map = L.map('map').setView([48.2083, 16.3731], 6);
+            var routeLayer; // Define a variable to hold the route layer
 
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                }).addTo(map);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
 
-                // For webview resizing
-                window.addEventListener('resize', function() {
-                    map.invalidateSize();
-                });
+            // For webview resizing
+            window.addEventListener('resize', function() {
+                map.invalidateSize();
+            });
 
-                function displayRoute(route) {
-                    console.log("Displaying Route: ", route);  // Debugging line
-                    var geojson = JSON.parse(route);
-                    L.geoJSON(geojson).addTo(map);
+            function displayRoute(route) {
+                console.log("Displaying Route: ", route);  // Debugging line
+                var geojson = JSON.parse(route);
+                if (routeLayer) {
+                    map.removeLayer(routeLayer); // Remove the existing route layer if present
                 }
+                routeLayer = L.geoJSON(geojson).addTo(map); // Add the new route layer
+            }
 
-                window.displayRoute = displayRoute;
+            window.displayRoute = displayRoute;
 
-                function tryDisplayRoute() {
-                    if (window.displayRoute) {
-                        window.displayRoute(window.route);
-                    } else {
-                        setTimeout(tryDisplayRoute, 100);  // Check again after 100 milliseconds
-                    }
+            function tryDisplayRoute() {
+                if (window.displayRoute) {
+                    window.displayRoute(window.route);
+                } else {
+                    setTimeout(tryDisplayRoute, 100);  // Check again after 100 milliseconds
                 }
+            }
 
-                window.tryDisplayRoute = tryDisplayRoute;
+            window.tryDisplayRoute = tryDisplayRoute;
 
-                document.addEventListener("DOMContentLoaded", function() {
-                    tryDisplayRoute();
-                });
-            </script>
-        </body>
-        </html>
+            document.addEventListener("DOMContentLoaded", function() {
+                tryDisplayRoute();
+            });
+
+            // Clear exising route on map
+            function clearRouteOnMap() {
+                if (routeLayer) {
+                    map.removeLayer(routeLayer); // Remove the route layer from the map
+                    routeLayer = null; // Reset the routeLayer variable
+                }
+            }
+
+            window.clearRouteOnMap = clearRouteOnMap;
+        </script>
+    </body>
+    </html>
     """;
+    }
+
+
+    private static String loadKeyValuePair() {
+        // Load key-value pair from file
+        Properties properties = new Properties();
+        try {
+            properties.load(TourPlannerApp.class.getClassLoader().getResourceAsStream("app.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return properties.getProperty("apiKey");
+    }
+
+    private static Double calculateDistance(double startLat, double startLon, double endLat, double endLon) {
+        return null;
     }
 
     public String getLeafletMap() {
@@ -218,5 +255,13 @@ public class OpenRouteService extends Service<String> {
 
     public void setTransportType(String transportType) {
         this.transportType = transportType;
+    }
+
+    public void setStartAddress(String startAddress) {
+        this.startAddress = startAddress;
+    }
+
+    public void setEndAddress(String endAddress) {
+        this.endAddress = endAddress;
     }
 }

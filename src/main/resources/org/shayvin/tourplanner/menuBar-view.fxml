@@ -13,7 +13,7 @@
 
         <Menu mnemonicParsing="false" text="File">
             <MenuItem id="fileExit" mnemonicParsing="false" onAction="#exitProgram" text="Exit"/>
-            <MenuItem mnemonicParsing="false" text="Export to PDF"/>
+            <MenuItem mnemonicParsing="false" text="Export to PDF" onAction="#exportPdf"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem mnemonicParsing="false" text="Delete"/>

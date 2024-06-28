@@ -1,6 +1,7 @@
 package org.shayvin.tourplanner;
 
 import org.shayvin.tourplanner.event.Publisher;
+import org.shayvin.tourplanner.pdf.PdfBox;
 import org.shayvin.tourplanner.repository.TourLogRepository;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
@@ -25,8 +26,9 @@ public class ViewFactory {
     private final TourLogService tourLogService;
     private final CreatePopupService createPopupService;
     private final OpenRouteService openRouteService;
-
     private final ValidateInputService validateInputService;
+
+    private final PdfBox pdfBox;
 
     private final TabViewModel tabViewModel;
     private final RouteButtonsViewModel routeButtonsViewModel;
@@ -49,8 +51,9 @@ public class ViewFactory {
         tourLogService = new TourLogService(tourMemoryRepository, tourService);
         createPopupService = new CreatePopupService();
         openRouteService = new OpenRouteService();
-
         validateInputService = new ValidateInputService();
+
+        pdfBox = new PdfBox();
 
         tabViewModel = new TabViewModel(publisher, tourService, validateInputService);
         routeButtonsViewModel = new RouteButtonsViewModel(publisher);
@@ -77,7 +80,7 @@ public class ViewFactory {
         }
 
         if(viewClass == MenuBarView.class) {
-            return new MenuBarView(publisher);
+            return new MenuBarView(publisher, pdfBox);
         }
 
         if(viewClass == MainView.class) {

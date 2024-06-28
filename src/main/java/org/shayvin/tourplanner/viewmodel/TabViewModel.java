@@ -2,6 +2,7 @@ package org.shayvin.tourplanner.viewmodel;
 
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
+import javafx.scene.web.WebEngine;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.service.OpenRouteService;
@@ -17,6 +18,7 @@ public class TabViewModel {
 
     private final Publisher publisher;
     private final TourService tourService;
+    private final OpenRouteService openRouteService;
 
     private final ValidateInputService validateInputService;
 
@@ -36,6 +38,7 @@ public class TabViewModel {
     private final StringProperty addTourTextDistance = new SimpleStringProperty("");
     private final StringProperty addTourTextTime = new SimpleStringProperty("");
     private final StringProperty addTourTextInformation = new SimpleStringProperty("");
+
     public StringProperty mapContentProperty() { return mapContent; }
 
     private final OpenRouteService routeService = new OpenRouteService();
@@ -54,6 +57,7 @@ public class TabViewModel {
         this.tourService = tourService;
         this.validateInputService = validateInputService;
         this.eventList = new ArrayList<>();
+        this.openRouteService = new OpenRouteService();
 
         // set placeholder for map
         String mapPath = "/org/shayvin/tourplanner/img/street-map.png";
@@ -204,7 +208,6 @@ public class TabViewModel {
             }
             setReadOnly(false);
         });
-
     }
 
     // add event to event list
@@ -451,5 +454,39 @@ public class TabViewModel {
         readOnlyTextDistance.set(value);
         readOnlyTextTime.set(value);
         readOnlyTextInformation.set(value);
+    }
+
+    public void updateMap(WebEngine webEngine) {
+        List<String> tour = tourService.getTourWithName();
+
+        if(tour == null){
+            openRouteService.setStartAddress(addTourTextStart.get());
+            openRouteService.setEndAddress(addTourTextDestination.get());
+        } else {
+            openRouteService.setStartAddress(tour.get(2));
+            openRouteService.setEndAddress(tour.get(3));
+            openRouteService.setTransportType(calculateTransportType(tour.get(4)));
+        }
+
+        openRouteService.setOnSucceeded(event -> {
+            String route = (String) event.getSource().getValue();
+            System.out.println("Route JSON: " + route);
+            openRouteService.displayRoute(route, webEngine);
+        });
+
+        openRouteService.restart();
+    }
+
+    private String calculateTransportType(String transportType) {
+        switch (transportType) {
+            case "Walking":
+                return "foot-walking";
+            case "Car":
+                return "driving-car";
+            case "Cycling":
+                return "cycling-regular";
+            default:
+                return "driving-car";
+        }
     }
 }

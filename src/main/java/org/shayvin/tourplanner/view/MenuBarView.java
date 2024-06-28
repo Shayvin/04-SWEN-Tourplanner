@@ -1,8 +1,10 @@
 package org.shayvin.tourplanner.view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import org.shayvin.tourplanner.event.Publisher;
+import org.shayvin.tourplanner.pdf.PdfBox;
 import org.shayvin.tourplanner.viewmodel.MenuBarViewModel;
 
 import java.net.URL;
@@ -15,10 +17,12 @@ public class MenuBarView implements Initializable {
 
     private final Publisher publisher;
     private final MenuBarViewModel viewModel;
+    private final PdfBox pdfBox;
 
-    public MenuBarView(Publisher publisher) {
+    public MenuBarView(Publisher publisher, PdfBox pdfBox) {
         this.publisher = publisher;
-        this.viewModel = new MenuBarViewModel(publisher);
+        this.pdfBox = pdfBox;
+        this.viewModel = new MenuBarViewModel(publisher, pdfBox);
     }
 
     @FXML
@@ -29,5 +33,9 @@ public class MenuBarView implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+    }
+
+    public void exportPdf(ActionEvent actionEvent) {
+        viewModel.exportPdf();
     }
 }

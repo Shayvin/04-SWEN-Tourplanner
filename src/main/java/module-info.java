@@ -10,6 +10,7 @@ module org.shayvin.tourplanner {
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires javafx.web;
+    requires org.apache.pdfbox;
 
 
     opens org.shayvin.tourplanner to javafx.fxml;
@@ -19,6 +20,7 @@ module org.shayvin.tourplanner {
     opens org.shayvin.tourplanner.entity;
     opens org.shayvin.tourplanner.service;
     opens org.shayvin.tourplanner.repository;
+    opens org.shayvin.tourplanner.pdf;
 
 
 

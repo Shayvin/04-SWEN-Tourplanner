@@ -1,5 +1,6 @@
 package org.shayvin.tourplanner.viewmodel;
 
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
 import javafx.scene.web.WebEngine;
@@ -29,6 +30,8 @@ public class TabViewModel {
     private List<Event> eventList;
 
     private boolean editMode = false;
+
+    private String tourJson = "";
 
     private final StringProperty addTourTextName = new SimpleStringProperty("");
     private final StringProperty addTourTextDescription = new SimpleStringProperty("");
@@ -93,18 +96,6 @@ public class TabViewModel {
                 observable -> {
                     publisher.publish(Event.TOUR_TYPE_ADDED, "TourTextType added");
                     addEventListEntry(Event.TOUR_TYPE_ADDED);
-                }
-        );
-        this.addTourTextDistance.addListener(
-                observable -> {
-                    publisher.publish(Event.TOUR_DISTANCE_ADDED, "TourTextDistance added");
-                    addEventListEntry(Event.TOUR_DISTANCE_ADDED);
-                }
-        );
-        this.addTourTextTime.addListener(
-                observable -> {
-                    publisher.publish(Event.TOUR_TIME_ADDED, "TourTextTime added");
-                    addEventListEntry(Event.TOUR_TIME_ADDED);
                 }
         );
         this.addTourTextInformation.addListener(
@@ -216,8 +207,8 @@ public class TabViewModel {
         if(!eventList.contains(event)){
             eventList.add(event);
         }
-        if(eventList.size()==8){
-            System.out.println("Event list contains 8 events");
+        if(eventList.size()==6){
+            System.out.println("Event list contains 6 events");
             validateInputs();
         }
     }
@@ -424,14 +415,6 @@ public class TabViewModel {
             System.out.println("Please enter a valid TourTextInformation");
             ++counter;
         }
-        if(!validateInputService.validateInput((addTourTextDistance.get()))){
-            System.out.println("Please enter a valid TourIntegerDistance");
-            ++counter;
-        }
-        if(!validateInputService.validateInput((addTourTextTime.get()))){
-            System.out.println("Please enter a valid TourIntegerTime");
-            ++counter;
-        }
 
         System.out.println(counter);
 
@@ -462,10 +445,17 @@ public class TabViewModel {
         if(tour == null){
             openRouteService.setStartAddress(addTourTextStart.get());
             openRouteService.setEndAddress(addTourTextDestination.get());
+            openRouteService.setTransportType(calculateTransportType(addTourTextType.get()));
+            if(openRouteService.getStartAddress() != null && openRouteService.getEndAddress() != null && openRouteService.getTransportType() != null){
+                System.out.println("Start: " + openRouteService.getStartAddress());
+                System.out.println("End: " + openRouteService.getEndAddress());
+                System.out.println("Transport: " + openRouteService.getTransportType());
+                openRouteService.restart();
+            }
         } else {
-            openRouteService.setStartAddress(tour.get(2));
-            openRouteService.setEndAddress(tour.get(3));
-            openRouteService.setTransportType(calculateTransportType(tour.get(4)));
+            openRouteService.setStartAddress(addTourTextStart.get());
+            openRouteService.setEndAddress(addTourTextDestination.get());
+            openRouteService.setTransportType(calculateTransportType(addTourTextType.get()));
         }
 
         openRouteService.setOnSucceeded(event -> {
@@ -473,8 +463,12 @@ public class TabViewModel {
             System.out.println("Route JSON: " + route);
             openRouteService.displayRoute(route, webEngine);
         });
-
         openRouteService.restart();
+    }
+
+    public void updateTextField() {
+        addTourTextTime.set(openRouteService.getDuration());
+        addTourTextDistance.set(openRouteService.getDistance());
     }
 
     private String calculateTransportType(String transportType) {

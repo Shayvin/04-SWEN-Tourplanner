@@ -1,7 +1,9 @@
 package org.shayvin.tourplanner.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.web.WebEngine;
@@ -25,6 +27,8 @@ public class OpenRouteService extends Service<String> {
     private String startAddress = "";
     private String endAddress = "";
     private String transportType = "";
+    private String distance = "";
+    private String duration = "";
 
 
     public OpenRouteService() {
@@ -48,7 +52,7 @@ public class OpenRouteService extends Service<String> {
         }
     }*/
 
-    public static double[] getCoordinates(String address) throws IOException {
+    public double[] getCoordinates(String address) throws IOException {
         String url = String.format("%s?api_key=%s&text=%s", geocodeUrl, apiKey, address);
 
         try (CloseableHttpClient client = HttpClients.createDefault()) {
@@ -64,7 +68,7 @@ public class OpenRouteService extends Service<String> {
         }
     }
 
-    private static double[] parseCoordinates(String json) throws IOException {
+    private static double[] parseCoordinates(String json) throws IOException{
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(json);
         JsonNode featuresNode = rootNode.path("features");
@@ -126,6 +130,8 @@ public class OpenRouteService extends Service<String> {
                     try (CloseableHttpResponse response = client.execute(httpPost)) {
                         String jsonResponse = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
                         JsonNode jsonObject = mapper.readTree(jsonResponse);
+                        calculateDistance(jsonResponse);
+                        calculateDuration(jsonResponse);
                         return jsonObject.toString();
                     }
                 }
@@ -213,7 +219,6 @@ public class OpenRouteService extends Service<String> {
     """;
     }
 
-
     private static String loadKeyValuePair() {
         // Load key-value pair from file
         Properties properties = new Properties();
@@ -225,9 +230,44 @@ public class OpenRouteService extends Service<String> {
         return properties.getProperty("apiKey");
     }
 
-    private static Double calculateDistance(double startLat, double startLon, double endLat, double endLon) {
-        return null;
+    public String calculateDistance(String json) {
+        String distance = "";
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(json);
+
+            distance = root
+                    .path("features").get(0)
+                    .path("properties").path("summary")
+                    .path("distance").asText();
+
+            System.out.println("Distance: " + distance);
+            setDistance(distance);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return distance;
     }
+
+    public String calculateDuration(String json) {
+        String duration = "";
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(json);
+
+            duration = root
+                    .path("features").get(0)
+                    .path("properties").path("summary")
+                    .path("duration").asText();
+
+            System.out.println("Duration: " + duration);
+            setDuration(duration);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return duration;
+    }
+
 
     public String getLeafletMap() {
         return generateLeafletMapHTML();
@@ -263,5 +303,21 @@ public class OpenRouteService extends Service<String> {
 
     public void setEndAddress(String endAddress) {
         this.endAddress = endAddress;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 }

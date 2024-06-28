@@ -31,8 +31,8 @@
                                 </FXCollections>
                             </items>
                         </ComboBox>
-                        <TextField fx:id="viewAddTourTextDistance" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDistance" />
-                        <TextField fx:id="viewAddTourTextTime" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDuration" />
+                        <TextField fx:id="viewAddTourTextDistance" editable="false" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDistance" />
+                        <TextField fx:id="viewAddTourTextTime" editable="false" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextDuration" />
                         <TextField fx:id="viewAddTourTextInformation" prefHeight="25.0" prefWidth="550.0" promptText="%addTourTextInformation" />
                     </VBox>
                 </content>

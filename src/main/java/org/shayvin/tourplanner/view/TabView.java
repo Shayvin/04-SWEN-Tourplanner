@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -82,6 +83,7 @@ public class TabView implements Initializable {
         ChangeListener<String> addressListener = (observable, oldValue, newValue) -> {
             if (!newValue.isBlank()) {
                 viewModel.updateMap(webEngine);
+                viewModel.updateTextField();
             }
         };
 

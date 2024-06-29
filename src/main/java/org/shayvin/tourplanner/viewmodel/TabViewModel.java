@@ -48,7 +48,7 @@ public class TabViewModel {
 
     public StringProperty mapContentProperty() { return mapContent; }
 
-    private final OpenRouteService routeService = new OpenRouteService();
+    private final OpenRouteService routeService = new OpenRouteService(); // TODO gehört hier ein neuer OpenRouteService hin x2 ?
 
     private final BooleanProperty readOnlyTextName = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextDescription = new SimpleBooleanProperty(false);
@@ -65,6 +65,7 @@ public class TabViewModel {
         this.validateInputService = validateInputService;
         this.eventList = new ArrayList<>();
         this.openRouteService = new OpenRouteService();
+        // TODO gehört hier ein neuer OpenRouteService hin?
 
         // set placeholder for map
         String mapPath = "/org/shayvin/tourplanner/img/street-map.png";

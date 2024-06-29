@@ -2,10 +2,14 @@ package org.shayvin.tourplanner.viewmodel;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 
 public class RouteButtonsViewModel {
+
+    private static final Logger logger = LogManager.getLogger(RouteButtonsViewModel.class);
 
     private final Publisher publisher;
 
@@ -22,40 +26,34 @@ public class RouteButtonsViewModel {
         this.publisher = publisher;
 
         publisher.subscribe(Event.ENABLE_ADD_BUTTON, message -> {
-            System.out.println("Subscribe message received for add button:" + message);
             addDisabled.set(false);
         });
         publisher.subscribe(Event.DISABLE_ADD_BUTTON, message -> {
-            System.out.println("Subscribe message received for add button:" + message);
             addDisabled.set(true);
         });
         publisher.subscribe(Event.DISABLE_REMOVE_BUTTON, message -> {
-            System.out.println("Subscribe message received for remove button:" + message);
             removeDisabled.set(true);
         });
         publisher.subscribe(Event.DISABLE_EDIT_BUTTON, message -> {
-            System.out.println("Subscribe message received for edit button:" + message);
             editDisabled.set(true);
         });
         publisher.subscribe(Event.TOUR_SELECTED, message -> {
-            System.out.println("Subscribe message received for edit button:" + message);
             editDisabled.set(false);
             removeDisabled.set(false);
         });
         publisher.subscribe(Event.EDIT_TOUR, message -> {
-            System.out.println("Subscribe message received for save button:" + message);
             saveDisabled.set(false);
             addDisabled.set(true);
         });
         publisher.subscribe(Event.LIST_UPDATED, message -> {
-            System.out.println("Subscribe message received for update:" + message);
+            logger.info("Updating tour list");
             addDisabled.set(true);
             editDisabled.set(true);
             removeDisabled.set(true);
             saveDisabled.set(true);
         });
         publisher.subscribe(Event.TOUR_UNSELECTED, message -> {
-            System.out.println("Subscribe message received for save button:" + message);
+            logger.info("Unselected tour list");
             saveDisabled.set(true);
             editDisabled.set(true);
             removeDisabled.set(true);
@@ -85,47 +83,15 @@ public class RouteButtonsViewModel {
         return addDisabled;
     }
 
-    public boolean getAddDisabled() {
-        return addDisabled.get();
-    }
-
-    public boolean isAddDisabled() {
-        return addDisabled.get();
-    }
-
     public BooleanProperty removeDisabledProperty() {
         return removeDisabled;
-    }
-
-    public boolean getRemoveDisabled() {
-        return removeDisabled.get();
-    }
-
-    public boolean isRemoveDisabled() {
-        return removeDisabled.get();
     }
 
     public BooleanProperty editDisabledProperty() {
         return editDisabled;
     }
 
-    public boolean getEditDisabled() {
-        return editDisabled.get();
-    }
-
-    public boolean isEditDisabled() {
-        return editDisabled.get();
-    }
-
     public BooleanProperty saveDisabledProperty() {
         return saveDisabled;
-    }
-
-    public boolean getSaveDisabled() {
-        return saveDisabled.get();
-    }
-
-    public boolean isSaveDisabled() {
-        return saveDisabled.get();
     }
 }

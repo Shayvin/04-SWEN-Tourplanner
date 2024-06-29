@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class PdfBox {
+
     private final TourMemoryRepository tourMemoryRepository = new TourMemoryRepository();
 
     public PdfBox() {
@@ -120,17 +121,17 @@ public class PdfBox {
                     contentStream.newLineAtOffset(tourLogsStartXPosition, tourLogsStartYPosition);
                     contentStream.showText("Tour Name: " + tourLog.getTour().getName());
                     contentStream.newLine();
-                    contentStream.showText("Date: " + tourLog.getDateProperty());
+                    contentStream.showText("Date: " + tourLog.getDate());
                     contentStream.newLine();
-                    contentStream.showText("Duration: " + tourLog.getDurationProperty());
+                    contentStream.showText("Duration: " + tourLog.getDuration());
                     contentStream.newLine();
-                    contentStream.showText("Distance: " + tourLog.getDistanceProperty());
+                    contentStream.showText("Distance: " + tourLog.getDistance());
                     contentStream.newLine();
-                    contentStream.showText("Rating: " + tourLog.getRatingProperty());
+                    contentStream.showText("Rating: " + tourLog.getRating());
                     contentStream.newLine();
-                    contentStream.showText("Comment: " + tourLog.getCommentProperty());
+                    contentStream.showText("Comment: " + tourLog.getComment());
                     contentStream.newLine();
-                    contentStream.showText("Difficulty: " + tourLog.getDifficultyProperty());
+                    contentStream.showText("Difficulty: " + tourLog.getDifficulty());
                     contentStream.endText();
 
                     tourLogsStartYPosition -= 150;

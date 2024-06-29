@@ -12,14 +12,20 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.shayvin.tourplanner.service.OpenRouteService;
 import org.shayvin.tourplanner.viewmodel.TabViewModel;
+import org.shayvin.tourplanner.viewmodel.TourLogPopupViewModel;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
 public class TabView implements Initializable {
+
+    private static final Logger logger = LogManager.getLogger(TabView.class);
 
     private final TabViewModel viewModel;
     private final OpenRouteService openRouteService;
@@ -76,10 +82,14 @@ public class TabView implements Initializable {
 
         picturesView.imageProperty().bindBidirectional(viewModel.pictures);
 
-        webEngine = mapView.getEngine();
-        String leafletMap = openRouteService.getLeafletMap();
-        webEngine.loadContent(leafletMap);
-
+        try {
+            logger.info("loading leaflet");
+            webEngine = mapView.getEngine();
+            String leafletMap = openRouteService.getLeafletMap();
+            webEngine.loadContent(leafletMap);
+        }catch ( Exception e){
+            logger.error("Error loading leaflet: {}", e.getMessage());
+        }
         ChangeListener<String> addressListener = (observable, oldValue, newValue) -> {
             if (!newValue.isBlank()) {
                 viewModel.updateMap(webEngine);
@@ -92,5 +102,6 @@ public class TabView implements Initializable {
         viewModel.addTourTextType().addListener(addressListener);
 
         openRouteService.start();
+
     }
 }

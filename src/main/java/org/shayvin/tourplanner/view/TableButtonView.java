@@ -3,6 +3,9 @@ package org.shayvin.tourplanner.view;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.viewmodel.TableButtonViewModel;
 
@@ -10,6 +13,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TableButtonView implements Initializable {
+
+    private static final Logger logger = LogManager.getLogger(TableButtonView.class);
 
     private final Publisher publisher;
     private final TableButtonViewModel viewModel;
@@ -37,15 +42,18 @@ public class TableButtonView implements Initializable {
     }
 
     public void onAdd() {
+        logger.info("Adding tour log to DB initialised");
         System.out.println("in onAdd");
         this.viewModel.addTourLogEvent();
     }
 
     public void onDelete() {
+        logger.info("Deleting tour log from DB initialised");
         this.viewModel.deleteTourLogEvent();
     }
 
     public void onEdit() {
+        logger.info("Editing tour log from DB initialised");
         this.viewModel.editTourLogEvent();
     }
 }

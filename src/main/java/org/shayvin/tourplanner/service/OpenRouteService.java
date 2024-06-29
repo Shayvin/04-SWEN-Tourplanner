@@ -14,13 +14,19 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.shayvin.tourplanner.TourPlannerApp;
+import org.shayvin.tourplanner.viewmodel.TourLogPopupViewModel;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
 public class OpenRouteService extends Service<String> {
+
+    private static final Logger logger = LogManager.getLogger(OpenRouteService.class);
+
     private static final String apiKey = loadKeyValuePair();
     private static final String baseUrl = "https://api.openrouteservice.org/v2/directions/";
     private static final String geocodeUrl = "https://api.openrouteservice.org/geocode/search";
@@ -223,16 +229,19 @@ public class OpenRouteService extends Service<String> {
         // Load key-value pair from file
         Properties properties = new Properties();
         try {
+            logger.info("Loading API key...");
             properties.load(TourPlannerApp.class.getClassLoader().getResourceAsStream("app.properties"));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("No API key found!");
         }
+        logger.info("Success loading API key.");
         return properties.getProperty("apiKey");
     }
 
     public String calculateDistance(String json) {
         String distance = "";
         try {
+            logger.info("Calculating distance...");
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(json);
 
@@ -244,14 +253,16 @@ public class OpenRouteService extends Service<String> {
             System.out.println("Distance: " + distance);
             setDistance(distance);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
+        logger.info("Success calculating distance: {}", distance);
         return distance;
     }
 
     public String calculateDuration(String json) {
         String duration = "";
         try {
+            logger.info("Calculating duration...");
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(json);
 
@@ -263,8 +274,9 @@ public class OpenRouteService extends Service<String> {
             System.out.println("Duration: " + duration);
             setDuration(duration);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
+        logger.info("Success calculating duration: {}", duration);
         return duration;
     }
 

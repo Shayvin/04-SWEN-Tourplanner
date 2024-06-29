@@ -11,6 +11,7 @@ module org.shayvin.tourplanner {
     requires com.fasterxml.jackson.databind;
     requires javafx.web;
     requires org.apache.pdfbox;
+    requires org.apache.logging.log4j.core;
 
 
     opens org.shayvin.tourplanner to javafx.fxml;

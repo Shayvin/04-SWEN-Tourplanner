@@ -61,6 +61,7 @@ public class TourLogPopupView {
         stage.close();
     }
 
+    @FXML
     public void onSubmit() {
         String rating = "";
         if (star1RadioButton.isSelected()) {
@@ -82,6 +83,7 @@ public class TourLogPopupView {
         stage.close();
     }
 
+    @FXML
     public void onEdit() {
         String rating = "";
         if (star1RadioButton.isSelected()) {

@@ -2,6 +2,8 @@ package org.shayvin.tourplanner.viewmodel;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 
@@ -41,7 +43,6 @@ public class TableButtonViewModel {
     }
 
     public void addTourLogEvent() {
-        System.out.println("Add Tour Log Button Clicked");
         publisher.publish(Event.ADD_TOUR_LOG, "Add Tour Log Button Clicked");
     }
 

@@ -1,5 +1,6 @@
 package org.shayvin.tourplanner.view;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,9 +12,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MenuBarView implements Initializable {
-
-    @FXML
-
 
     private final Publisher publisher;
     private final MenuBarViewModel viewModel;
@@ -35,6 +33,7 @@ public class MenuBarView implements Initializable {
 
     }
 
+    @FXML
     public void exportPdf(ActionEvent actionEvent) {
         viewModel.exportPdf();
     }

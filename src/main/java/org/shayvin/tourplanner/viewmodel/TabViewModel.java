@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.scene.image.Image;
 import javafx.scene.web.WebEngine;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.service.OpenRouteService;
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class TabViewModel {
+
+    private static final Logger logger = LogManager.getLogger(TabViewModel.class);
 
     private final Publisher publisher;
     private final TourService tourService;
@@ -118,7 +122,6 @@ public class TabViewModel {
 
         // add data to repo when ADD_TOUR is received
         publisher.subscribe(Event.ADD_TOUR, message -> {
-            System.out.println("Received message: " + message);
             tourService.add(
                     addTourTextName.get(),
                     addTourTextDescription.get(),
@@ -131,9 +134,10 @@ public class TabViewModel {
             );
 
             try {
+                logger.info("Clear input fields");
                 clearInputFields();
             }catch (IllegalAccessException e){
-                System.out.println(e);
+                logger.error(e.getMessage());
             }
 
             publisher.publish(Event.TOUR_ADDED, "added new tour");
@@ -225,7 +229,7 @@ public class TabViewModel {
                     stringProperty.set("");
                 }
                 catch (IllegalAccessException e){
-                    e.printStackTrace();
+                    logger.error(e.getMessage());
                 }
             }
         }
@@ -236,7 +240,6 @@ public class TabViewModel {
     // ugly af but it adds the elements from the tour back to the tabView
     private void fillInElements(List<String> tourDetails){
         if(tourDetails == null){
-            System.out.println("fillInElements called with null tour details?!?!");
             return;
         }
 
@@ -253,7 +256,6 @@ public class TabViewModel {
         Image currentImage = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
         this.pictures.setValue(currentImage);
 
-        System.out.println("End of filling input fields");
     }
 
     public String getAddTourTextName() {

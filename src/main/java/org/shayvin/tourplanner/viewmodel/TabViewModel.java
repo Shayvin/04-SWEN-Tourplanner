@@ -448,6 +448,7 @@ public class TabViewModel {
             openRouteService.setStartAddress(addTourTextStart.get());
             openRouteService.setEndAddress(addTourTextDestination.get());
             openRouteService.setTransportType(calculateTransportType(addTourTextType.get()));
+            setReadOnly(true);
             openRouteService.restart();
         }
 
@@ -455,12 +456,28 @@ public class TabViewModel {
             String route = (String) event.getSource().getValue();
             System.out.println("Route JSON: " + route);
             openRouteService.displayRoute(route, webEngine);
+            if(editMode) {
+                setReadOnly(false);
+            }
+        });
+
+        openRouteService.setOnFailed(event -> {
+            System.out.println("Failed to calculate route.");
+            addTourTextDistance.set("");
+            addTourTextTime.set("");
+            if(editMode) {
+                setReadOnly(false);
+            }
         });
     }
 
     public void updateTextField() {
         addTourTextTime.set(openRouteService.getDuration());
         addTourTextDistance.set(openRouteService.getDistance());
+    }
+
+    public void clearTypeField(){
+        addTourTextType.set("");
     }
 
     private String calculateTransportType(String transportType) {

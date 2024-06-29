@@ -94,7 +94,7 @@ public class TourLog {
         this.tour = tour;
     }
 
-    public String getDate() {
+    public String getDateProperty() {
         return dateProperty.get();
     }
 
@@ -103,7 +103,7 @@ public class TourLog {
         this.date = date;
     }
 
-    public Double getDuration() {
+    public Double getDurationProperty() {
         return durationProperty.get();
     }
 
@@ -112,7 +112,7 @@ public class TourLog {
         this.duration = duration;
     }
 
-    public Double getDistance() {
+    public Double getDistanceProperty() {
         return distanceProperty.get();
     }
 
@@ -121,7 +121,7 @@ public class TourLog {
         this.distance = distance;
     }
 
-    public String getComment() {
+    public String getCommentProperty() {
         return commentProperty.get();
     }
 
@@ -130,7 +130,7 @@ public class TourLog {
         this.comment = comment;
     }
 
-    public Double getDifficulty() {
+    public Double getDifficultyProperty() {
         return difficultyProperty.get();
     }
 
@@ -139,7 +139,7 @@ public class TourLog {
         this.difficulty = difficulty;
     }
 
-    public Integer getRating() {
+    public Integer getRatingProperty() {
         return ratingProperty.get();
     }
 
@@ -170,5 +170,29 @@ public class TourLog {
 
     public SimpleIntegerProperty ratingProperty() {
         return ratingProperty;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public double getDuration() {
+        return duration;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public double getDifficulty() {
+        return difficulty;
+    }
+
+    public int getRating() {
+        return rating;
     }
 }

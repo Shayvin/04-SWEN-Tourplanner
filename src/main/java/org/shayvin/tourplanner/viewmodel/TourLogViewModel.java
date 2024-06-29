@@ -67,5 +67,13 @@ public class TourLogViewModel {
 
     private void updateTourLogs(String message) {
         tourLogs.setAll(tourLogService.getTourLogsByName());
+        for (TourLog log : tourLogs) {
+            log.setDate(log.getDate());
+            log.setDuration(log.getDuration());
+            log.setDistance(log.getDistance());
+            log.setComment(log.getComment());
+            log.setDifficulty(log.getDifficulty());
+            log.setRating(log.getRating());
+        }
     }
 }

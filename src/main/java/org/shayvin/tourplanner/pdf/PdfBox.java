@@ -120,17 +120,17 @@ public class PdfBox {
                     contentStream.newLineAtOffset(tourLogsStartXPosition, tourLogsStartYPosition);
                     contentStream.showText("Tour Name: " + tourLog.getTour().getName());
                     contentStream.newLine();
-                    contentStream.showText("Date: " + tourLog.getDate());
+                    contentStream.showText("Date: " + tourLog.getDateProperty());
                     contentStream.newLine();
-                    contentStream.showText("Duration: " + tourLog.getDuration());
+                    contentStream.showText("Duration: " + tourLog.getDurationProperty());
                     contentStream.newLine();
-                    contentStream.showText("Distance: " + tourLog.getDistance());
+                    contentStream.showText("Distance: " + tourLog.getDistanceProperty());
                     contentStream.newLine();
-                    contentStream.showText("Rating: " + tourLog.getRating());
+                    contentStream.showText("Rating: " + tourLog.getRatingProperty());
                     contentStream.newLine();
-                    contentStream.showText("Comment: " + tourLog.getComment());
+                    contentStream.showText("Comment: " + tourLog.getCommentProperty());
                     contentStream.newLine();
-                    contentStream.showText("Difficulty: " + tourLog.getDifficulty());
+                    contentStream.showText("Difficulty: " + tourLog.getDifficultyProperty());
                     contentStream.endText();
 
                     tourLogsStartYPosition -= 150;

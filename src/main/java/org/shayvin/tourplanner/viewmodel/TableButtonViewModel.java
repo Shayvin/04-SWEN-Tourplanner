@@ -53,7 +53,11 @@ public class TableButtonViewModel {
 
     public void changeEditButtonVisibility(Boolean visibility) { tourLogEditButton.set(visibility); }
 
-    public void editTourLogEvent() { publisher.publish(Event.EDIT_TOUR_LOG, "Edit Tour Log Button Clicked"); }
+    public void editTourLogEvent() {
+        publisher.publish(Event.EDIT_TOUR_LOG, "Edit Tour Log Button Clicked");
+
+        //TODO: add new event -> fill in tour log details to popup
+    }
 
 
 }

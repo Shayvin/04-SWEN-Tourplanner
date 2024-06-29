@@ -89,6 +89,7 @@ public class TabView implements Initializable {
 
         viewModel.addTourTextStartProperty().addListener(addressListener);
         viewModel.addTourTextDestinationProperty().addListener(addressListener);
+        viewModel.addTourTextType().addListener(addressListener);
 
         openRouteService.start();
     }

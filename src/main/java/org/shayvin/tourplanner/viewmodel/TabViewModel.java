@@ -440,22 +440,15 @@ public class TabViewModel {
     }
 
     public void updateMap(WebEngine webEngine) {
-        List<String> tour = tourService.getTourWithName();
 
-        if(tour == null){
-            openRouteService.setStartAddress(addTourTextStart.get());
-            openRouteService.setEndAddress(addTourTextDestination.get());
-            openRouteService.setTransportType(calculateTransportType(addTourTextType.get()));
-            if(openRouteService.getStartAddress() != null && openRouteService.getEndAddress() != null && openRouteService.getTransportType() != null){
-                System.out.println("Start: " + openRouteService.getStartAddress());
-                System.out.println("End: " + openRouteService.getEndAddress());
-                System.out.println("Transport: " + openRouteService.getTransportType());
-                openRouteService.restart();
-            }
+        if(addTourTextStart.get().isBlank() || addTourTextDestination.get().isBlank() || addTourTextType.get().isBlank()) {
+            System.out.println("Fill all fields to calculate route.");
+
         } else {
             openRouteService.setStartAddress(addTourTextStart.get());
             openRouteService.setEndAddress(addTourTextDestination.get());
             openRouteService.setTransportType(calculateTransportType(addTourTextType.get()));
+            openRouteService.restart();
         }
 
         openRouteService.setOnSucceeded(event -> {
@@ -463,7 +456,6 @@ public class TabViewModel {
             System.out.println("Route JSON: " + route);
             openRouteService.displayRoute(route, webEngine);
         });
-        openRouteService.restart();
     }
 
     public void updateTextField() {

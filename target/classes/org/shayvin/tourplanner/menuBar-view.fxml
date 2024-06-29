@@ -9,7 +9,8 @@
 <MenuBar xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.shayvin.tourplanner.view.MenuBarView"
-            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0" >
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="17.0"
+            fx:id="menuBar">
 
         <Menu mnemonicParsing="false" text="File">
             <MenuItem id="fileExit" mnemonicParsing="false" onAction="#exitProgram" text="Exit"/>
@@ -18,8 +19,10 @@
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem mnemonicParsing="false" text="Delete"/>
         </Menu>
-        <Menu mnemonicParsing="false" text="Options">
-            <MenuItem mnemonicParsing="false" text="Font"/>
+        <Menu mnemonicParsing="false" text="Font">
+            <MenuItem mnemonicParsing="false" text="Arial" onAction="#fontArial"/>
+            <MenuItem mnemonicParsing="false" text="Verdana" onAction="#fontVerdana"/>
+            <MenuItem mnemonicParsing="false" text="Courier New" onAction="#fontCourierNew"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
             <MenuItem mnemonicParsing="false" text="About"/>

@@ -1,6 +1,7 @@
 package org.shayvin.tourplanner.viewmodel;
 
 import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,6 +37,13 @@ public class MenuBarViewModel {
             pdfBox.exportToPDF("tour.pdf");
         }catch(Exception e){
             logger.error(e);
+        }
+    }
+
+    public void changeFont(String font, Scene currentScene){
+        if (currentScene != null) {
+            logger.info("changing font to {}", font);
+            currentScene.getRoot().setStyle("-fx-font-family: '" + font + "'; -fx-font-size: 12px;");
         }
     }
 }

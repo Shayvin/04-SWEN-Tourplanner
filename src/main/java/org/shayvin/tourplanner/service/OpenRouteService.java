@@ -144,8 +144,12 @@ public class OpenRouteService extends Service<String> {
         webEngine.executeScript("window.route = '" + route + "';");
         webEngine.executeScript("setTimeout(function() { window.tryDisplayRoute(); }, 100);"); // Without Timeout it doesn't work. Because the function is not ready at this point
         if(!startAddress.isEmpty() || !endAddress.isEmpty()){
-            webEngine.executeScript("clearRouteOnMap();");
+            clearExistingRoute(webEngine);
         }
+    }
+
+    public void clearExistingRoute(WebEngine webEngine) {
+        webEngine.executeScript("clearRouteOnMap();");
     }
 
     private String generateLeafletMapHTML() {

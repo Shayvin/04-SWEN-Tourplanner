@@ -458,6 +458,8 @@ public class TabViewModel {
             openRouteService.displayRoute(route, webEngine);
             if(editMode) {
                 setReadOnly(false);
+            } else {
+                setReadOnly(true);
             }
         });
 
@@ -465,7 +467,10 @@ public class TabViewModel {
             System.out.println("Failed to calculate route.");
             addTourTextDistance.set("");
             addTourTextTime.set("");
+            openRouteService.clearExistingRoute(webEngine);
             if(editMode) {
+                setReadOnly(true);
+            } else {
                 setReadOnly(false);
             }
         });

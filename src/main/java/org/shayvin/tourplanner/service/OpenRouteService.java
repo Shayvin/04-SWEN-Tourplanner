@@ -45,26 +45,10 @@ public class OpenRouteService extends Service<String> {
     public OpenRouteService(ConfigService configService) {
         this.configService = configService;
         this.httpClient = HttpClients.createDefault();
-        apiKey = ConfigService.loadKeyValuePair();
+        apiKey = configService.loadKeyValuePair();
     }
 
-    /*public static String getRoute(double startLon, double startLat, double endLon, double endLat) throws IOException {
-        String url = String.format("%s?api_key=%s&start=%f,%f&end=%f,%f",
-                baseUrl, apiKey, startLon, startLat, endLon, endLat);
-
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet(url);
-            try (CloseableHttpResponse response = client.execute(request)) {
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    String json = EntityUtils.toString(response.getEntity());
-                    return parseRoute(json);
-                } else {
-                    throw new IOException("Failed to get route: " + response.getStatusLine().getStatusCode());
-                }
-            }
-        }
-    }*/
-
+    // Get coordinates from the OpenRouteService API
     public double[] getCoordinates(String address) throws IOException {
         String url = String.format("%s?api_key=%s&text=%s", geocodeUrl, apiKey, address);
 
@@ -79,6 +63,7 @@ public class OpenRouteService extends Service<String> {
         }
     }
 
+    // Parse the coordinates from the JSON response
     private static double[] parseCoordinates(String json) throws IOException{
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(json);
@@ -100,21 +85,7 @@ public class OpenRouteService extends Service<String> {
         }
     }
 
-    /*private static String parseRoute(String json) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode rootNode = mapper.readTree(json);
-        JsonNode routesNode = rootNode.path("routes");
-
-        if (routesNode.isArray() && routesNode.size() > 0) {
-            JsonNode summaryNode = routesNode.get(0).path("summary");
-            double distance = summaryNode.path("distance").asDouble();
-            double duration = summaryNode.path("duration").asDouble();
-            return String.format("Distance: %.2f meters, Duration: %.2f seconds", distance, duration);
-        } else {
-            throw new IOException("No route found");
-        }
-    }*/
-
+    // Create a task to get the route from the OpenRouteService API
     @Override
     public Task<String> createTask() {
         return new Task<>() {
@@ -150,6 +121,7 @@ public class OpenRouteService extends Service<String> {
         };
     }
 
+    // Display route on map
     public void displayRoute(String route, WebEngine webEngine) {
         route = route.replace("\\", "\\\\").replace("'", "\\'");
         webEngine.executeScript("window.route = '" + route + "';");
@@ -159,10 +131,12 @@ public class OpenRouteService extends Service<String> {
         }
     }
 
+    // Clear existing route on map
     public void clearExistingRoute(WebEngine webEngine) {
         webEngine.executeScript("clearRouteOnMap();");
     }
 
+    // Generate HTML for Leaflet map
     private String generateLeafletMapHTML() {
         return """
     <!DOCTYPE html>
@@ -234,6 +208,7 @@ public class OpenRouteService extends Service<String> {
     """;
     }
 
+    // Calculate distance and duration from the JSON response
     public String calculateDistance(String json) {
         String distance = "";
         try {
@@ -245,8 +220,6 @@ public class OpenRouteService extends Service<String> {
                     .path("features").get(0)
                     .path("properties").path("summary")
                     .path("distance").asText();
-
-            System.out.println("Distance: " + distance);
             setDistance(distance);
         } catch (JsonProcessingException e) {
             logger.error(e.getMessage());
@@ -255,6 +228,7 @@ public class OpenRouteService extends Service<String> {
         return distance;
     }
 
+    // Calculate distance and duration from the JSON response
     public String calculateDuration(String json) {
         String duration = "";
         try {
@@ -266,8 +240,6 @@ public class OpenRouteService extends Service<String> {
                     .path("features").get(0)
                     .path("properties").path("summary")
                     .path("duration").asText();
-
-            System.out.println("Duration: " + duration);
             setDuration(duration);
         } catch (JsonProcessingException e) {
             logger.error(e.getMessage());

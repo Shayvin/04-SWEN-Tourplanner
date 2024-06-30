@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.shayvin.tourplanner.pdf.PdfBox;
+import org.shayvin.tourplanner.service.CreatePopupService;
 
 import static org.mockito.Mockito.*;
 
@@ -13,12 +14,17 @@ public class MenuBarViewModelTest {
     @Mock
     private PdfBox mockPdfBox;
 
+    @Mock
+    private CreatePopupService createPopupService;
+
     private MenuBarViewModel menuBarViewModel;
+
+
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        menuBarViewModel = new MenuBarViewModel(null, mockPdfBox); // Inject mock PdfBox
+        menuBarViewModel = new MenuBarViewModel(null, mockPdfBox, createPopupService); // Inject mock PdfBox
     }
 
     @Test

@@ -4,13 +4,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.shayvin.tourplanner.FXMLDependencyInjector;
-import org.shayvin.tourplanner.viewmodel.MenuBarViewModel;
-import org.shayvin.tourplanner.viewmodel.NotificationPopupViewModel;
+import org.shayvin.tourplanner.viewmodel.TabViewModel;
 
 import java.util.Locale;
 
 public class CreatePopupService {
+
+    private static final Logger logger = LogManager.getLogger(CreatePopupService.class);
 
     public CreatePopupService() {
     }
@@ -24,12 +27,9 @@ public class CreatePopupService {
             popupStage.setHeight(height);
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.showAndWait();
+            logger.info("Popup created: " + name);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    //TODO Think about this, currently hard to add a popup as the validation starts on the first input
-    //      maybe with a timer (wait 2 seconds)?
-
 }

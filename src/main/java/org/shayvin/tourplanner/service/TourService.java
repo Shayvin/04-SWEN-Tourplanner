@@ -25,12 +25,10 @@ public class TourService {
         if(tour.isPresent()) {
             currentTour = tour.get();
             currentTourId = currentTour.getId();
-            // TODO add error handling
             return;
         }
 
         // set image for current tour
-        //TODO rework this: let user upload pictures and add those to the repository
         String imagePath = getRandomPicture();
 
         Tour addedTour = tourMemoryRepository.save(new Tour(tourName, tourDescription, tourStart, tourDestination, tourType, tourDistance, tourDuration, tourInformation, imagePath));
@@ -40,7 +38,7 @@ public class TourService {
 
     // checks if values are different to current tour and refreshes them, saves it afterwards in db
     public void updateTour(String tourName, String tourDescription, String tourStart, String tourDestination, String tourType, String tourDistance, String tourDuration, String tourInformation){
-        // removes current entry ->  TODO will be reworked as soon as there are IDs
+        // removes current entry
         removeTourFromRepository(currentTourName);
 
         // changes data if edited
@@ -68,7 +66,6 @@ public class TourService {
         if(!currentTour.getInformation().equals(tourInformation)) {
             currentTour.setInformation(tourInformation);
         }
-        //TODO rework this: check id, adapt the entries and save the object with the same id (so that the tourlogs won't go missing
         tourMemoryRepository.update(currentTour);
     }
 
@@ -126,8 +123,6 @@ public class TourService {
     public void removeTourFromRepository(String tourToRemove) {
         if(tourToRemove.equals(currentTourName)){
             tourMemoryRepository.removeTour(currentTourId);
-        }else{
-            System.out.println("WARRRRRUUUUUUUUM");
         }
     }
 

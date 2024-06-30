@@ -16,6 +16,7 @@ public class FXMLDependencyInjector {
         return loader.load();
     }
 
+    // This method is used to create a new FXMLLoader instance with the given location and locale
     public static FXMLLoader loader(String location, Locale locale) {
         return new FXMLLoader(
                 FXMLDependencyInjector.class.getResource("/org/shayvin/tourplanner/" + location),

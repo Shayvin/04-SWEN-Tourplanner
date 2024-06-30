@@ -1,5 +1,7 @@
 package org.shayvin.tourplanner.pdf;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -8,6 +10,7 @@ import org.apache.pdfbox.pdmodel.font.Standard14Fonts.FontName;
 import org.shayvin.tourplanner.entity.Tour;
 import org.shayvin.tourplanner.entity.TourLog;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
+import org.shayvin.tourplanner.viewmodel.TabViewModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.List;
 public class PdfBox {
 
     private final TourMemoryRepository tourMemoryRepository = new TourMemoryRepository();
+    private static final Logger logger = LogManager.getLogger(PdfBox.class);
 
     public PdfBox() {
     }
@@ -141,6 +145,7 @@ public class PdfBox {
             }
 
             contentStream.close();
+            logger.info("PDF created successfully!");
             document.save(filePath);
         } catch (IOException e) {
             e.printStackTrace();

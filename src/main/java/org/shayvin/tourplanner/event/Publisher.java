@@ -1,5 +1,9 @@
 package org.shayvin.tourplanner.event;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.shayvin.tourplanner.viewmodel.TabViewModel;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +11,7 @@ import java.util.Map;
 
 public class Publisher {
     private final Map<Event, List<Subscriber>> subscriberMap;
+    private static final Logger logger = LogManager.getLogger(Publisher.class);
 
     public Publisher() {
         subscriberMap = new HashMap<>();
@@ -30,10 +35,9 @@ public class Publisher {
         List<Subscriber> subscribers = subscriberMap.get(event);
 
         if (null == subscribers) {
-            // TODO: Log this event
+            logger.warn("No subscribers for event: " + event);
             return;
         }
-
         for (Subscriber subscriber: subscribers) {
             subscriber.notify(message);
         }

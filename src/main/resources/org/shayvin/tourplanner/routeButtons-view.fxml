@@ -10,10 +10,10 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.shayvin.tourplanner.view.RouteButtonsView">
 
-    <Label text="Routes"/>
-    <Button fx:id="addButton" onAction="#onAdd" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="Add"/>
-    <Button fx:id="removeButton" onAction="#onRemove" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" HBox.hgrow="ALWAYS" text="Remove"/>
-    <Button fx:id="editButton" onAction="#onEdit" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="Edit"/>
-    <Button fx:id="saveButton" onAction="#onSave" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="Save"/>
+    <Label text="%addRouteTextRoute"/>
+    <Button fx:id="addButton" onAction="#onAdd" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="%addRouteTextAdd"/>
+    <Button fx:id="removeButton" onAction="#onRemove" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" HBox.hgrow="ALWAYS" text="%addRouteTextRemove"/>
+    <Button fx:id="editButton" onAction="#onEdit" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="%addRouteTextEdit"/>
+    <Button fx:id="saveButton" onAction="#onSave" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="%addRouteTextSave"/>
 
 </HBox>

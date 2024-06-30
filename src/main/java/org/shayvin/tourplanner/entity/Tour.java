@@ -137,5 +137,4 @@ public class Tour {
     public void setTourLogList(List<TourLog> tourLogList) {
         this.tourLogList = tourLogList;
     }
-
 }

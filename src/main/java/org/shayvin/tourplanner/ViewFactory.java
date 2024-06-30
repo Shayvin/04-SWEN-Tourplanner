@@ -2,15 +2,11 @@ package org.shayvin.tourplanner;
 
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.pdf.PdfBox;
-import org.shayvin.tourplanner.repository.TourLogRepository;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
 import org.shayvin.tourplanner.service.*;
 import org.shayvin.tourplanner.view.*;
 import org.shayvin.tourplanner.viewmodel.*;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 public class ViewFactory {
 
@@ -20,7 +16,6 @@ public class ViewFactory {
 
     private final TourRepository tourRepository;
     private final TourMemoryRepository tourMemoryRepository;
-    private final TourLogRepository tourLogRepository;
 
     private final TourService tourService;
     private final TourLogService tourLogService;
@@ -41,7 +36,6 @@ public class ViewFactory {
     private final TourLogPopupViewModel tourLogPopupViewModel;
 
     private ViewFactory() {
-        tourLogRepository = new TourLogRepository();
         publisher = new Publisher();
 
         tourRepository = new TourMemoryRepository();
@@ -75,6 +69,7 @@ public class ViewFactory {
         return instance;
     }
 
+    // Create a view based on the class
     public Object create(Class<?> viewClass) {
         if(viewClass == TabView.class) {
             return new TabView(tabViewModel, openRouteService);

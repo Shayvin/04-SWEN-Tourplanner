@@ -14,7 +14,7 @@
          fx:controller="org.shayvin.tourplanner.view.TabView"
          tabClosingPolicy="UNAVAILABLE">
         <tabs>
-            <Tab text="General">
+            <Tab text="%generalLabelName">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     <VBox>
@@ -37,13 +37,13 @@
                     </VBox>
                 </content>
             </Tab>
-            <Tab text="Route">
+            <Tab text="%routeLabelName">
                 <AnchorPane>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     <WebView fx:id="mapView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                 </AnchorPane>
             </Tab>
-            <Tab text="Pictures">
+            <Tab text="%pictureLabelName">
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                     <ImageView fx:id="picturesView"/>

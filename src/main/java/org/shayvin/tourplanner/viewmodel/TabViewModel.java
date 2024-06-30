@@ -30,7 +30,6 @@ public class TabViewModel {
 
     public Property<Image> pictures = new SimpleObjectProperty<>();
     public Property<Image> map = new SimpleObjectProperty<>();
-    private final StringProperty mapContent = new SimpleStringProperty();
 
     public List<Event> eventList;
 
@@ -44,8 +43,6 @@ public class TabViewModel {
     private final StringProperty addTourTextDistance = new SimpleStringProperty("");
     private final StringProperty addTourTextTime = new SimpleStringProperty("");
     private final StringProperty addTourTextInformation = new SimpleStringProperty("");
-
-    public StringProperty mapContentProperty() { return mapContent; }
 
     private final BooleanProperty readOnlyTextName = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextDescription = new SimpleBooleanProperty(false);
@@ -142,7 +139,6 @@ public class TabViewModel {
 
         // update data in repo when SAVE_EDITED_TOUR is received
         publisher.subscribe(Event.SAVE_EDITED_TOUR, message -> {
-            System.out.println("Received message: " + message);
             tourService.updateTour(
                     addTourTextName.get(),
                     addTourTextDescription.get(),
@@ -164,14 +160,12 @@ public class TabViewModel {
 
         // get data from repo when TOUR_SELECTED is received
         publisher.subscribe(Event.TOUR_SELECTED, message -> {
-            System.out.println("Received tour selected: " + message);
             fillInElements(tourService.getTourWithName());
             setReadOnly(true);
         });
 
         // clear data from textfields when TOUR_UNSELECTED is received
         publisher.subscribe(Event.TOUR_UNSELECTED, message -> {
-            System.out.println("Received tour unselected: " + message);
             try {
                 clearInputFields();
             }catch (IllegalAccessException e){
@@ -182,7 +176,6 @@ public class TabViewModel {
 
         // get route info and add to textfields, make it editable
         publisher.subscribe(Event.EDIT_TOUR, message -> {
-            System.out.println("Received message: " + message);
             fillInElements(tourService.getTourWithName());
             setReadOnly(false);
             editMode = true;
@@ -192,7 +185,6 @@ public class TabViewModel {
 
         // on LIST_UPDATED clear textfields and set to not editable
         publisher.subscribe(Event.LIST_UPDATED, message -> {
-            System.out.println("Received message: " + message);
             try {
                 clearInputFields();
             }catch (IllegalAccessException e){
@@ -204,12 +196,10 @@ public class TabViewModel {
 
     // add event to event list
     public void addEventListEntry(Event event){
-        System.out.println("Adding event list entry: " + event);
         if(!eventList.contains(event)){
             eventList.add(event);
         }
         if(eventList.size()==6){
-            System.out.println("Event list contains 6 events");
             validateInputs();
         }
     }
@@ -259,31 +249,24 @@ public class TabViewModel {
     public void validateInputs(){
         publisher.publish(Event.DISABLE_ADD_BUTTON, "Add Button disabled.");
 
-        System.out.println("in validateInputs");
         int counter = 0;
 
         if(!validateInputService.validateInput(addTourTextName.get())){
-            System.out.println("Please enter a valid TourTextName");
             ++counter;
         }
         if(!validateInputService.validateInput((addTourTextDescription.get()))){
-            System.out.println("Please enter a valid TourTextDescription");
             ++counter;
         }
         if(!validateInputService.validateInput((addTourTextStart.get()))){
-            System.out.println("Please enter a valid TourTextStart");
             ++counter;
         }
         if(!validateInputService.validateInput((addTourTextDestination.get()))){
-            System.out.println("Please enter a valid TourTextDestination");
             ++counter;
         }
         if(!validateInputService.validateInput((addTourTextType.get()))){
-            System.out.println("Please enter a valid TourTextType");
             ++counter;
         }
         if(!validateInputService.validateInput((addTourTextInformation.get()))){
-            System.out.println("Please enter a valid TourTextInformation");
             ++counter;
         }
 
@@ -310,10 +293,10 @@ public class TabViewModel {
         readOnlyTextInformation.set(value);
     }
 
+    // update map with route
     public void updateMap(WebEngine webEngine) {
 
         if(addTourTextStart.get().isBlank() || addTourTextDestination.get().isBlank() || addTourTextType.get().isBlank()) {
-            System.out.println("Fill all fields to calculate route.");
 
         } else {
             openRouteService.setStartAddress(addTourTextStart.get());
@@ -327,7 +310,6 @@ public class TabViewModel {
 
         openRouteService.setOnSucceeded(event -> {
             String route = (String) event.getSource().getValue();
-            System.out.println("Route JSON: " + route);
             openRouteService.displayRoute(route, webEngine);
             addTourTextDistance.set(openRouteService.getDistance());
             addTourTextTime.set(openRouteService.getDuration());
@@ -342,7 +324,6 @@ public class TabViewModel {
         });
 
         openRouteService.setOnFailed(event -> {
-            System.out.println("Failed to calculate route.");
             addTourTextDistance.set("");
             addTourTextTime.set("");
             openRouteService.clearExistingRoute(webEngine);
@@ -359,15 +340,18 @@ public class TabViewModel {
         });
     }
 
+    // update textfields with distance and time
     public void updateTextField() {
         addTourTextTime.set(openRouteService.getDuration());
         addTourTextDistance.set(openRouteService.getDistance());
     }
 
+    // clear type field
     public void clearTypeField(){
         addTourTextType.set("");
     }
 
+    // calculate transport type
     private String calculateTransportType(String transportType) {
         switch (transportType) {
             case "Walking":

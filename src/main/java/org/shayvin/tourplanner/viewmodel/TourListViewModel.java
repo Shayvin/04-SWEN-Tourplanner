@@ -33,12 +33,10 @@ public class TourListViewModel {
         );
 
         publisher.subscribe(Event.REMOVE_TOUR, message -> {
-            System.out.println("Received message: " + message);
             removeItemTourList(tourList.get(selectedTourIndex.get()));
         });
 
         publisher.subscribe(Event.TOUR_UPDATED, message -> {
-            System.out.println("Received message: " + message);
             updateTourList("Update");
         });
 
@@ -75,7 +73,6 @@ public class TourListViewModel {
 
     // get index of selected tour
     public IntegerProperty selectedTourIndexProperty() {
-        System.out.println("Index: " + selectedTourIndex);
         return selectedTourIndex;
     }
 

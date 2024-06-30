@@ -4,11 +4,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.shayvin.tourplanner.entity.Tour;
 import org.shayvin.tourplanner.entity.TourLog;
-import org.shayvin.tourplanner.repository.TourLogRepository;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
-import org.shayvin.tourplanner.view.TableButtonView;
 
 import java.util.List;
 import java.util.UUID;
@@ -50,7 +47,6 @@ public class TourLogService {
         UUID currentId = currentTourLog.getId();
         List<TourLog> list = tourService.currentTour.getTourLogList();
 
-        //eigentlich nicht schön, sollte jedes element vergleichen und adaptieren wenn nötig (maybe TODO rework this <-)
         for(TourLog log : list) {
             if(log.getId().equals(currentId)) {
                 list.remove(log);

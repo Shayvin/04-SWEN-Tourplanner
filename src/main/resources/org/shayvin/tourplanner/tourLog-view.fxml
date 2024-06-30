@@ -7,32 +7,32 @@
     <center>
         <TableView fx:id="tableView" editable="false">
             <columns>
-                <TableColumn text="Date" fx:id="dateColumn">
+                <TableColumn text="%addTourlogTextDate" fx:id="dateColumn">
                     <cellValueFactory>
                         <PropertyValueFactory property="date"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Duration" fx:id="durationColumn">
+                <TableColumn text="%addTourlogTextDuration" fx:id="durationColumn">
                     <cellValueFactory>
                         <PropertyValueFactory property="time"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Distance" fx:id="distanceColumn">
+                <TableColumn text="%addTourlogTextDistance" fx:id="distanceColumn">
                     <cellValueFactory>
                         <PropertyValueFactory property="distance"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Comment" fx:id="commentColumn">
+                <TableColumn text="%addTourLogTextComment" fx:id="commentColumn">
                     <cellValueFactory>
                         <PropertyValueFactory property="comment"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Difficulty" fx:id="difficultyColumn">
+                <TableColumn text="%addTourLoTextDifficulty" fx:id="difficultyColumn">
                     <cellValueFactory>
                         <PropertyValueFactory property="difficulty"/>
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn text="Rating" fx:id="ratingColumn">
+                <TableColumn text="%addTourlogTextRating" fx:id="ratingColumn">
                     <cellValueFactory>
                         <PropertyValueFactory property="rating"/>
                     </cellValueFactory>

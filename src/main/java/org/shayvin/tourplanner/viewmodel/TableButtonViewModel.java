@@ -56,8 +56,6 @@ public class TableButtonViewModel {
 
     public void editTourLogEvent() {
         publisher.publish(Event.EDIT_TOUR_LOG, "Edit Tour Log Button Clicked");
-
-        //TODO: add new event -> fill in tour log details to popup
     }
 
 

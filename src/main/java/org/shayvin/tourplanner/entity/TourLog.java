@@ -54,32 +54,6 @@ public class TourLog {
         setRating(rating);
     }
 
-    /*
-    @PostLoad
-    @PostPersist
-    @PostUpdate
-    private void synchronizeProperties() {
-        dateProperty.set(date);
-        durationProperty.set(duration);
-        distanceProperty.set(distance);
-        commentProperty.set(comment);
-        difficultyProperty.set(difficulty);
-        ratingProperty.set(rating);
-    }
-
-    @PrePersist
-    @PreUpdate
-    private void synchronizeFields() {
-        date = dateProperty.get();
-        duration = durationProperty.get();
-        distance = distanceProperty.get();
-        comment = commentProperty.get();
-        difficulty = difficultyProperty.get();
-        rating = ratingProperty.get();
-    }
-
-     */
-
     public UUID getId() {
         return id;
     }

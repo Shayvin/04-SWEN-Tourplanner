@@ -58,8 +58,6 @@ public class RouteButtonsViewModel {
             editDisabled.set(true);
             removeDisabled.set(true);
         });
-
-
     }
 
     public void add(){

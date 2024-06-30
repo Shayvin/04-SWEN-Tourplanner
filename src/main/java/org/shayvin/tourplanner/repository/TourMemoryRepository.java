@@ -27,7 +27,6 @@ public class TourMemoryRepository implements TourRepository {
         entityManager = entityManagerFactory.createEntityManager();
     }
 
-
     // Returns all tours in repository
     @Override
     public List<Tour> findAll() {

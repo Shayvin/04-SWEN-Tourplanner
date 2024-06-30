@@ -17,5 +17,4 @@ public interface TourRepository {
     Optional<Tour> findByName(String tourToFind);
 
     void removeTour(UUID tourToRemove);
-
 }

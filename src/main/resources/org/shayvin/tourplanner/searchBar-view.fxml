@@ -12,6 +12,6 @@
                 layoutY="42.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="42.0">
 
         <TextField prefHeight="25.0" prefWidth="948.0" HBox.hgrow="ALWAYS" promptText="Search"/>
-        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="Search"/>
+        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" HBox.hgrow="ALWAYS" text="%searchTourButtonTextSearch"/>
 
 </HBox>

@@ -8,6 +8,6 @@ public class SearchBarViewModel {
     public Publisher publisher;
 
     public SearchBarViewModel(Publisher publisher) {
-        this.publisher = new Publisher();
+        this.publisher = publisher;
     }
 }

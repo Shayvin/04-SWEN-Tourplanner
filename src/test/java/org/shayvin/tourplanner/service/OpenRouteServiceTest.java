@@ -1,16 +1,13 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.concurrent.Task;
+package org.shayvin.tourplanner.service;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.shayvin.tourplanner.service.ConfigService;
-import org.shayvin.tourplanner.service.OpenRouteService;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

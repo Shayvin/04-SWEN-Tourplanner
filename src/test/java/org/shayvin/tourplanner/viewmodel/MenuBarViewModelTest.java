@@ -1,9 +1,10 @@
+package org.shayvin.tourplanner.viewmodel;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.shayvin.tourplanner.pdf.PdfBox;
-import org.shayvin.tourplanner.viewmodel.MenuBarViewModel;
 
 import static org.mockito.Mockito.*;
 

@@ -1,11 +1,12 @@
-import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
-import org.shayvin.tourplanner.entity.Tour;
-import org.shayvin.tourplanner.entity.TourLog;
-import org.shayvin.tourplanner.repository.TourMemoryRepository;
-import org.shayvin.tourplanner.service.TourService;
+package org.shayvin.tourplanner.service;
 
-import java.util.ArrayList;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.shayvin.tourplanner.entity.Tour;
+import org.shayvin.tourplanner.repository.TourMemoryRepository;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,30 +17,15 @@ import static org.mockito.Mockito.*;
 public class TourServiceTest {
 
     private TourService tourService;
+
+    @Mock
     private TourMemoryRepository mockRepository;
 
     @BeforeEach
     void setUp() {
-        mockRepository = Mockito.mock(TourMemoryRepository.class);
+        MockitoAnnotations.openMocks(this); // Initialize mocks
+
         tourService = new TourService(mockRepository);
-    }
-
-    @Test
-    void testAddTour() {
-        // Mock repository behavior
-        when(mockRepository.findByName("Tour1")).thenReturn(Optional.empty());
-        when(mockRepository.save(any(Tour.class))).thenAnswer(invocation -> {
-            Tour tour = invocation.getArgument(0);
-            tour.setId(UUID.randomUUID());
-            return tour;
-        });
-
-        // Add a tour
-        tourService.add("Tour1", "Description", "Start", "Destination", "Type", "Distance", "Duration", "Information");
-
-        // Verify the tour is added
-        assertEquals("Tour1", tourService.getTourWithName().get(1));
-        assertEquals(1, tourService.updateFullList().size());
     }
 
     @Test

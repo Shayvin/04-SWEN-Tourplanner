@@ -1,4 +1,5 @@
-import javafx.beans.property.BooleanProperty;
+package org.shayvin.tourplanner.viewmodel;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -7,8 +8,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
-import org.shayvin.tourplanner.event.Subscriber;
-import org.shayvin.tourplanner.viewmodel.RouteButtonsViewModel;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

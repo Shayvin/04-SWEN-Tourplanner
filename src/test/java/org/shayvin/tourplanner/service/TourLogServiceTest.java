@@ -46,7 +46,6 @@ public class TourLogServiceTest {
 
     @Test
     public void testAddTourLogData() {
-
         tourLogService.addTourLogData(tourLog);
 
         verify(tourService).addTourLog(tourLog);

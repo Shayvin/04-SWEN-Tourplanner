@@ -1,5 +1,7 @@
 package org.shayvin.tourplanner.service;
 
+import org.shayvin.tourplanner.entity.TourLog;
+
 public class ValidateInputService {
 
     public ValidateInputService() {
@@ -12,5 +14,13 @@ public class ValidateInputService {
         return !input.isEmpty();
     }
 
+    public boolean isValidDoubleString(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
 }

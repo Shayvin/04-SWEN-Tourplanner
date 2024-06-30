@@ -27,5 +27,8 @@ module org.shayvin.tourplanner {
     exports org.shayvin.tourplanner.viewmodel;
     exports org.shayvin.tourplanner.view;
     exports org.shayvin.tourplanner.event;
-
+    exports org.shayvin.tourplanner.entity;
+    exports org.shayvin.tourplanner.service;
+    exports org.shayvin.tourplanner.repository;
+    exports org.shayvin.tourplanner.pdf;
 }

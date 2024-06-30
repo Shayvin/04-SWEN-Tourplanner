@@ -2,6 +2,7 @@ package org.shayvin.tourplanner.viewmodel;
 
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.web.WebEngine;
 import org.apache.logging.log4j.LogManager;
@@ -318,7 +319,9 @@ public class TabViewModel {
             openRouteService.setStartAddress(addTourTextStart.get());
             openRouteService.setEndAddress(addTourTextDestination.get());
             openRouteService.setTransportType(calculateTransportType(addTourTextType.get()));
-            setReadOnly(true);
+            if(!editMode) {
+                setReadOnly(true);
+            }
             openRouteService.restart();
         }
 
@@ -329,7 +332,13 @@ public class TabViewModel {
             addTourTextDistance.set(openRouteService.getDistance());
             addTourTextTime.set(openRouteService.getDuration());
             openRouteService.clearRouteProperties();
-            setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
+            setReadOnly(false);
+            if(!editMode) {
+                setReadOnly(true);
+            }
+            if(tourService.getCurrentSelectedTour().isEmpty()) {
+                setReadOnly(false);
+            }
         });
 
         openRouteService.setOnFailed(event -> {
@@ -339,6 +348,14 @@ public class TabViewModel {
             openRouteService.clearExistingRoute(webEngine);
             openRouteService.clearRouteProperties();
             setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
+
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Route Calculation Error");
+                alert.setHeaderText("Failed to calculate route.");
+                alert.setContentText("Fill in correct start and end destinations.");
+                alert.showAndWait();
+            });
         });
     }
 

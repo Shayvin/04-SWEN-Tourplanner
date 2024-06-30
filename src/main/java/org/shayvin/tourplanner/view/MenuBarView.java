@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.MenuBar;
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.pdf.PdfBox;
+import org.shayvin.tourplanner.service.CreatePopupService;
 import org.shayvin.tourplanner.viewmodel.MenuBarViewModel;
 
 import java.awt.*;
@@ -26,10 +27,10 @@ public class MenuBarView implements Initializable {
     @FXML
     private MenuBar menuBar;
 
-    public MenuBarView(Publisher publisher, PdfBox pdfBox) {
+    public MenuBarView(Publisher publisher, PdfBox pdfBox, MenuBarViewModel viewModel) {
         this.publisher = publisher;
         this.pdfBox = pdfBox;
-        this.viewModel = new MenuBarViewModel(publisher, pdfBox);
+        this.viewModel = viewModel;
     }
 
     @FXML

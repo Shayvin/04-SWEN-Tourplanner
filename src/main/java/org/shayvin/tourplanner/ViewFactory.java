@@ -36,7 +36,7 @@ public class ViewFactory {
     private final TourListViewModel tourListViewModel;
     private final TourLogViewModel tourLogViewModel;
     private final TableButtonViewModel tableButtonViewModel;
-    private final SearchBarView searchBarView;
+    private final MenuBarViewModel menuBarViewModel;
 
     private final TourLogPopupViewModel tourLogPopupViewModel;
 
@@ -61,9 +61,9 @@ public class ViewFactory {
         tourListViewModel = new TourListViewModel(publisher, tourService);
         tourLogViewModel = new TourLogViewModel(publisher, tourLogService);
         tableButtonViewModel = new TableButtonViewModel(publisher);
-        searchBarView = new SearchBarView(publisher);
+        menuBarViewModel = new MenuBarViewModel(publisher, pdfBox, createPopupService);
+        tourLogPopupViewModel = new TourLogPopupViewModel(publisher, tourLogService, createPopupService, tourService, validateInputService);
 
-        tourLogPopupViewModel = new TourLogPopupViewModel(publisher, tourLogService, createPopupService, tourService);
 
     }
 
@@ -81,7 +81,7 @@ public class ViewFactory {
         }
 
         if(viewClass == MenuBarView.class) {
-            return new MenuBarView(publisher, pdfBox);
+            return new MenuBarView(publisher, pdfBox, menuBarViewModel);
         }
 
         if(viewClass == MainView.class) {

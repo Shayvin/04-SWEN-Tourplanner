@@ -26,14 +26,12 @@ public class TourLogService {
     public TourLogService(TourMemoryRepository tourMemoryRepository, TourService tourService) {
         this.tourMemoryRepository = tourMemoryRepository;
         this.tourService = tourService;
-
         this.currentTourLog = new TourLog();
     }
 
 
     public void addTourLogData(TourLog tourLog) {
         tourService.addTourLog(tourLog);
-
         tourMemoryRepository.update(tourService.currentTour);
     }
 
@@ -76,5 +74,4 @@ public class TourLogService {
         logger.info("get tourLogs by name of tour");
         return FXCollections.observableArrayList(tourService.currentTour.getTourLogList());
     }
-
 }

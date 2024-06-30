@@ -5,10 +5,15 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.shayvin.tourplanner.FXMLDependencyInjector;
+import org.shayvin.tourplanner.viewmodel.MenuBarViewModel;
+import org.shayvin.tourplanner.viewmodel.NotificationPopupViewModel;
 
 import java.util.Locale;
 
 public class CreatePopupService {
+
+    public CreatePopupService() {
+    }
 
     public void createPopup(String name, double width, double height) {
         try {

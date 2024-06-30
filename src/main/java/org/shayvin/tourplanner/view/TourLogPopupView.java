@@ -52,7 +52,6 @@ public class TourLogPopupView {
 
     @FXML
     private void initialize() {
-
     }
 
     @FXML

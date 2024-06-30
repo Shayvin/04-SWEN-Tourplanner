@@ -2,6 +2,7 @@ package org.shayvin.tourplanner;
 
 import org.shayvin.tourplanner.event.Publisher;
 import org.shayvin.tourplanner.pdf.PdfBox;
+import org.shayvin.tourplanner.repository.FullTextSearchRepository;
 import org.shayvin.tourplanner.repository.TourLogRepository;
 import org.shayvin.tourplanner.repository.TourMemoryRepository;
 import org.shayvin.tourplanner.repository.TourRepository;
@@ -20,13 +21,15 @@ public class ViewFactory {
 
     private final TourRepository tourRepository;
     private final TourMemoryRepository tourMemoryRepository;
-    private final TourLogRepository tourLogRepository;
+    //private final TourLogRepository tourLogRepository;
+    private final FullTextSearchRepository fullTextSearchRepository;
 
     private final TourService tourService;
     private final TourLogService tourLogService;
     private final CreatePopupService createPopupService;
     private final OpenRouteService openRouteService;
     private final ValidateInputService validateInputService;
+    private final FullTextService fullTextService;
 
     private final PdfBox pdfBox;
 
@@ -35,16 +38,17 @@ public class ViewFactory {
     private final TourListViewModel tourListViewModel;
     private final TourLogViewModel tourLogViewModel;
     private final TableButtonViewModel tableButtonViewModel;
-    private final SearchBarView searchBarView;
+    private final SearchBarViewModel searchBarViewModel;
 
     private final TourLogPopupViewModel tourLogPopupViewModel;
 
     private ViewFactory() {
-        tourLogRepository = new TourLogRepository();
+        //tourLogRepository = new TourLogRepository();
         publisher = new Publisher();
 
         tourRepository = new TourMemoryRepository();
         tourMemoryRepository = new TourMemoryRepository();
+        fullTextSearchRepository = new FullTextSearchRepository();
 
         tourService = new TourService(tourMemoryRepository);
         //tourLogService = new TourLogService(tourLogRepository, tourService);
@@ -52,15 +56,16 @@ public class ViewFactory {
         createPopupService = new CreatePopupService();
         openRouteService = new OpenRouteService();
         validateInputService = new ValidateInputService();
+        fullTextService = new FullTextService(fullTextSearchRepository);
 
         pdfBox = new PdfBox();
 
         tabViewModel = new TabViewModel(publisher, tourService, validateInputService, openRouteService);
         routeButtonsViewModel = new RouteButtonsViewModel(publisher);
-        tourListViewModel = new TourListViewModel(publisher, tourService);
+        tourListViewModel = new TourListViewModel(publisher, tourService, fullTextService);
         tourLogViewModel = new TourLogViewModel(publisher, tourLogService);
         tableButtonViewModel = new TableButtonViewModel(publisher);
-        searchBarView = new SearchBarView(publisher);
+        searchBarViewModel = new SearchBarViewModel(publisher, fullTextService);
 
         tourLogPopupViewModel = new TourLogPopupViewModel(publisher, tourLogService, createPopupService, tourService);
 
@@ -108,7 +113,7 @@ public class ViewFactory {
         }
 
         if(viewClass == SearchBarView.class){
-            return new SearchBarView(publisher);
+            return new SearchBarView(publisher, searchBarViewModel);
         }
 
         throw new IllegalArgumentException("Unknown view class: " + viewClass);

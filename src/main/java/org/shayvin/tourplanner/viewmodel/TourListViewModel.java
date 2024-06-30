@@ -7,12 +7,14 @@ import javafx.collections.ObservableList;
 
 import org.shayvin.tourplanner.event.Event;
 import org.shayvin.tourplanner.event.Publisher;
+import org.shayvin.tourplanner.service.FullTextService;
 import org.shayvin.tourplanner.service.TourService;
 
 public class TourListViewModel {
     private final Publisher publisher;
 
     private final TourService tourService;
+    private final FullTextService fullTextService;
 
 
     private final ObservableList<String> tourList
@@ -22,9 +24,10 @@ public class TourListViewModel {
     private String selectedTourName = "";
 
 
-    public TourListViewModel(Publisher publisher, TourService tourService) {
+    public TourListViewModel(Publisher publisher, TourService tourService, FullTextService fullTextService) {
         this.publisher = publisher;
         this.tourService = tourService;
+        this.fullTextService = fullTextService;
 
         this.publisher.subscribe(Event.TOUR_ADDED, this::updateTourList);
 
@@ -42,6 +45,15 @@ public class TourListViewModel {
             updateTourList("Update");
         });
 
+        publisher.subscribe(Event.FIND_SEARCHED_TOURS, message -> {
+            updateTourListAfterFullTextSearch("search in db");
+        });
+
+        publisher.subscribe(Event.RESET_ALL, message -> {
+            System.out.println("Received message: " + message);
+            updateTourList("Reset");
+        });
+
 
         updateTourList("Initial loading of tours");
     }
@@ -54,6 +66,12 @@ public class TourListViewModel {
     // refresh tourList
     private void updateTourList(String message){
         tourList.setAll(tourService.updateFullList());
+        publisher.publish(Event.LIST_UPDATED, "Updated TourList");
+    }
+
+    // refresh tourList with searchterm
+    private void updateTourListAfterFullTextSearch(String message){
+        tourList.setAll(fullTextService.search());
         publisher.publish(Event.LIST_UPDATED, "Updated TourList");
     }
 

@@ -15,7 +15,7 @@ public class ConfigService {
 
     }
 
-    private static String loadKeyValuePair() {
+    public static String loadKeyValuePair() {
         // Load key-value pair from file
         Properties properties = new Properties();
         try {
@@ -27,6 +27,4 @@ public class ConfigService {
         logger.info("Success loading API key.");
         return properties.getProperty("apiKey");
     }
-
-
 }

@@ -20,6 +20,7 @@ import org.shayvin.tourplanner.TourPlannerApp;
 import org.shayvin.tourplanner.viewmodel.TourLogPopupViewModel;
 
 import java.io.IOException;
+import java.io.ObjectInputFilter;
 import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
@@ -27,7 +28,11 @@ public class OpenRouteService extends Service<String> {
 
     private static final Logger logger = LogManager.getLogger(OpenRouteService.class);
 
-    private static final String apiKey = loadKeyValuePair();
+    private CloseableHttpClient httpClient;
+
+    private final ConfigService configService;
+
+    private final String apiKey;
     private static final String baseUrl = "https://api.openrouteservice.org/v2/directions/";
     private static final String geocodeUrl = "https://api.openrouteservice.org/geocode/search";
     private String startAddress = "";
@@ -37,8 +42,10 @@ public class OpenRouteService extends Service<String> {
     private String duration = "";
 
 
-    public OpenRouteService() {
-
+    public OpenRouteService(ConfigService configService) {
+        this.configService = configService;
+        this.httpClient = HttpClients.createDefault();
+        apiKey = ConfigService.loadKeyValuePair();
     }
 
     /*public static String getRoute(double startLon, double startLat, double endLon, double endLat) throws IOException {
@@ -61,15 +68,13 @@ public class OpenRouteService extends Service<String> {
     public double[] getCoordinates(String address) throws IOException {
         String url = String.format("%s?api_key=%s&text=%s", geocodeUrl, apiKey, address);
 
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet(url);
-            try (CloseableHttpResponse response = client.execute(request)) {
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    String json = EntityUtils.toString(response.getEntity());
-                    return parseCoordinates(json);
-                } else {
-                    throw new IOException("Failed to get coordinates: " + response.getStatusLine().getStatusCode());
-                }
+        HttpGet request = new HttpGet(url);
+        try (CloseableHttpResponse response = httpClient.execute(request)) {
+            if (response.getStatusLine().getStatusCode() == 200) {
+                String json = EntityUtils.toString(response.getEntity());
+                return parseCoordinates(json);
+            } else {
+                throw new IOException("Failed to get coordinates: " + response.getStatusLine().getStatusCode());
             }
         }
     }
@@ -111,10 +116,10 @@ public class OpenRouteService extends Service<String> {
     }*/
 
     @Override
-    protected Task<String> createTask() {
+    public Task<String> createTask() {
         return new Task<>() {
             @Override
-            protected String call() throws Exception {
+            public String call() throws Exception {
                 double[] startCoords = getCoordinates(startAddress);
                 double[] endCoords = getCoordinates(endAddress);
 
@@ -229,19 +234,6 @@ public class OpenRouteService extends Service<String> {
     """;
     }
 
-    private static String loadKeyValuePair() {
-        // Load key-value pair from file
-        Properties properties = new Properties();
-        try {
-            logger.info("Loading API key...");
-            properties.load(TourPlannerApp.class.getClassLoader().getResourceAsStream("app.properties"));
-        } catch (IOException e) {
-            logger.error("No API key found!");
-        }
-        logger.info("Success loading API key.");
-        return properties.getProperty("apiKey");
-    }
-
     public String calculateDistance(String json) {
         String distance = "";
         try {
@@ -342,5 +334,9 @@ public class OpenRouteService extends Service<String> {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public void setHttpClient(CloseableHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 }

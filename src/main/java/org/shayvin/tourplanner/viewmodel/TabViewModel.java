@@ -31,11 +31,9 @@ public class TabViewModel {
     public Property<Image> map = new SimpleObjectProperty<>();
     private final StringProperty mapContent = new SimpleStringProperty();
 
-    private List<Event> eventList;
+    public List<Event> eventList;
 
     private boolean editMode = false;
-
-    private String tourJson = "";
 
     private final StringProperty addTourTextName = new SimpleStringProperty("");
     private final StringProperty addTourTextDescription = new SimpleStringProperty("");
@@ -216,7 +214,7 @@ public class TabViewModel {
     }
 
     // iterate through all StringProperty elements and sets them to an empty string, clear pictures tab
-    private void clearInputFields() throws IllegalAccessException {
+    public void clearInputFields() throws IllegalAccessException {
         Class<?> myClass = getClass();
         Field[] fields = myClass.getDeclaredFields();
 
@@ -254,6 +252,116 @@ public class TabViewModel {
         Image currentImage = new Image(Objects.requireNonNull(getClass().getResource(imagePath)).toExternalForm());
         this.pictures.setValue(currentImage);
 
+    }
+
+    // checks if the input fields are valid
+    public void validateInputs(){
+        publisher.publish(Event.DISABLE_ADD_BUTTON, "Add Button disabled.");
+
+        System.out.println("in validateInputs");
+        int counter = 0;
+
+        if(!validateInputService.validateInput(addTourTextName.get())){
+            System.out.println("Please enter a valid TourTextName");
+            ++counter;
+        }
+        if(!validateInputService.validateInput((addTourTextDescription.get()))){
+            System.out.println("Please enter a valid TourTextDescription");
+            ++counter;
+        }
+        if(!validateInputService.validateInput((addTourTextStart.get()))){
+            System.out.println("Please enter a valid TourTextStart");
+            ++counter;
+        }
+        if(!validateInputService.validateInput((addTourTextDestination.get()))){
+            System.out.println("Please enter a valid TourTextDestination");
+            ++counter;
+        }
+        if(!validateInputService.validateInput((addTourTextType.get()))){
+            System.out.println("Please enter a valid TourTextType");
+            ++counter;
+        }
+        if(!validateInputService.validateInput((addTourTextInformation.get()))){
+            System.out.println("Please enter a valid TourTextInformation");
+            ++counter;
+        }
+
+        System.out.println(counter);
+
+        if(counter == 0) {
+            if(editMode){
+                publisher.publish(Event.DISABLE_ADD_BUTTON, "Add Button disabled.");
+            }else{
+                publisher.publish(Event.ENABLE_ADD_BUTTON, "Add button enabled.");
+            }
+        }
+    }
+
+    // sets the input fields to read only or enables them
+    private void setReadOnly(boolean value){
+        readOnlyTextName.set(value);
+        readOnlyTextDescription.set(value);
+        readOnlyTextStart.set(value);
+        readOnlyTextDestination.set(value);
+        readOnlyTextType.set(value);
+        readOnlyTextDistance.set(value);
+        readOnlyTextTime.set(value);
+        readOnlyTextInformation.set(value);
+    }
+
+    public void updateMap(WebEngine webEngine) {
+
+        if(addTourTextStart.get().isBlank() || addTourTextDestination.get().isBlank() || addTourTextType.get().isBlank()) {
+            System.out.println("Fill all fields to calculate route.");
+
+        } else {
+            openRouteService.setStartAddress(addTourTextStart.get());
+            openRouteService.setEndAddress(addTourTextDestination.get());
+            openRouteService.setTransportType(calculateTransportType(addTourTextType.get()));
+            setReadOnly(true);
+            openRouteService.restart();
+        }
+
+        openRouteService.setOnSucceeded(event -> {
+            String route = (String) event.getSource().getValue();
+            System.out.println("Route JSON: " + route);
+            openRouteService.displayRoute(route, webEngine);
+            addTourTextDistance.set(openRouteService.getDistance());
+            addTourTextTime.set(openRouteService.getDuration());
+            openRouteService.clearRouteProperties();
+            setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
+        });
+
+        openRouteService.setOnFailed(event -> {
+            System.out.println("Failed to calculate route.");
+            addTourTextDistance.set("");
+            addTourTextTime.set("");
+            openRouteService.clearExistingRoute(webEngine);
+            openRouteService.clearRouteProperties();
+            setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
+        });
+    }
+
+    public void updateTextField() {
+        addTourTextTime.set(openRouteService.getDuration());
+        addTourTextDistance.set(openRouteService.getDistance());
+    }
+
+    public void clearTypeField(){
+        addTourTextType.set("");
+    }
+
+    private String calculateTransportType(String transportType) {
+        switch (transportType) {
+            case "Walking":
+                return "foot-walking";
+            case "Car":
+                return "driving-car";
+            case "Cycling":
+                return "cycling-regular";
+            default:
+                return "driving-car";
+        }
     }
 
     public String getAddTourTextName() {
@@ -384,113 +492,43 @@ public class TabViewModel {
         return readOnlyTextInformation;
     }
 
-    // checks if the input fields are valid
-    public void validateInputs(){
-        publisher.publish(Event.DISABLE_ADD_BUTTON, "Add Button disabled.");
-
-        System.out.println("in validateInputs");
-        int counter = 0;
-
-        if(!validateInputService.validateInput(addTourTextName.get())){
-            System.out.println("Please enter a valid TourTextName");
-            ++counter;
-        }
-        if(!validateInputService.validateInput((addTourTextDescription.get()))){
-            System.out.println("Please enter a valid TourTextDescription");
-            ++counter;
-        }
-        if(!validateInputService.validateInput((addTourTextStart.get()))){
-            System.out.println("Please enter a valid TourTextStart");
-            ++counter;
-        }
-        if(!validateInputService.validateInput((addTourTextDestination.get()))){
-            System.out.println("Please enter a valid TourTextDestination");
-            ++counter;
-        }
-        if(!validateInputService.validateInput((addTourTextType.get()))){
-            System.out.println("Please enter a valid TourTextType");
-            ++counter;
-        }
-        if(!validateInputService.validateInput((addTourTextInformation.get()))){
-            System.out.println("Please enter a valid TourTextInformation");
-            ++counter;
-        }
-
-        System.out.println(counter);
-
-        if(counter == 0) {
-            if(editMode){
-                publisher.publish(Event.DISABLE_ADD_BUTTON, "Add Button disabled.");
-            }else{
-                publisher.publish(Event.ENABLE_ADD_BUTTON, "Add button enabled.");
-            }
-        }
+    public void setAddTourTextName(String value) {
+        addTourTextName.set(value);
     }
 
-    // sets the input fields to read only or enables them
-    private void setReadOnly(boolean value){
-        readOnlyTextName.set(value);
-        readOnlyTextDescription.set(value);
-        readOnlyTextStart.set(value);
-        readOnlyTextDestination.set(value);
-        readOnlyTextType.set(value);
-        readOnlyTextDistance.set(value);
-        readOnlyTextTime.set(value);
-        readOnlyTextInformation.set(value);
+    public void setAddTourTextDescription(String value) {
+        addTourTextDescription.set(value);
     }
 
-    public void updateMap(WebEngine webEngine) {
-
-        if(addTourTextStart.get().isBlank() || addTourTextDestination.get().isBlank() || addTourTextType.get().isBlank()) {
-            System.out.println("Fill all fields to calculate route.");
-
-        } else {
-            openRouteService.setStartAddress(addTourTextStart.get());
-            openRouteService.setEndAddress(addTourTextDestination.get());
-            openRouteService.setTransportType(calculateTransportType(addTourTextType.get()));
-            setReadOnly(true);
-            openRouteService.restart();
-        }
-
-        openRouteService.setOnSucceeded(event -> {
-            String route = (String) event.getSource().getValue();
-            System.out.println("Route JSON: " + route);
-            openRouteService.displayRoute(route, webEngine);
-            addTourTextDistance.set(openRouteService.getDistance());
-            addTourTextTime.set(openRouteService.getDuration());
-            openRouteService.clearRouteProperties();
-            setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
-        });
-
-        openRouteService.setOnFailed(event -> {
-            System.out.println("Failed to calculate route.");
-            addTourTextDistance.set("");
-            addTourTextTime.set("");
-            openRouteService.clearExistingRoute(webEngine);
-            openRouteService.clearRouteProperties();
-            setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
-        });
+    public void setAddTourTextStart(String value) {
+        addTourTextStart.set(value);
     }
 
-    public void updateTextField() {
-        addTourTextTime.set(openRouteService.getDuration());
-        addTourTextDistance.set(openRouteService.getDistance());
+    public void setAddTourTextDestination(String value) {
+        addTourTextDestination.set(value);
     }
 
-    public void clearTypeField(){
-        addTourTextType.set("");
+    public void setAddTourTextType(String value) {
+        addTourTextType.set(value);
     }
 
-    private String calculateTransportType(String transportType) {
-        switch (transportType) {
-            case "Walking":
-                return "foot-walking";
-            case "Car":
-                return "driving-car";
-            case "Cycling":
-                return "cycling-regular";
-            default:
-                return "driving-car";
-        }
+    public void setAddTourTextDistance(String value) {
+        addTourTextDistance.set(value);
+    }
+
+    public void setAddTourTextTime(String value) {
+        addTourTextTime.set(value);
+    }
+
+    public void setAddTourTextInformation(String value) {
+        addTourTextInformation.set(value);
+    }
+
+    public List<Event> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
     }
 }

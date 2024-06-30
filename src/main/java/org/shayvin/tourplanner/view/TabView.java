@@ -94,12 +94,20 @@ public class TabView implements Initializable {
             if (!newValue.isBlank()) {
                 viewModel.updateMap(webEngine);
                 viewModel.updateTextField();
+                viewModel.clearTypeField();
+            }
+        };
+
+        ChangeListener<String> typeListener = (observable, oldValue, newValue) -> {
+            if (!newValue.isBlank()) {
+                viewModel.updateMap(webEngine);
+                viewModel.updateTextField();
             }
         };
 
         viewModel.addTourTextStartProperty().addListener(addressListener);
         viewModel.addTourTextDestinationProperty().addListener(addressListener);
-        viewModel.addTourTextType().addListener(addressListener);
+        viewModel.addTourTextType().addListener(typeListener);
 
         openRouteService.start();
 

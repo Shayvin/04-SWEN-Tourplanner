@@ -48,8 +48,6 @@ public class TabViewModel {
 
     public StringProperty mapContentProperty() { return mapContent; }
 
-    private final OpenRouteService routeService = new OpenRouteService(); // TODO gehört hier ein neuer OpenRouteService hin x2 ?
-
     private final BooleanProperty readOnlyTextName = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextDescription = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextStart = new SimpleBooleanProperty(false);
@@ -59,13 +57,12 @@ public class TabViewModel {
     private final BooleanProperty readOnlyTextTime = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextInformation = new SimpleBooleanProperty(false);
 
-    public TabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService) {
+    public TabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService, OpenRouteService openRouteService) {
         this.publisher = publisher;
         this.tourService = tourService;
         this.validateInputService = validateInputService;
         this.eventList = new ArrayList<>();
-        this.openRouteService = new OpenRouteService();
-        // TODO gehört hier ein neuer OpenRouteService hin?
+        this.openRouteService = openRouteService;
 
         // set placeholder for map
         String mapPath = "/org/shayvin/tourplanner/img/street-map.png";
@@ -451,6 +448,7 @@ public class TabViewModel {
             openRouteService.setStartAddress(addTourTextStart.get());
             openRouteService.setEndAddress(addTourTextDestination.get());
             openRouteService.setTransportType(calculateTransportType(addTourTextType.get()));
+            setReadOnly(true);
             openRouteService.restart();
         }
 
@@ -458,12 +456,29 @@ public class TabViewModel {
             String route = (String) event.getSource().getValue();
             System.out.println("Route JSON: " + route);
             openRouteService.displayRoute(route, webEngine);
+            addTourTextDistance.set(openRouteService.getDistance());
+            addTourTextTime.set(openRouteService.getDuration());
+            openRouteService.clearRouteProperties();
+            setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
+        });
+
+        openRouteService.setOnFailed(event -> {
+            System.out.println("Failed to calculate route.");
+            addTourTextDistance.set("");
+            addTourTextTime.set("");
+            openRouteService.clearExistingRoute(webEngine);
+            openRouteService.clearRouteProperties();
+            setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
         });
     }
 
     public void updateTextField() {
         addTourTextTime.set(openRouteService.getDuration());
         addTourTextDistance.set(openRouteService.getDistance());
+    }
+
+    public void clearTypeField(){
+        addTourTextType.set("");
     }
 
     private String calculateTransportType(String transportType) {

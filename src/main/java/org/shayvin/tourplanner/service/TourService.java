@@ -9,7 +9,7 @@ import java.util.*;
 public class TourService {
     private final TourMemoryRepository tourMemoryRepository;
 
-    public String currentTourName;
+    public String currentTourName = "";
     public Tour currentTour;
     public UUID currentTourId;
 
@@ -114,7 +114,7 @@ public class TourService {
     }
 
     public void clearCurrentTour(){
-        currentTourName = null;
+        currentTourName = "";
         currentTour = null;
         currentTourId = null;
     }

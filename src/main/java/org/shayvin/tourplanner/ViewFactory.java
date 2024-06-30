@@ -27,6 +27,7 @@ public class ViewFactory {
     private final CreatePopupService createPopupService;
     private final OpenRouteService openRouteService;
     private final ValidateInputService validateInputService;
+    private final ConfigService configService;
 
     private final PdfBox pdfBox;
 
@@ -47,10 +48,10 @@ public class ViewFactory {
         tourMemoryRepository = new TourMemoryRepository();
 
         tourService = new TourService(tourMemoryRepository);
-        //tourLogService = new TourLogService(tourLogRepository, tourService);
         tourLogService = new TourLogService(tourMemoryRepository, tourService);
+        configService = new ConfigService();
         createPopupService = new CreatePopupService();
-        openRouteService = new OpenRouteService();
+        openRouteService = new OpenRouteService(configService);
         validateInputService = new ValidateInputService();
 
         pdfBox = new PdfBox();

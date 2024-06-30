@@ -272,6 +272,13 @@ public class OpenRouteService extends Service<String> {
         return duration;
     }
 
+    public void clearRouteProperties() {
+        setStartAddress("");
+        setEndAddress("");
+        setDistance("");
+        setDuration("");
+    }
+
 
     public String getLeafletMap() {
         return generateLeafletMapHTML();

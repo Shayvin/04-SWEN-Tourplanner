@@ -44,8 +44,6 @@ public class TabViewModel {
 
     public StringProperty mapContentProperty() { return mapContent; }
 
-    private final OpenRouteService routeService = new OpenRouteService();
-
     private final BooleanProperty readOnlyTextName = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextDescription = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextStart = new SimpleBooleanProperty(false);
@@ -55,12 +53,12 @@ public class TabViewModel {
     private final BooleanProperty readOnlyTextTime = new SimpleBooleanProperty(false);
     private final BooleanProperty readOnlyTextInformation = new SimpleBooleanProperty(false);
 
-    public TabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService) {
+    public TabViewModel(Publisher publisher, TourService tourService, ValidateInputService validateInputService, OpenRouteService openRouteService) {
         this.publisher = publisher;
         this.tourService = tourService;
         this.validateInputService = validateInputService;
         this.eventList = new ArrayList<>();
-        this.openRouteService = new OpenRouteService();
+        this.openRouteService = openRouteService;
 
         // set placeholder for map
         String mapPath = "/org/shayvin/tourplanner/img/street-map.png";
@@ -456,11 +454,10 @@ public class TabViewModel {
             String route = (String) event.getSource().getValue();
             System.out.println("Route JSON: " + route);
             openRouteService.displayRoute(route, webEngine);
-            if(editMode) {
-                setReadOnly(false);
-            } else {
-                setReadOnly(true);
-            }
+            addTourTextDistance.set(openRouteService.getDistance());
+            addTourTextTime.set(openRouteService.getDuration());
+            openRouteService.clearRouteProperties();
+            setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
         });
 
         openRouteService.setOnFailed(event -> {
@@ -468,11 +465,8 @@ public class TabViewModel {
             addTourTextDistance.set("");
             addTourTextTime.set("");
             openRouteService.clearExistingRoute(webEngine);
-            if(editMode) {
-                setReadOnly(true);
-            } else {
-                setReadOnly(false);
-            }
+            openRouteService.clearRouteProperties();
+            setReadOnly(!tourService.getCurrentSelectedTour().isEmpty());
         });
     }
 

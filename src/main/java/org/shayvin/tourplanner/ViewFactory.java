@@ -55,7 +55,7 @@ public class ViewFactory {
 
         pdfBox = new PdfBox();
 
-        tabViewModel = new TabViewModel(publisher, tourService, validateInputService);
+        tabViewModel = new TabViewModel(publisher, tourService, validateInputService, openRouteService);
         routeButtonsViewModel = new RouteButtonsViewModel(publisher);
         tourListViewModel = new TourListViewModel(publisher, tourService);
         tourLogViewModel = new TourLogViewModel(publisher, tourLogService);
